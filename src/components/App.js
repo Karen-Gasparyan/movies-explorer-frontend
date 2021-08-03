@@ -1,7 +1,14 @@
+import React from 'react';
+import { Route } from 'react-router-dom';
+
+import Register from './Register/Register';
+
 function App() {
 
   return (
-    <div>Gasparian</div>
+    <Route>
+      <Register />
+    </Route>
   );
 }
 
