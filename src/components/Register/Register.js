@@ -21,7 +21,7 @@ const Register = () => {
       <p className="register__text-question">
         Уже зарегистрированы?
         <Link
-          to="#"
+          to="/signin"
           className="register__signin-link">
           Войти
         </Link>

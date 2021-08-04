@@ -1,16 +1,23 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import './App.css';
 import Register from './Register/Register';
+import Login from './Login/Login';
 
 function App() {
 
   return (
     <div className="page">
-      <Route>
-        <Register />
-      </Route>
+      <Switch>
+        <Route path='/signin'>
+          <Login />
+        </Route>
+
+        <Route path='/signup'>
+          <Register />
+        </Route>
+      </Switch>
     </div>
   );
 }

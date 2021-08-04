@@ -1,24 +1,16 @@
 import React from 'react';
 
-import './RegisterForm.css';
+import './LoginForm.css';
 import AuthInput from '../AuthInput/AuthInput';
 import AuthButton from '../AuthButton/AuthButton';
 
-const RegisterForm = () => {
+const LoginForm = () => {
 
   return (
-    <form 
-      className="register-form"
-      name="register">
-      <div className="register-form_input-wrapper">
-        <AuthInput
-          id={'userName'}
-          name={'name'}
-          label={'Имя'}
-          type={'text'}
-          minLength={ 2 }
-          maxLength={ 30 }
-          error={ 'Что-то пошло не так' } />
+    <form
+      className="login-form"
+      name="login">
+      <div className="login-form_input-wrapper">
         <AuthInput
           id={'userEmail'}
           name={'email'}
@@ -34,9 +26,9 @@ const RegisterForm = () => {
           error={ 'Что-то пошло не так' } />
       </div>
         <AuthButton
-          text={'Зарегистрироваться'} />
+          text={'Войти'} />
     </form>
   );
 }
 
-export default RegisterForm;
+export default LoginForm;

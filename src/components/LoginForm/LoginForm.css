@@ -1,0 +1,25 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  min-width: 260px;
+}
+
+.login-form_input-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 267px 0;
+}
+
+@media (min-width: 768px) {
+  .login-form {
+    padding: 0;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-form_input-wrapper {
+    padding: 0 0 179px 0;
+  }
+}
