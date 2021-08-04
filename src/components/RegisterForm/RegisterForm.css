@@ -1,0 +1,25 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  min-width: 260px;
+}
+
+.register-form_input-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 157px 0;
+}
+
+@media (min-width: 768px) {
+  .register-form {
+    padding: 0;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .register-form_input-wrapper {
+    padding: 0 0 69px 0;
+  }
+}

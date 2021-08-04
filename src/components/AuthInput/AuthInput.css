@@ -1,0 +1,32 @@
+.auth-label {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A0A0A0;
+  padding: 0 0 10px 0;
+}
+
+.auth-input {
+  padding: 15px;
+  border: none;
+  outline: none;
+  background: #F9F9F9;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+  min-height: 15px;
+}
+
+.auth-error-message {
+  min-height: 12px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+  padding: 10px 0 0 0;
+}

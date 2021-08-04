@@ -1,12 +1,33 @@
 import React from 'react';
+
 import './AuthInput.css';
 
-const AuthInput = () => {
+const AuthInput = ({
+  id,
+  name,
+  label,
+  type,
+  minLength,
+  error
+}) => {
 
   return (
-    <input
-      placeholder="Введите ..."
-    />
+    <>
+      <label
+        className="auth-label"
+        htmlFor={ id } >{ label }
+      </label>
+      <input
+        required
+        id={ id }
+        name={ name }
+        className="auth-input"
+        autoComplete="off"
+        type={ type }
+        minLength={ minLength }
+      />
+      <span className="auth-error-message">{ error }</span>
+    </>
   );
 }
 

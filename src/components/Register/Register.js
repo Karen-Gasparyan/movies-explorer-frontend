@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './Register.css';
 import Logo from '../Logo/Logo';
-import AuthForm from '../AuthForm/AuthForm';
+import RegisterForm from '../RegisterForm/RegisterForm';
 
 const Register = () => {
 
@@ -16,21 +16,16 @@ const Register = () => {
         </h2>
       </div>
 
-      <AuthForm />
+      <RegisterForm />
 
-      <div className="register__footer">
-        <button className="register__submit-button">
-          Зарегистрироваться
-        </button>
-        <p className="register__text-question">
-          Уже зарегистрированы?
-          <Link
-            to="#"
-            className="register__signin-link">
-            Войти
-          </Link>
-        </p>
-      </div>
+      <p className="register__text-question">
+        Уже зарегистрированы?
+        <Link
+          to="#"
+          className="register__signin-link">
+          Войти
+        </Link>
+      </p>
     </div>
   );
 }
