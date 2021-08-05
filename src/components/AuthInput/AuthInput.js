@@ -7,8 +7,7 @@ const AuthInput = ({
   name,
   label,
   type,
-  minLength,
-  error
+  minLength
 }) => {
 
   return (
@@ -24,9 +23,7 @@ const AuthInput = ({
         className="auth-input"
         autoComplete="off"
         type={ type }
-        minLength={ minLength }
-      />
-      <span className="auth-error-message">{ error }</span>
+        minLength={ minLength } />
     </>
   );
 }

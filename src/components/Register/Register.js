@@ -1,28 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import '../../mixins/auth-pages.css'
 import './Register.css';
+
 import Logo from '../Logo/Logo';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 const Register = () => {
-
   return (
-    <div className="register">
-      <div className="register__header">
+    <div className="auth-page">
+      <div className="auth-page__header">
         <Logo />
-        <h2 className="register__title">
+        <h2 className="auth-page__title">
           Добро пожаловать!
         </h2>
       </div>
 
-      <RegisterForm />
+      <RegisterForm
+        errorMessage="Что-то пошло не так" />
 
-      <p className="register__text-question">
+      <p className="auth-page__text-question">
         Уже зарегистрированы?
         <Link
           to="/signin"
-          className="register__signin-link">
+          className="auth-page__signin-link">
           Войти
         </Link>
       </p>

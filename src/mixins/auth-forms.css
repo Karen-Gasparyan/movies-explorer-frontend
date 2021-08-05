@@ -1,0 +1,28 @@
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  min-width: 260px;
+}
+
+.auth-form_input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-error-message {
+  min-height: 12px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
+  padding: 10px 0 0 0;
+}
+
+@media (min-width: 768px) {
+  .auth-form {
+    padding: 0;
+    width: 100%;
+  }
+}

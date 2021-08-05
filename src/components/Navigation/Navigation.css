@@ -1,0 +1,51 @@
+.navigation {
+  display: none;
+}
+
+.navigation__close-button {
+  display: none;
+}
+
+.navigation__items-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navigation__item {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: right;
+  color: #000000;
+}
+
+.navigation__item-link {
+  text-decoration: none;
+  display: flex;
+  color: #000000;
+}
+
+.navigation__user-account-icon {
+  width: 11.5px;
+  height: 14px;
+  margin: 3px 0 0 24px;
+  background: url('../../images/account-icon.svg') 0 0 / contain no-repeat;
+}
+
+.user-account-item {
+  padding: 0 0 0 50px;
+}
+
+@media (min-width: 1280px) {
+  .navigation {
+    display: block;
+  }
+  .navigation__item {
+    padding-left: 20px;
+  }
+  .home-page {
+    display: none;
+  }
+}

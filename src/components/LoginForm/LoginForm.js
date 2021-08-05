@@ -1,29 +1,29 @@
 import React from 'react';
 
+import '../../mixins/auth-forms.css'
 import './LoginForm.css';
+
 import AuthInput from '../AuthInput/AuthInput';
 import AuthButton from '../AuthButton/AuthButton';
 
-const LoginForm = () => {
-
+const LoginForm = ({ errorMessage }) => {
   return (
     <form
-      className="login-form"
+      className="auth-form"
       name="login">
-      <div className="login-form_input-wrapper">
+      <div className="auth-form_input-wrapper login-form_input-wrapper">
         <AuthInput
           id={'userEmail'}
           name={'email'}
           label={'E-mail'}
-          type={'email'}
-          error={ 'Что-то пошло не так' } />
+          type={'email'} />
         <AuthInput
           id={'userPassword'}
           name={'password'}
           label={'Пароль'}
           type={'password'}
-          minLength={ 8 }
-          error={ 'Что-то пошло не так' } />
+          minLength={ 8 } />
+        <span className="auth-error-message">{ errorMessage }</span>
       </div>
         <AuthButton
           text={'Войти'} />

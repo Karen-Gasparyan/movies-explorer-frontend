@@ -1,28 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import '../../mixins/auth-pages.css'
 import './Login.css';
+
 import Logo from '../Logo/Logo';
 import LoginForm from '../LoginForm/LoginForm';
 
 const Login = () => {
-
   return (
-    <div className="login">
-      <div className="login__header">
+    <div className="auth-page">
+      <div className="auth-page__header">
         <Logo />
-        <h2 className="login__title">
+        <h2 className="auth-page__title">
           Рады видеть!
         </h2>
       </div>
 
-      <LoginForm />
+      <LoginForm
+        errorMessage="Что-то пошло не так" />
 
-      <p className="login__text-question">
+      <p className="auth-page__text-question">
         Ещё не зарегистрированы?
         <Link
           to="/signup"
-          className="login__signin-link">
+          className="auth-page__signin-link">
           Регистрация
         </Link>
       </p>
