@@ -1,0 +1,6 @@
+.visible-navigation {
+  transform: translateY(0);
+  background: rgba(0, 0, 0, 0.300);
+  opacity: 1;
+  transition: .5s ease 0s;
+}

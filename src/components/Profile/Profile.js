@@ -2,12 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Profile.css';
-import Header from '../Header/Header';
 
 const Profile = () => {
   return (
-    <div className="profile">
-      <Header />
+    <section className="profile">
       <h2 className="profile__title">Привет, Виталий!</h2>
       <div className="profile__user-data">
         <div className="profile__user-name">
@@ -34,7 +32,7 @@ const Profile = () => {
           </Link>
         </li>
       </ul>
-    </div>
+    </section>
   );
 }
 
