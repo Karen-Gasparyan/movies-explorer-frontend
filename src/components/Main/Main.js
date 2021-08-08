@@ -3,6 +3,7 @@ import React from 'react';
 import './Main.css';
 
 import Header from '../Header/Header';
+import Promo from '../Promo/Promo';
 
 const Main = ({
   loggedIn,
@@ -18,6 +19,9 @@ const Main = ({
         openNavigation={openNavigation}
         closeNavigation={closeNavigation} />
         
+      <main className="main">
+        <Promo />
+      </main>
     </>
   );
 }
