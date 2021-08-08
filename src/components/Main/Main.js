@@ -3,7 +3,8 @@ import React from 'react';
 import './Main.css';
 
 import Header from '../Header/Header';
-import Promo from '../Promo/Promo';
+import AboutProject from '../AboutProject/AboutProject';
+// import Promo from '../Promo/Promo';
 
 const Main = ({
   loggedIn,
@@ -20,7 +21,8 @@ const Main = ({
         closeNavigation={closeNavigation} />
         
       <main className="main">
-        <Promo />
+        {/* <Promo /> */}
+        <AboutProject />
       </main>
     </>
   );
