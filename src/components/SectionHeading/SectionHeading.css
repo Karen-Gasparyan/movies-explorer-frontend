@@ -1,4 +1,10 @@
 .section-heading {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.section-heading__title {
   margin: 0;
   font-weight: normal;
   font-size: 18px;
@@ -15,7 +21,7 @@
 }
 
 @media (min-width: 768px) {
-  .section-heading {
+  .section-heading__title {
     font-size: 22px;
     line-height: 27px;
   }

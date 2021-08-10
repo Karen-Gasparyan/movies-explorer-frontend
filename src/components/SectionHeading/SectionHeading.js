@@ -2,12 +2,12 @@ import React from 'react';
 
 import './SectionHeading.css';
 
-const SectionHeading = ({ value }) => {
+const SectionHeading = ({ title }) => {
   return (
-    <>
-      <h2 className="section-heading">{value}</h2>
+    <header className="section-heading">
+      <h2 className="section-heading__title">{title}</h2>
       <div className="section-heading__decoration-line"></div>
-    </>
+    </header>
   );
 }
 
