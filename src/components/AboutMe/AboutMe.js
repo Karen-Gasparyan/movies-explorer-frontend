@@ -29,12 +29,16 @@ const AboutMe = () => {
           src={UserPhoto} alt="Фото пользователя" />
 
         <ul className="about-me__networks-list">
-          <SocialNetwork
-            url={'https://www.facebook.com'}
-            title={'Facebook'} />
-          <SocialNetwork
+          <li>
+            <SocialNetwork
+              url={'https://www.facebook.com'}
+              title={'Facebook'} />
+          </li>
+          <li>
+            <SocialNetwork
             url={'https://github.com/Karen-Gasparyan'}
             title={'Github'} />
+          </li>
         </ul>
       </article>
       
