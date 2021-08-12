@@ -16,7 +16,7 @@ const Navigation = ({ isOpen, closeNavigation }) => {
           </button>
           <ul className="navigation__items-list">
             <li className="navigation__item home-page">
-              <Link to="" className="navigation__item-link">Главная</Link>
+              <Link to="/" className="navigation__item-link">Главная</Link>
             </li>
             <li className="navigation__item">
               <Link to="" className="navigation__item-link">Фильмы</Link>
@@ -28,7 +28,7 @@ const Navigation = ({ isOpen, closeNavigation }) => {
         </div>
 
         <div className="navigation__item user-account-item">
-          <Link to="" className="navigation__item-link">
+          <Link to="/profile" className="navigation__item-link">
             Аккаунт
             <span className="navigation__user-account-icon"></span>
           </Link>
