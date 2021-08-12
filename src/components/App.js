@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import Header from './Header/Header';
 import Movies from './Movies/Movies'
+import MoviesCardList from './MoviesCardList/MoviesCardList';
 import ErrorPage from './ErrorPage/ErrorPage';
 import Preloader from './Preloader/Preloader';
 import Register from './Register/Register';
@@ -30,11 +31,14 @@ function App() {
           isOpen={visibleNavigation}
           openNavigation={openNavigation}
           closeNavigation={closeNavigation} />
-          
+
       <Switch>
 
-        <Route exact path='/'>
+        {/* <Route exact path='/'>
           <Movies />
+        </Route> */}
+        <Route exact path='/'>
+          <MoviesCardList />
         </Route>
         {/* <Route exact path='/'>
           <Main

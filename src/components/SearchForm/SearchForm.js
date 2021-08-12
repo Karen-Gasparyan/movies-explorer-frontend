@@ -14,7 +14,7 @@ const SearchForm = ({ placeholder, buttonText }) => {
         <input
           className="search-from__input"
           id="search-from__input"
-          autocomplete="off"
+          autoComplete="off"
           placeholder={placeholder} />
         <button className="search-from__submit-button">{buttonText}</button>
       </div>
