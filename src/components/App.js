@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import './App.css';
 import Header from './Header/Header';
-import Movies from './Movies/Movies'
+// import Movies from './Movies/Movies'
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import ErrorPage from './ErrorPage/ErrorPage';
-import Preloader from './Preloader/Preloader';
+// import Preloader from './Preloader/Preloader';
 import Register from './Register/Register';
 import Login from './Login/Login';
 import Profile from './Profile/Profile';
-import Main from './Main/Main';
+// import Main from './Main/Main';
+
+// draft
+import DMOVIES_DB from '../database-for-tests';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [visibleNavigation, setVisibleNavigation] = useState(false);
+
+  const [cards, setCards] = useState(DMOVIES_DB)
 
   const openNavigation = () => {
     setVisibleNavigation(true);
@@ -38,7 +43,7 @@ function App() {
           <Movies />
         </Route> */}
         <Route exact path='/'>
-          <MoviesCardList />
+          <MoviesCardList cards={cards} />
         </Route>
         {/* <Route exact path='/'>
           <Main
