@@ -38,9 +38,9 @@
   margin: 0;
   padding: 0;
   border: none;
+  border-radius: 50%;
   width: 30px;
   height: 30px;
-  background: url(../../images/save-icon-disabled.svg) 0 0 / contain no-repeat;
   transition: all 1s ease;
 }
 
@@ -52,7 +52,6 @@
 @media (min-width: 1280px) {
   .movies-card__favorite-icon:hover {
     cursor: pointer;
-    background: url(../../images/save-icon-active.svg) 0 0 / contain no-repeat;
     transition: all 1s ease;
   }
 

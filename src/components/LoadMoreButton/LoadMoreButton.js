@@ -9,7 +9,8 @@ const LoadMoreButton = ({ disabled, title, loadMoreCards }) => {
       className={disabled ? "display-none" : "load-more-button"}
       type="button"
       disabled={disabled}
-      onClick={loadMoreCards}>{title}
+      onClick={loadMoreCards}>
+        {title}
     </button>
   );
 }

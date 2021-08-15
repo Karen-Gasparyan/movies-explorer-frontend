@@ -1,0 +1,9 @@
+.favorite-icon-disabled {
+  background: url(../images/favorite-icon-disabled.svg) 0 0 / contain no-repeat;
+}
+
+@media (min-width: 1280px) {
+  .favorite-icon-disabled:hover {
+    background: url(../images/favorite-icon-active.svg) 0 0 / contain no-repeat;
+  }
+}

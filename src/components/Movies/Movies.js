@@ -2,13 +2,23 @@ import React from 'react';
 
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
 
-const Movies = () => {
+const Movies = (props) => {
+  const { cards, moreButtonActive, loadMoreCards, favoritesIcon } = props;
+
   return (
     <section className="movies">
       <SearchForm 
         placeholder={'Фильм'}
         buttonText={'Найти'} />
+      <MoviesCardList
+        component={LoadMoreButton}
+        cards={cards}
+        moreButtonActive={moreButtonActive}
+        loadMoreCards={loadMoreCards}
+        favoritesIcon={favoritesIcon} />
     </section>
   );
 }
