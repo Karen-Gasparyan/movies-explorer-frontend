@@ -27,7 +27,7 @@
     height: 60px;
   }
   .technology-item:hover {
-    background: #bebebe;
+    background: #bebebe80;
     cursor: pointer;
     transition: all 1s ease;
   }

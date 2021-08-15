@@ -46,8 +46,10 @@
     font-size: 30px;
   }
   .portfolio-item__link:hover {
-    opacity: .5;
     transition: all 1s ease;
+    -webkit-box-shadow: 8px 9px 21px -4px rgba(34, 60, 80, 0.24);
+    -moz-box-shadow: 8px 9px 21px -4px rgba(34, 60, 80, 0.24);
+    box-shadow: 8px 9px 21px -4px rgba(34, 60, 80, 0.24);
   }
   .portfolio-item__link-icon {
     width: 29px;

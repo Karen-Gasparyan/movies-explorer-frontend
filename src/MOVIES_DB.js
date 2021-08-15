@@ -23,7 +23,7 @@ import img22 from './images/poster-10.jpg';
 import img23 from './images/poster-11.jpg';
 import img24 from './images/poster-12.jpg';
 
-const MOVIES_DB = [
+export const MOVIES_DB = [
   {
     "nameRU": "33 слова о дизайне",
     "duration": 107,

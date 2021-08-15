@@ -1,6 +1,7 @@
 .search-from {
   display: flex;
   flex-direction: column;
+  padding: 0 14px 0;
 }
 
 .search-form__container {
@@ -54,6 +55,8 @@
   }
 
   .search-from__icon {
+    cursor: pointer;
+    border-radius: 50%;
     min-width: 34px;
     min-height: 34px;
     background: url(../../images/search-icon.svg) 0 0 / contain no-repeat;
@@ -75,8 +78,5 @@
   .search-from__submit-button:hover {
     opacity: .6;
     transition: all 1s ease;
-  }
-  .search-from__icon {
-    cursor: pointer;
   }
 }

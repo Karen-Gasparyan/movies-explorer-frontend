@@ -5,7 +5,7 @@ import './MoviesCardList.css';
 
 const MoviesCardList = (props) => {
   const { component: Component, cards, moreButtonActive, loadMoreCards, favoritesIcon } = props;
-  console.log(Component)
+
   return (
     <section className="movies-card-list">
       <div className="movies-card-list__items">

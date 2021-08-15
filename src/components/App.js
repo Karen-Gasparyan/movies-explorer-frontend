@@ -3,44 +3,24 @@ import { Switch, Route } from 'react-router-dom';
 
 import './App.css';
 
+// constants
+import { favoritesIcon } from '../utils/constants';
+
+// components
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import Movies from './Movies/Movies';
 import SavedMovies from './SavedMovies/SavedMovies';
-import MoviesCardList from './MoviesCardList/MoviesCardList';
 import ErrorPage from './ErrorPage/ErrorPage';
 // import Preloader from './Preloader/Preloader';
 import Register from './Register/Register';
 import Login from './Login/Login';
 import Profile from './Profile/Profile';
-// import Main from './Main/Main';
+import Main from './Main/Main';
 
-// draft
-import cards from '../database-for-tests';
-
-const favoritesIcon = {
-  add: {
-    active: "favorite-icon-active",
-    disabled: "favorite-icon-disabled",
-    title: "Добавить в избранное"
-  },
-  remove: {
-    active: "",
-    disabled: "favorite-icon-remove",
-    title: "Удалить из избранного"
-  }
-};
-
-// const favoritesIcons = {
-//   add : {
-//     disabled : "favorite-icon-disabled",
-//     active : "favorite-icon-active",
-//   },
-//   remove : {
-//     disabled : "favorite-icon-remove",
-//     active : "favorite-icon-remove",
-//   }
-// };
+// for tests
+import cards from '../MOVIES_DB';
+import savedCards from '../SAVED_MOVIES_DB';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true);
@@ -102,6 +82,13 @@ function App() {
           closeNavigation={closeNavigation} />
 
       <Switch>
+        <Route exact path='/'>
+          <Main
+            loggedIn={loggedIn}
+            isOpen={visibleNavigation}
+            openNavigation={openNavigation}
+            closeNavigation={closeNavigation} />
+        </Route>
 
         <Route path='/movies'>
           <Movies 
@@ -111,17 +98,15 @@ function App() {
             favoritesIcon={favoritesIcon.add} />
         </Route>
 
-        {/* <Route path='/saved-movies'>
-          <SavedMovies cards={cards} />
-        </Route> */}
+        <Route path='/saved-movies'>
+          <SavedMovies
+            cards={savedCards}
+            favoritesIcon={favoritesIcon.remove} />
+        </Route>
 
-        {/* <Route exact path='/'>
-          <Main
-            loggedIn={loggedIn}
-            isOpen={visibleNavigation}
-            openNavigation={openNavigation}
-            closeNavigation={closeNavigation} />
-        </Route> */}
+        <Route path='/profile'>
+          <Profile />
+        </Route>
 
         <Route path='/signup'>
           <Register />
@@ -129,10 +114,6 @@ function App() {
 
         <Route path='/signin'>
           <Login />
-        </Route>
-
-        <Route path='/profile'>
-          <Profile />
         </Route>
 
         <Route path="" component={ErrorPage} />

@@ -1,0 +1,17 @@
+.movies-pages {
+  display: flex;
+  flex-direction: column;
+  padding: 92px 0 50px;
+}
+
+@media (min-width: 768px) {
+  .movies-pages {
+    padding: 86px 0 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .movies-pages {
+    padding: 70px 0 0;
+  }
+}
