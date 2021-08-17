@@ -1,6 +1,6 @@
 .filter-checkbox {
-	z-index: -1;
   display: none;
+	z-index: -1;
 }
 .filter-checkbox + .filter-checkbox__label {
 	position: relative;

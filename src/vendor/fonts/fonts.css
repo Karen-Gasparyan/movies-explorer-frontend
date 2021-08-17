@@ -30,6 +30,5 @@
   font-style:  normal;
   font-weight: 400;
   font-display: swap;
-  src: url("./SuisseIntl-Regular.woff2") format("woff2"),
-       url("./SuisseIntl-Regular.woff") format("woff");
+  src: url("./SuisseIntl-Regular.woff") format("woff");
 }

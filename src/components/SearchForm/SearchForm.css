@@ -15,7 +15,7 @@
   width: 100%;
   border: none;
   outline: none;
-  padding: 0 10px 0 0;
+  padding: 0 10px 9px;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
@@ -23,7 +23,15 @@
 }
 
 .search-from__input::placeholder {
+  transition: all 1s ease;
   color: #A0A0A0;
+}
+
+.search-from__input:focus::placeholder {
+  transition: all 1s ease;
+  font-size: 10px;
+  line-height: 16px;
+  color: #fff;
 }
 
 .search-from__submit-button {
@@ -31,7 +39,7 @@
   padding: 0;
   cursor: pointer;
   min-width: 58.65px;
-  min-height: 34px;
+  height: 34px;
   background: #2BE080;
   border-radius: 48px;
   transition: all 1s ease;
@@ -50,15 +58,15 @@
 }
 
 @media (min-width: 768px) {
-  .search-form__container {
-    padding-bottom: 15px;
+  .search-from {
+    padding: 0 30px 0;
   }
 
   .search-from__icon {
     cursor: pointer;
     border-radius: 50%;
     min-width: 34px;
-    min-height: 34px;
+    height: 34px;
     background: url(../../images/search-icon.svg) 0 0 / contain no-repeat;
   }
 
@@ -66,7 +74,15 @@
     font-size: 28px;
     line-height: 34px;
     text-align: center;
-    padding: 0 20px;
+    padding: 0 20px 15px;
+    transition: all 1s ease;
+  }
+
+  .search-from__input:focus {
+    transition: all 1s ease;
+    -webkit-box-shadow: 0px 25px 10px -20px rgba(0, 0, 0, 0.27);
+    -moz-box-shadow: 0px 25px 10px -20px rgba(0, 0, 0, 0.27);
+    box-shadow: 0px 25px 10px -20px rgba(0, 0, 0, 0.27);
   }
 
   .search-from__checkbox {
@@ -75,6 +91,10 @@
 }
 
 @media (min-width: 1280px) {
+  .search-from {
+    padding: 0 70px 0;
+  }
+
   .search-from__submit-button:hover {
     opacity: .6;
     transition: all 1s ease;

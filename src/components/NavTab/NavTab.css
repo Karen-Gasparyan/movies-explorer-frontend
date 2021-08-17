@@ -42,8 +42,8 @@
 
 @media (min-width: 1280px) {
   .nav-tab__item-link:hover {
+    background: #bebebe80;
     cursor: pointer;
-    opacity: .6;
     transition: all 1s ease;
   }
 }

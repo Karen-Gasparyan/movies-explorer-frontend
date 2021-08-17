@@ -7,7 +7,18 @@ import './Register.css';
 import Logo from '../Logo/Logo';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
-const Register = () => {
+const Register = (
+  { userName,
+    userEmail,
+    userPassword,
+    errorMessage,
+    formValid,
+    focusHandler,
+    userNameHandler,
+    userEmailHandler,
+    userPasswordHandler
+  }) => {
+    
   return (
     <div className="auth-page">
       <div className="auth-page__header">
@@ -18,7 +29,15 @@ const Register = () => {
       </div>
 
       <RegisterForm
-        errorMessage="Что-то пошло не так" />
+        userName={userName}
+        userEmail={userEmail}
+        userPassword={userPassword}
+        errorMessage={errorMessage}
+        formValid={formValid}
+        focusHandler={focusHandler}
+        userNameHandler={userNameHandler}
+        userEmailHandler={userEmailHandler}
+        userPasswordHandler={userPasswordHandler} />
 
       <p className="auth-page__text-question">
         Уже зарегистрированы?

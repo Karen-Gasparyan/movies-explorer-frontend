@@ -3,13 +3,23 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 
 import './MoviesCardList.css';
 
-const MoviesCardList = (props) => {
-  const { component: Component, cards, moreButtonActive, loadMoreCards, favoritesIcon } = props;
+import Preloader from '../Preloader/Preloader';
+import SpinnerContext from '../../contexts/SpinnerContexts';
+
+const MoviesCardList = (
+  { component: Component,
+    cards,
+    moreButtonActive,
+    loadMoreCards,
+    favoritesIcon
+  }) => {
+
+  const spinner = React.useContext(SpinnerContext);
 
   return (
     <section className="movies-card-list">
       <div className="movies-card-list__items">
-        {cards.map(values => 
+        {cards.map(values => spinner ? <Preloader key={values.id} /> :
           (<MoviesCard
             key={values.id}
             values={values}
@@ -20,7 +30,8 @@ const MoviesCardList = (props) => {
         { Component ? (<Component
                          disabled={moreButtonActive}
                          title={'Ещё'}
-                         loadMoreCards={loadMoreCards} />) : null }
+                         loadMoreCards={loadMoreCards}
+                         spinner={spinner} />) : null }
       </div>
     </section>
   );

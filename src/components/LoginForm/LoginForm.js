@@ -6,27 +6,43 @@ import './LoginForm.css';
 import AuthInput from '../AuthInput/AuthInput';
 import AuthButton from '../AuthButton/AuthButton';
 
-const LoginForm = ({ errorMessage }) => {
+const LoginForm = (
+  { userEmail,
+    userPassword,
+    errorMessage,
+    formValid,
+    focusHandler,
+    userEmailHandler,
+    userPasswordHandler
+}) => {
+
   return (
     <form
       className="auth-form"
       name="login">
       <div className="auth-form_input-wrapper login-form_input-wrapper">
         <AuthInput
-          id={'userEmail'}
+          id={'user-email'}
           name={'email'}
           label={'E-mail'}
-          type={'email'} />
+          type={'email'}
+          onFocus={ focusHandler }
+          value={ userEmail }
+          onChange={ userEmailHandler } />
         <AuthInput
-          id={'userPassword'}
+          id={'user-password'}
           name={'password'}
           label={'Пароль'}
           type={'password'}
-          minLength={ 8 } />
+          minLength={ 8 }
+          onFocus={ focusHandler }
+          value={ userPassword }
+          onChange={ userPasswordHandler } />
         <span className="auth-error-message">{ errorMessage }</span>
       </div>
         <AuthButton
-          text={'Войти'} />
+          text={'Войти'}
+          formValid={ formValid } />
     </form>
   );
 }

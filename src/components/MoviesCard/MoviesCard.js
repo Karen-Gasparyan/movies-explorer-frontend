@@ -5,10 +5,11 @@ import '../../mixins/favorite-icon-disabled.css';
 import '../../mixins/favorite-icon-active.css';
 import '../../mixins/favorite-icon-remove.css';
 
-const MoviesCard = ({values, favoritesIcon}) => {
-  const { nameRU, duration, image } = values;
-  const { active, disabled, title } = favoritesIcon;
-  
+const MoviesCard = (
+  { values: { nameRU, duration, image },
+    favoritesIcon: { active, disabled, title }
+  }) => {
+
   const [favoriteMovie, setFavoriteMovie] = useState(false);
 
   const getTimeFormat = (mins) => {
@@ -19,6 +20,7 @@ const MoviesCard = ({values, favoritesIcon}) => {
 
   const handleChangeFavoriteMovie = () => {
     setFavoriteMovie(!favoriteMovie);
+    console.log('click')
   }
 
   return (

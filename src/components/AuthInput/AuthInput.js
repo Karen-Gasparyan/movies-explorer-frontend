@@ -2,12 +2,15 @@ import React from 'react';
 
 import './AuthInput.css';
 
-const AuthInput = ({
-  id,
-  name,
-  label,
-  type,
-  minLength
+const AuthInput = (
+  { id,
+    name,
+    label,
+    type,
+    minLength,
+    onFocus,
+    value,
+    onChange
 }) => {
 
   return (
@@ -23,7 +26,10 @@ const AuthInput = ({
         className="auth-input"
         autoComplete="off"
         type={ type }
-        minLength={ minLength } />
+        minLength={ minLength }
+        onFocus={ onFocus }
+        value={ value }
+        onChange={ onChange } />
     </>
   );
 }

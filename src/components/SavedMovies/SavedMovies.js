@@ -3,21 +3,38 @@ import React from 'react';
 import './SavedMovies.css';
 import '../../mixins/movies-pages.css';
 
+import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Footer from '../Footer/Footer';
 
-const SavedMovies = (props) => {
-  const { cards, favoritesIcon } = props;
+const SavedMovies = (
+  { cards,
+    favoritesIcon,
+
+    loggedIn,
+    isOpen,
+    openNavigation,
+    closeNavigation
+  }) => {
 
   return (
-    <section className="movies-pages saved-movies">
-      <SearchForm 
-        placeholder={'Фильм'}
-        buttonText={'Найти'} />
-      <MoviesCardList
-        cards={cards}
-        favoritesIcon={favoritesIcon} />
-    </section>
+    <>
+      <Header
+        loggedIn={loggedIn}
+        isOpen={isOpen}
+        openNavigation={openNavigation}
+        closeNavigation={closeNavigation} />
+      <section className="movies-pages saved-movies">
+        <SearchForm 
+          placeholder={'Фильм'}
+          buttonText={'Найти'} />
+        <MoviesCardList
+          cards={cards}
+          favoritesIcon={favoritesIcon} />
+      </section>
+      <Footer />
+    </>
   );
 }
 

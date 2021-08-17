@@ -8,7 +8,9 @@ const Techs = () => {
   return (
     <div className="techs">
       <section className="techs__container">
-        <SectionHeading title={"Технологии"} />
+        <SectionHeading
+          id="technology"
+          title={"Технологии"} />
         <article className="techs__content">
           <h3 className="techs__content-title">7 технологий</h3>
           <p  className="techs__content-subtitle">

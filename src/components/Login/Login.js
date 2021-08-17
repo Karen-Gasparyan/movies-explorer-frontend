@@ -7,7 +7,16 @@ import './Login.css';
 import Logo from '../Logo/Logo';
 import LoginForm from '../LoginForm/LoginForm';
 
-const Login = () => {
+const Login = (
+  { userEmail,
+    userPassword,
+    errorMessage,
+    formValid,
+    focusHandler,
+    userEmailHandler,
+    userPasswordHandler
+}) => {
+
   return (
     <div className="auth-page">
       <div className="auth-page__header">
@@ -18,7 +27,13 @@ const Login = () => {
       </div>
 
       <LoginForm
-        errorMessage="Что-то пошло не так" />
+        userEmail={userEmail}
+        userPassword={userPassword}
+        errorMessage={errorMessage}
+        formValid={formValid}
+        focusHandler={focusHandler}
+        userEmailHandler={userEmailHandler}
+        userPasswordHandler={userPasswordHandler} />
 
       <p className="auth-page__text-question">
         Ещё не зарегистрированы?

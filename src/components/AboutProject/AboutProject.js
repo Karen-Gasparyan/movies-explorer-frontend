@@ -7,7 +7,9 @@ import SectionHeading from '../SectionHeading/SectionHeading';
 const AboutProject = () => {
   return (
     <article className="about-project">
-      <SectionHeading title={"О проекте"} />
+      <SectionHeading
+        id={"about-project"}
+        title={"О проекте"} />
       <div className="about-project__contents-container">
         <section className="about-project__content-section">
           <h3 className="about-project__conditions-title">

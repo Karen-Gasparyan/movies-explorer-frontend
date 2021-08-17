@@ -1,13 +1,15 @@
 import React from 'react';
 
 import './AuthButton.css';
+import '../../mixins/button-disabled.css'
 
-const AuthButton = ({ text }) => {
+const AuthButton = ({ text, formValid }) => {
 
   return (
     <button
-      className="auth-button"
-      type="submit" >
+      className={ formValid ? "auth-button" : "auth-button button-disabled" }
+      type="submit"
+      disabled={ !formValid } >
       { text }
     </button>
   );

@@ -10,7 +10,9 @@ import Portfolio from '../Portfolio/Portfolio';
 const AboutMe = () => {
   return (
     <section className="about-me">
-      <SectionHeading title={'Студент'} />
+      <SectionHeading
+        id={'student'}
+        title={'Студент'} />
 
       <article className="about-me__content">
         <header className="about-me__header">
