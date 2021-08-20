@@ -1,7 +1,8 @@
 import React from 'react';
-import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 import './SearchForm.css';
+
+import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 const SearchForm = ({ placeholder, buttonText }) => {
   return (
@@ -9,11 +10,11 @@ const SearchForm = ({ placeholder, buttonText }) => {
       <div className="search-form__container">
         <label
           className="search-from__icon"
-          htmlFor="search-from__input">
+          htmlFor="search-from-input">
         </label>
         <input
           className="search-from__input"
-          id="search-from__input"
+          id="search-from-input"
           autoComplete="off"
           placeholder={placeholder} />
         <button className="search-from__submit-button">{buttonText}</button>

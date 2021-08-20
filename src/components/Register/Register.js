@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import '../../mixins/auth-pages.css'
 import './Register.css';
 
 import Logo from '../Logo/Logo';
@@ -16,9 +15,12 @@ const Register = (
     focusHandler,
     userNameHandler,
     userEmailHandler,
-    userPasswordHandler
+    userPasswordHandler,
+    userNameError,
+    userEmailError,
+    userPasswordError
   }) => {
-    
+
   return (
     <div className="auth-page">
       <div className="auth-page__header">
@@ -37,7 +39,10 @@ const Register = (
         focusHandler={focusHandler}
         userNameHandler={userNameHandler}
         userEmailHandler={userEmailHandler}
-        userPasswordHandler={userPasswordHandler} />
+        userPasswordHandler={userPasswordHandler}
+        userNameError={userNameError}
+        userEmailError={userEmailError}
+        userPasswordError={userPasswordError} />
 
       <p className="auth-page__text-question">
         Уже зарегистрированы?

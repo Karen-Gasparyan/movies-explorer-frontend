@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './Movies.css';
-import '../../mixins/movies-pages.css';
 
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
@@ -14,11 +13,11 @@ const Movies = (
     moreButtonActive,
     loadMoreCards,
     favoritesIcon,
-
     loggedIn,
     isOpen,
     openNavigation,
-    closeNavigation
+    closeNavigation,
+    addMovieToFavoriteList
   }) => {
 
   return (
@@ -35,9 +34,10 @@ const Movies = (
         <MoviesCardList
           component={LoadMoreButton}
           cards={cards}
+          favoritesIcon={favoritesIcon}
+          favoriteButton={addMovieToFavoriteList}
           moreButtonActive={moreButtonActive}
-          loadMoreCards={loadMoreCards}
-          favoritesIcon={favoritesIcon} />
+          loadMoreCards={loadMoreCards} />
       </section>
       <Footer />
     </>

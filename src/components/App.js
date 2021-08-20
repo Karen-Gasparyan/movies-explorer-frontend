@@ -4,21 +4,26 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import './App.css';
 
 // constants
-import { favoritesIcon } from '../utils/constants';
+import {
+  emailRegExp,
+  favoritesIcon
+} from '../utils/constants';
 
 // components
+import Main from './Main/Main';
+import Profile from './Profile/Profile';
 import Movies from './Movies/Movies';
 import SavedMovies from './SavedMovies/SavedMovies';
-import ErrorPage from './ErrorPage/ErrorPage';
-// import Preloader from './Preloader/Preloader';
 import Register from './Register/Register';
 import Login from './Login/Login';
-import Profile from './Profile/Profile';
-import Main from './Main/Main';
 
-// for tests
-import cards from '../MOVIES_DB';
-import savedCards from '../SAVED_MOVIES_DB';
+import ErrorPage from './ErrorPage/ErrorPage';
+import MessagePopup from './MessagePopup/MessagePopup';
+// import Preloader from './Preloader/Preloader';
+
+// for test
+import cards from '../utils/MOVIES_DB';
+import savedCards from '../utils/SAVED_MOVIES_DB';
 
 // contexts
 import SpinnerContext from '../contexts/SpinnerContexts';
@@ -30,6 +35,10 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [visibleNavigation, setVisibleNavigation] = useState(false);
 
+  const [messagePopupText, setMessagePopupText] = useState('');
+  const [messagePopup, setMessagePopup] = useState(false);
+  const [messagePopupIcon, setMessagePopupIcon] = useState(true);
+
   // cards
   const [initialCards, setInitialCards] = useState([])
   const [moreButtonActive, setMoreButtonActive] = useState(false)
@@ -37,16 +46,100 @@ function App() {
   const [tabletCards, setTabletCards] = useState(8);
   const [desctopCards, setDesctopCards] = useState(12);
 
-  // user profile
+
+  // cards +
+  const loadMoreCards = () => {
+    setMobileCards(mobileCards + 3);
+    setTabletCards(tabletCards + 6);
+    setDesctopCards(desctopCards + 9);
+  }
+
+  const changeCardValues = useCallback(() => {
+    if (window.innerWidth >= 320 && window.innerWidth < 768) {
+      setInitialCards(cards.slice(0, mobileCards));
+    } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+      setInitialCards(cards.slice(0, tabletCards));
+    } else if (window.innerWidth >= 1280) {
+      setInitialCards(cards.slice(0, desctopCards));
+    }
+  }, [mobileCards, tabletCards, desctopCards]);
+
+  window.onresize = () => {
+    changeCardValues();
+  }
+
+  // for test
+  const testSpinner = () => {
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    changeCardValues();
+    // for test
+    setTimeout(testSpinner, 2000)
+
+    if (initialCards.length >= cards.length) {
+      setMoreButtonActive(true);
+    }
+
+  }, [changeCardValues, initialCards.length]);
+
+  const addMovieToFavoriteList = (e) => {
+    setMessagePopupText('Добавлено в коллекцию')
+    setMessagePopup(true);
+    setTimeout(resetPopupMessageValue, 1000);
+   }
+
+  const removieMovieInFavoriteList = (e) => {
+    setMessagePopupText('Удалено из коллекции')
+    setMessagePopup(true);
+    setTimeout(resetPopupMessageValue, 1000);
+  }
+
+  const resetPopupMessageValue = () => {
+    setMessagePopup(false);
+  }
+  // cards -
+
+
+  // user profile +
   const [currentUserName, setCurrentUserName] = useState('Виталий');
   const [currentUserEmail, setCurrentUserEmail] = useState('pochta@yandex.ru');
+
+  const currentUserNameHandler = (e) => {
+    setCurrentUserName(e.target.value);
+
+    if (e.target.value.length < 2) {
+      setFormValid(false);
+      if (!e.target.value) {
+        setFormValid(false);
+      }
+    } else {
+      setFormValid(true);
+    }
+  }
+
+  const currentUserEmailHandler = (e) => {
+    setCurrentUserEmail(e.target.value);
+
+    if (!emailRegExp.test(String(e.target.value).toLowerCase())) {
+      setFormValid(false);
+      if (!e.target.value) {
+        setFormValid(false);
+      }
+    } else {
+      setFormValid(true);
+    }
+  }
+  // user profile -
+
 
   // auth validation +
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const [userNameError, setUserNameError] = useState(false);
+  const [userNameError, setUserNameError] = useState(true);
   const [userEmailError, setUserEmailError] = useState(true);
   const [userPasswordError, setUserPasswordError] = useState(true);
 
@@ -54,12 +147,12 @@ function App() {
   const [formValid, setFormValid] = useState(true);
 
   useEffect(() => {
-    if (userNameError || userEmailError || userPasswordError) {
+    if (userEmailError || userPasswordError) {
       setFormValid(false);
     } else {
       setFormValid(true);
     }
-  }, [userNameError, userEmailError, userPasswordError])
+  }, [userEmailError, userPasswordError])
 
   const focusHandler = (e) => {
     if (e.target.name === 'name') {
@@ -90,7 +183,6 @@ function App() {
   const userEmailHandler = (e) => {
     setUserEmail(e.target.value);
 
-    const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!emailRegExp.test(String(e.target.value).toLowerCase())) {
       setErrorMessage('Некорректный email');
       setUserEmailError(true);
@@ -121,42 +213,6 @@ function App() {
   }
   // auth validation -
 
-  // cards +
-  const loadMoreCards = () => {
-    setMobileCards(mobileCards + 3);
-    setTabletCards(tabletCards + 6);
-    setDesctopCards(desctopCards + 9);
-  }
-
-  const changeCardValues = useCallback(() => {
-    if (window.innerWidth >= 320 && window.innerWidth < 768) {
-      setInitialCards(cards.slice(0, mobileCards));
-    } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
-      setInitialCards(cards.slice(0, tabletCards));
-    } else if (window.innerWidth >= 1280) {
-      setInitialCards(cards.slice(0, desctopCards));
-    }
-  }, [mobileCards, tabletCards, desctopCards]);
-
-  window.onresize = () => {
-    changeCardValues();
-  }
-
-  useEffect(() => {
-    changeCardValues();
-
-    if (initialCards.length >= cards.length) {
-      setMoreButtonActive(true);
-    }
-
-  }, [changeCardValues, initialCards.length]);
-  // cards -
-
-
-  // popups +
-
-  // popups -
-
 
   // user profile +
   const signout = () => {
@@ -166,6 +222,7 @@ function App() {
   // user profile -
 
 
+  // helpers +
   const openNavigation = () => {
     setVisibleNavigation(true);
   }
@@ -173,6 +230,8 @@ function App() {
   const closeNavigation = () => {
     setVisibleNavigation(false);
   }
+  // helpers -
+
 
   return (
     <SpinnerContext.Provider value={loading} >
@@ -192,30 +251,33 @@ function App() {
               moreButtonActive={moreButtonActive}
               loadMoreCards={loadMoreCards}
               favoritesIcon={favoritesIcon.add}
-              
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
-              closeNavigation={closeNavigation}/>
+              closeNavigation={closeNavigation}
+              addMovieToFavoriteList={addMovieToFavoriteList} />
           </Route>
 
           <Route path='/saved-movies'>
             <SavedMovies
               cards={savedCards}
               favoritesIcon={favoritesIcon.remove}
-              
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
-              closeNavigation={closeNavigation}/>
+              closeNavigation={closeNavigation}
+
+              removieMovieInFavoriteList={removieMovieInFavoriteList} />
           </Route>
 
           <Route path='/profile'>
             <Profile
               currentUserName={currentUserName}
               currentUserEmail={currentUserEmail}
+              currentUserNameHandler={currentUserNameHandler}
+              currentUserEmailHandler={currentUserEmailHandler}
+              formValid={formValid}
               signout={signout}
-            
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
@@ -232,7 +294,10 @@ function App() {
               focusHandler={focusHandler}
               userNameHandler={userNameHandler}
               userEmailHandler={userEmailHandler}
-              userPasswordHandler={userPasswordHandler} />
+              userPasswordHandler={userPasswordHandler}
+              userNameError={userNameError}
+              userEmailError={userEmailError}
+              userPasswordError={userPasswordError} />
           </Route>
 
           <Route path='/signin'>
@@ -243,11 +308,18 @@ function App() {
               formValid={formValid}
               focusHandler={focusHandler}
               userEmailHandler={userEmailHandler}
-              userPasswordHandler={userPasswordHandler} />
+              userPasswordHandler={userPasswordHandler}
+              userEmailError={userEmailError}
+              userPasswordError={userPasswordError} />
           </Route>
 
           <Route path="" component={ErrorPage} />
         </Switch>
+
+        <MessagePopup
+          title={messagePopupText}
+          isOpen={messagePopup}
+          icon={messagePopupIcon} />
       </div>
     </SpinnerContext.Provider>
   );

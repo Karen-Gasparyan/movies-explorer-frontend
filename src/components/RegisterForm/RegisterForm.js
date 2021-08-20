@@ -1,6 +1,5 @@
 import React from 'react';
 
-import '../../mixins/auth-forms.css'
 import './RegisterForm.css';
 
 import AuthInput from '../AuthInput/AuthInput';
@@ -15,7 +14,10 @@ const RegisterForm = (
     focusHandler,
     userNameHandler,
     userEmailHandler,
-    userPasswordHandler
+    userPasswordHandler,
+    userNameError,
+    userEmailError,
+    userPasswordError
   }) => {
 
   return (
@@ -28,20 +30,26 @@ const RegisterForm = (
           name={'name'}
           label={'Имя'}
           type={'text'}
+          placeholder={''}
           minLength={ 2 }
           maxLength={ 30 }
           onFocus={ focusHandler }
           value={ userName }
-          onChange={ userNameHandler } />
+          onChange={ userNameHandler }
+          errorText={ userNameError }
+          errorMessage={errorMessage} />
 
         <AuthInput
           id={'user-email'}
           name={'email'}
           label={'E-mail'}
           type={'email'}
+          placeholder={''}
           onFocus={ focusHandler }
           value={ userEmail }
-          onChange={ userEmailHandler } />
+          onChange={ userEmailHandler }
+          errorText={ userEmailError }
+          errorMessage={errorMessage} />
 
         <AuthInput
           id={'user-password'}
@@ -49,9 +57,12 @@ const RegisterForm = (
           label={'Пароль'}
           type={'password'}
           minLength={ 8 }
+          placeholder={''}
           onFocus={ focusHandler }
           value={ userPassword }
-          onChange={ userPasswordHandler } />
+          onChange={ userPasswordHandler }
+          errorText={ userPasswordError }
+          errorMessage={errorMessage} />
 
         <span className="auth-error-message">{ errorMessage }</span>
       </div>

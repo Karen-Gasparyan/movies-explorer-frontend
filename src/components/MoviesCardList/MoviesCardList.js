@@ -1,17 +1,18 @@
 import React from 'react';
-import MoviesCard from '../MoviesCard/MoviesCard';
 
 import './MoviesCardList.css';
 
+import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 import SpinnerContext from '../../contexts/SpinnerContexts';
 
 const MoviesCardList = (
   { component: Component,
     cards,
+    favoritesIcon,
+    favoriteButton,
     moreButtonActive,
     loadMoreCards,
-    favoritesIcon
   }) => {
 
   const spinner = React.useContext(SpinnerContext);
@@ -19,11 +20,13 @@ const MoviesCardList = (
   return (
     <section className="movies-card-list">
       <div className="movies-card-list__items">
-        {cards.map(values => spinner ? <Preloader key={values.id} /> :
+        {cards.map(values => spinner ?
+        <Preloader key={values.id} /> :
           (<MoviesCard
             key={values.id}
             values={values}
-            favoritesIcon={favoritesIcon} />)
+            favoritesIcon={favoritesIcon}
+            favoriteButton={favoriteButton} />)
         )}
       </div>
       <div className="movies-card-list__auxiliary-panel">

@@ -1,6 +1,6 @@
-import img1 from './images/poster-1.jpg';
-import img2 from './images/poster-2.jpg';
-import img3 from './images/poster-3.jpg';
+import img1 from '../images/poster-1.jpg';
+import img2 from '../images/poster-2.jpg';
+import img3 from '../images/poster-3.jpg';
 
 const SAVED_MOVIES_DB = [
   {

@@ -37,6 +37,7 @@
 
 .profile__font-weight {
   font-weight: 500;
+  cursor: pointer;
 }
 
 .profile__user-data-input-name,
@@ -48,6 +49,7 @@
   border: none;
   text-align: end;
   transition: all 1s ease;
+  cursor: pointer;
 }
 
 .profile__user-data-input-name:focus::placeholder,
@@ -59,9 +61,7 @@
 .profile__user-data-input-name:focus,
 .profile__user-data-input-email:focus {
   outline: none;
-  -webkit-box-shadow: 0px 12px 20px 0px rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 0px 12px 20px 0px rgba(34, 60, 80, 0.2);
-  box-shadow: 0px 12px 20px 0px rgba(34, 60, 80, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.137);
   transition: all 1s ease;
 }
 

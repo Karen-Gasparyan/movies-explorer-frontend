@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './Techs.css';
+
 import SectionHeading from '../SectionHeading/SectionHeading';
 import TechnologyTable from '../TechnologyTable/TechnologyTable';
 

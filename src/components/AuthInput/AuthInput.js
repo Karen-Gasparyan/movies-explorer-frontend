@@ -10,7 +10,10 @@ const AuthInput = (
     minLength,
     onFocus,
     value,
-    onChange
+    onChange,
+    errorText,
+    errorMessage,
+    placeholder
 }) => {
 
   return (
@@ -23,8 +26,9 @@ const AuthInput = (
         required
         id={ id }
         name={ name }
-        className="auth-input"
+        className={ (errorText && errorMessage) ? "auth-input auth-input-error" : "auth-input" }
         autoComplete="off"
+        placeholder={placeholder}
         type={ type }
         minLength={ minLength }
         onFocus={ onFocus }

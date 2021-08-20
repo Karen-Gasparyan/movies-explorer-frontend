@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './SavedMovies.css';
-import '../../mixins/movies-pages.css';
 
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
@@ -15,7 +14,9 @@ const SavedMovies = (
     loggedIn,
     isOpen,
     openNavigation,
-    closeNavigation
+    closeNavigation,
+
+    removieMovieInFavoriteList
   }) => {
 
   return (
@@ -31,7 +32,8 @@ const SavedMovies = (
           buttonText={'Найти'} />
         <MoviesCardList
           cards={cards}
-          favoritesIcon={favoritesIcon} />
+          favoritesIcon={favoritesIcon}
+          favoriteButton={removieMovieInFavoriteList} />
       </section>
       <Footer />
     </>

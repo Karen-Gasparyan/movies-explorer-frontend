@@ -17,7 +17,7 @@ const Main = (
   }) => {
 
   return (
-    <main className="main">
+    <main className="main-page">
       <Header 
         loggedIn={loggedIn}
         isOpen={isOpen}

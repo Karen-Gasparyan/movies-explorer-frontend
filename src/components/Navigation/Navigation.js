@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Navigation.css';
-import '../../mixins/visible-navigation.css'
 
 const Navigation = ({ isOpen, closeNavigation }) => {
   return (

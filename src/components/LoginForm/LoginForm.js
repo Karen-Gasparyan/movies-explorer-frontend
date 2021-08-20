@@ -1,6 +1,5 @@
 import React from 'react';
 
-import '../../mixins/auth-forms.css'
 import './LoginForm.css';
 
 import AuthInput from '../AuthInput/AuthInput';
@@ -13,7 +12,9 @@ const LoginForm = (
     formValid,
     focusHandler,
     userEmailHandler,
-    userPasswordHandler
+    userPasswordHandler,
+    userEmailError,
+    userPasswordError
 }) => {
 
   return (
@@ -26,18 +27,26 @@ const LoginForm = (
           name={'email'}
           label={'E-mail'}
           type={'email'}
+          placeholder={''}
           onFocus={ focusHandler }
           value={ userEmail }
-          onChange={ userEmailHandler } />
+          onChange={ userEmailHandler }
+          errorText={ userEmailError }
+          errorMessage={errorMessage} />
+
         <AuthInput
           id={'user-password'}
           name={'password'}
           label={'Пароль'}
           type={'password'}
+          placeholder={''}
           minLength={ 8 }
           onFocus={ focusHandler }
           value={ userPassword }
-          onChange={ userPasswordHandler } />
+          onChange={ userPasswordHandler }
+          errorText={ userPasswordError }
+          errorMessage={errorMessage} />
+          
         <span className="auth-error-message">{ errorMessage }</span>
       </div>
         <AuthButton

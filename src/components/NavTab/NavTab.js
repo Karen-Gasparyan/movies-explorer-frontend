@@ -1,14 +1,9 @@
 import React from 'react';
-// import { HashLink as Link } from 'react-router-hash-link';
-
 import { Link } from "react-scroll";
 
 import './NavTab.css';
 
 const NavTab = () => {
-
-
-
   return (
     <nav className="nav-tab">
       <ul className="nav-tab__list-items">

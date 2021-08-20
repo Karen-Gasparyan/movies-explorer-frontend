@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './AuthButton.css';
-import '../../mixins/button-disabled.css'
 
 const AuthButton = ({ text, formValid }) => {
 

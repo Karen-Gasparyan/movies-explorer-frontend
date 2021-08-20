@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './LoadMoreButton.css';
-import '../../mixins/display-none.css';
 
 const LoadMoreButton = (
   { disabled,

@@ -8,6 +8,9 @@ import ProfileSubmitButton from '../ProfileSubmitButton/ProfileSubmitButton';
 const Profile = (
   { currentUserName,
     currentUserEmail,
+    currentUserNameHandler,
+    currentUserEmailHandler,
+    formValid,
     signout,
     
     loggedIn,
@@ -17,7 +20,6 @@ const Profile = (
   }) => {
 
   const [inputActive, setInputActive] = useState(false);
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
 
   const allowUpdatingUserData = () => {
     setInputActive(true);
@@ -40,27 +42,48 @@ const Profile = (
         openNavigation={openNavigation}
         closeNavigation={closeNavigation} />
         
-      <form className="profile">
+      <form
+        className="profile"
+        name="user-profile-form">
         <h2 className="profile__title">Привет, Виталий!</h2>
         <div className="profile__user-data">
           <div className="profile__user-name">
-            <span className="profile__font-weight">Имя</span>
+            <label
+              className="profile__font-weight"
+              htmlFor="current-user-name" >
+                Имя
+            </label>
             {inputActive ? 
             <input className="profile__user-data-input-name"
+              id="current-user-name"
               autoComplete="off"
-              name="name"
+              type="text"
+              required
+              minLength={2}
+              name="current-user-name"
               placeholder="Введите имя"
+              value={currentUserName}
+              onChange={currentUserNameHandler}
               autoFocus />
             :
             (<span>{currentUserName}</span>)}
           </div>
           <div className="profile__user-email">
-            <span className="profile__font-weight">Почта</span>
+            <label
+              className="profile__font-weight"
+              htmlFor="current-user-email" >
+                Почта
+            </label>
             {inputActive ?
             <input className="profile__user-data-input-email"
+              id="current-user-email"
+              type="email"
+              required
               autoComplete="off"
-              name="email"
-              placeholder="Введите email" />
+              name="current-user-email"
+              placeholder="Введите email"
+              value={currentUserEmail}
+              onChange={currentUserEmailHandler} />
             :
             (<span>{currentUserEmail}</span>)}
           </div>
@@ -71,7 +94,7 @@ const Profile = (
           <li className="profile__item">
             <ProfileSubmitButton
               handleUpdateUserData={handleUpdateUserData}
-              submitButtonDisabled={submitButtonDisabled} />
+              formValid={formValid} />
           </li>
           <li className="profile__item">
             <button

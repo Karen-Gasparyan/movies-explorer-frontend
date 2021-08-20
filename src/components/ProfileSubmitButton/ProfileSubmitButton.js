@@ -1,21 +1,20 @@
 import React from 'react';
 
 import './ProfileSubmitButton.css';
-import '../../mixins/button-disabled.css';
 
 const ProfileSubmitButton = (
   { handleUpdateUserData,
-    submitButtonDisabled
+    formValid
   }) => {
 
   return (
     <button
-      className={submitButtonDisabled ?
+      className={!formValid ?
         "profile-submit-button button-disabled" :
         "profile-submit-button"}
       type="submit"
       onClick={handleUpdateUserData}
-      disabled={submitButtonDisabled} >
+      disabled={!formValid} >
         Сохранить
     </button>
   );

@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 
 import './MoviesCard.css';
-import '../../mixins/favorite-icon-disabled.css';
-import '../../mixins/favorite-icon-active.css';
-import '../../mixins/favorite-icon-remove.css';
 
 const MoviesCard = (
   { values: { nameRU, duration, image },
-    favoritesIcon: { active, disabled, title }
+    favoritesIcon: { active, disabled, title },
+    favoriteButton
   }) => {
 
-  const [favoriteMovie, setFavoriteMovie] = useState(false);
-
-  const getTimeFormat = (mins) => {
+    const getTimeFormat = (mins) => {
     let hours = Math.trunc(mins/60);
     let minutes = mins % 60;
     return (hours + 'ч ') + (minutes + 'м');
   };
 
-  const handleChangeFavoriteMovie = () => {
+  const [favoriteMovie, setFavoriteMovie] = useState(false);
+
+  const handleChangeFavoriteMovie = (e) => {
     setFavoriteMovie(!favoriteMovie);
-    console.log('click')
+    favoriteButton(e);
   }
 
   return (
@@ -31,7 +29,7 @@ const MoviesCard = (
           <p className="movies-card__duration">{getTimeFormat(duration)}</p>
         </div>
         <button 
-          className={`movies-card__favorite-icon ${disabled} ${favoriteMovie ? active: ""}`}
+          className={`movies-card__favorite-icon ${favoriteMovie ? active: disabled}`}
           type="button"
           onClick={handleChangeFavoriteMovie}
           aria-label={title}
