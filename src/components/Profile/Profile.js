@@ -12,11 +12,11 @@ const Profile = (
     currentUserEmailHandler,
     formValid,
     signout,
-    
     loggedIn,
     isOpen,
     openNavigation,
-    closeNavigation
+    closeNavigation,
+    handleSubmitUserData
   }) => {
 
   const [inputActive, setInputActive] = useState(false);
@@ -41,10 +41,10 @@ const Profile = (
         isOpen={isOpen}
         openNavigation={openNavigation}
         closeNavigation={closeNavigation} />
-        
       <form
         className="profile"
-        name="user-profile-form">
+        name="user-profile-form"
+        onSubmit={handleSubmitUserData} >
         <h2 className="profile__title">Привет, Виталий!</h2>
         <div className="profile__user-data">
           <div className="profile__user-name">

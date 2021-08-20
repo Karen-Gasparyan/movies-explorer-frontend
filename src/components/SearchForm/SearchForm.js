@@ -4,9 +4,15 @@ import './SearchForm.css';
 
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-const SearchForm = ({ placeholder, buttonText }) => {
+const SearchForm = (
+  { placeholder,
+    buttonText,
+    handleSubmitSearchForm
+  }) => {
   return (
-    <form className="search-from">
+    <form
+      className="search-from"
+      onSubmit={handleSubmitSearchForm}>
       <div className="search-form__container">
         <label
           className="search-from__icon"
@@ -20,7 +26,7 @@ const SearchForm = ({ placeholder, buttonText }) => {
         <button className="search-from__submit-button">{buttonText}</button>
       </div>
       <div className="search-from__checkbox">
-        <FilterCheckbox />
+      <FilterCheckbox />
       </div>
     </form>
   );

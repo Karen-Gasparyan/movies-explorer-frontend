@@ -9,7 +9,6 @@ import RegisterButton from '../RegisterButton/RegisterButton';
 import LoginButton from '../LoginButton/LoginButton';
 
 const Header = ({ loggedIn, isOpen, openNavigation, closeNavigation }) => {
-
   return (
     <header className="header">
       <Logo />

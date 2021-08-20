@@ -3,6 +3,10 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 
 import './App.css';
 
+// DB for test !!!
+import cards from '../utils/MOVIES_DB';
+import savedCards from '../utils/SAVED_MOVIES_DB';
+
 // constants
 import {
   emailRegExp,
@@ -21,33 +25,41 @@ import ErrorPage from './ErrorPage/ErrorPage';
 import MessagePopup from './MessagePopup/MessagePopup';
 // import Preloader from './Preloader/Preloader';
 
-// for test
-import cards from '../utils/MOVIES_DB';
-import savedCards from '../utils/SAVED_MOVIES_DB';
-
 // contexts
 import SpinnerContext from '../contexts/SpinnerContexts';
 
 function App() {
   const history = useHistory();
 
+  // general
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(true);
   const [visibleNavigation, setVisibleNavigation] = useState(false);
-
+  // popup's
   const [messagePopupText, setMessagePopupText] = useState('');
   const [messagePopup, setMessagePopup] = useState(false);
   const [messagePopupIcon, setMessagePopupIcon] = useState(true);
-
   // cards
   const [initialCards, setInitialCards] = useState([])
   const [moreButtonActive, setMoreButtonActive] = useState(false)
   const [mobileCards, setMobileCards] = useState(5);
   const [tabletCards, setTabletCards] = useState(8);
   const [desctopCards, setDesctopCards] = useState(12);
+  // user profile
+  const [currentUserName, setCurrentUserName] = useState('Виталий');
+  const [currentUserEmail, setCurrentUserEmail] = useState('pochta@yandex.ru');
+  // auth validation
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userNameError, setUserNameError] = useState(true);
+  const [userEmailError, setUserEmailError] = useState(true);
+  const [userPasswordError, setUserPasswordError] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [formValid, setFormValid] = useState(true);
 
 
-  // cards +
+  // cards
   const loadMoreCards = () => {
     setMobileCards(mobileCards + 3);
     setTabletCards(tabletCards + 6);
@@ -68,14 +80,14 @@ function App() {
     changeCardValues();
   }
 
-  // for test
+  // for test !!!
   const testSpinner = () => {
     setLoading(false);
   }
 
   useEffect(() => {
     changeCardValues();
-    // for test
+    // for test !!!
     setTimeout(testSpinner, 2000)
 
     if (initialCards.length >= cards.length) {
@@ -99,13 +111,21 @@ function App() {
   const resetPopupMessageValue = () => {
     setMessagePopup(false);
   }
-  // cards -
+  // cards .
 
 
-  // user profile +
-  const [currentUserName, setCurrentUserName] = useState('Виталий');
-  const [currentUserEmail, setCurrentUserEmail] = useState('pochta@yandex.ru');
+  // navigation
+  const openNavigation = () => {
+    setVisibleNavigation(true);
+  }
 
+  const closeNavigation = () => {
+    setVisibleNavigation(false);
+  }
+  // navigation .
+
+
+  // user profile
   const currentUserNameHandler = (e) => {
     setCurrentUserName(e.target.value);
 
@@ -131,21 +151,20 @@ function App() {
       setFormValid(true);
     }
   }
-  // user profile -
+
+  function handleSubmitUserData(e) {
+    e.preventDefault();
+    console.log('user data sent');
+  };
+
+  const signout = () => {
+    setLoggedIn(false);
+    history.push('/');
+  }
+  // user profile .
 
 
-  // auth validation +
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-
-  const [userNameError, setUserNameError] = useState(true);
-  const [userEmailError, setUserEmailError] = useState(true);
-  const [userPasswordError, setUserPasswordError] = useState(true);
-
-  const [errorMessage, setErrorMessage] = useState('');
-  const [formValid, setFormValid] = useState(true);
-
+  // auth validation
   useEffect(() => {
     if (userEmailError || userPasswordError) {
       setFormValid(false);
@@ -211,26 +230,25 @@ function App() {
       setUserPasswordError(false);
     }
   }
-  // auth validation -
+  // auth validation .
 
 
-  // user profile +
-  const signout = () => {
-    setLoggedIn(false);
-    history.push('/');
-  }
-  // user profile -
+  // handlers
+  function handleSubmitRegister(e) {
+    e.preventDefault();
+    console.log('register form sent');
+  };
 
+  function handleSubmitLogin(e) {
+    e.preventDefault();
+    console.log('login form sent');
+  };
 
-  // helpers +
-  const openNavigation = () => {
-    setVisibleNavigation(true);
-  }
-
-  const closeNavigation = () => {
-    setVisibleNavigation(false);
-  }
-  // helpers -
+  function handleSubmitSearchForm(e) {
+    e.preventDefault();
+    console.log('Search form sent');
+  };
+  // handlers .
 
 
   return (
@@ -255,7 +273,8 @@ function App() {
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
               closeNavigation={closeNavigation}
-              addMovieToFavoriteList={addMovieToFavoriteList} />
+              addMovieToFavoriteList={addMovieToFavoriteList}
+              handleSubmitSearchForm={handleSubmitSearchForm} />
           </Route>
 
           <Route path='/saved-movies'>
@@ -266,8 +285,8 @@ function App() {
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
               closeNavigation={closeNavigation}
-
-              removieMovieInFavoriteList={removieMovieInFavoriteList} />
+              removieMovieInFavoriteList={removieMovieInFavoriteList}
+              handleSubmitSearchForm={handleSubmitSearchForm} />
           </Route>
 
           <Route path='/profile'>
@@ -281,7 +300,8 @@ function App() {
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
-              closeNavigation={closeNavigation} />
+              closeNavigation={closeNavigation}
+              handleSubmitUserData={handleSubmitUserData} />
           </Route>
 
           <Route path='/signup'>
@@ -297,7 +317,8 @@ function App() {
               userPasswordHandler={userPasswordHandler}
               userNameError={userNameError}
               userEmailError={userEmailError}
-              userPasswordError={userPasswordError} />
+              userPasswordError={userPasswordError}
+              handleSubmitRegister={handleSubmitRegister} />
           </Route>
 
           <Route path='/signin'>
@@ -310,7 +331,8 @@ function App() {
               userEmailHandler={userEmailHandler}
               userPasswordHandler={userPasswordHandler}
               userEmailError={userEmailError}
-              userPasswordError={userPasswordError} />
+              userPasswordError={userPasswordError}
+              handleSubmitLogin={handleSubmitLogin} />
           </Route>
 
           <Route path="" component={ErrorPage} />

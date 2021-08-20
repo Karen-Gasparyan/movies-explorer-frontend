@@ -15,6 +15,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "deploy": "npm run build && scp -r ./build/* movies@84.201.175.160:/home/movies/movies-explorer-frontend",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

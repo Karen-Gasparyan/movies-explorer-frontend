@@ -9,12 +9,12 @@ function MessagePopup({title, isOpen, icon}) {
   return (
     <div className={`message-popup ${isOpen ? 'message-popup-opened' : ''}`}>
       <div className="message-popup__container">
-      <img className="message-popup__icon"
-        src={icon ? doneIcon : errorIcon}
-        alt={icon ? 'Успешно' : 'Ошибка'} />
-        <h2 className="message-popup__title">{title}</h2>
+        <img className="message-popup__icon"
+          src={icon ? doneIcon : errorIcon}
+          alt={icon ? 'Успешно' : 'Ошибка'} />
+          <h2 className="message-popup__title">{title}</h2>
+      </div>
     </div>
-  </div>
   );
 };
 

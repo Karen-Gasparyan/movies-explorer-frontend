@@ -17,7 +17,8 @@ const Movies = (
     isOpen,
     openNavigation,
     closeNavigation,
-    addMovieToFavoriteList
+    addMovieToFavoriteList,
+    handleSubmitSearchForm
   }) => {
 
   return (
@@ -30,7 +31,8 @@ const Movies = (
       <section className="movies-pages movies">
         <SearchForm 
           placeholder={'Фильм'}
-          buttonText={'Найти'} />
+          buttonText={'Найти'}
+          handleSubmitSearchForm={handleSubmitSearchForm} />
         <MoviesCardList
           component={LoadMoreButton}
           cards={cards}

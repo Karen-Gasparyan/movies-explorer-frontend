@@ -14,13 +14,15 @@ const LoginForm = (
     userEmailHandler,
     userPasswordHandler,
     userEmailError,
-    userPasswordError
+    userPasswordError,
+    handleSubmitLogin
 }) => {
 
   return (
     <form
       className="auth-form"
-      name="login">
+      name="login"
+      onSubmit={handleSubmitLogin} >
       <div className="auth-form_input-wrapper login-form_input-wrapper">
         <AuthInput
           id={'user-email'}

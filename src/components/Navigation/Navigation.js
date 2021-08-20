@@ -2,14 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Navigation.css';
+import '../../mixins/navigation-visible.css';
 
 const Navigation = ({ isOpen, closeNavigation }) => {
   return (
-    <nav className={`navigation ${isOpen ? 'visible-navigation' : ''}`}>
+    <nav className={`navigation ${isOpen ? 'navigation-visible' : ''}`}>
       <div className="navigation__content">
         <div className="navigation__items-container">
           <button
             type="button"
+            aria-label="Закрыть"
             onClick={closeNavigation}
             className="navigation__close-button">
           </button>

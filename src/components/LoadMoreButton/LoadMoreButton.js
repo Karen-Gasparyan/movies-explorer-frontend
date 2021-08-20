@@ -8,6 +8,7 @@ const LoadMoreButton = (
     loadMoreCards,
     spinner
   }) => {
+
   return (
     <button
       className={(disabled || spinner) ? "display-none" : "load-more-button"}

@@ -14,7 +14,8 @@ const ProfileSubmitButton = (
         "profile-submit-button"}
       type="submit"
       onClick={handleUpdateUserData}
-      disabled={!formValid} >
+      disabled={!formValid}
+      aria-label="Сохранить" >
         Сохранить
     </button>
   );

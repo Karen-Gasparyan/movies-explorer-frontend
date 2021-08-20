@@ -10,13 +10,12 @@ import Footer from '../Footer/Footer';
 const SavedMovies = (
   { cards,
     favoritesIcon,
-
     loggedIn,
     isOpen,
     openNavigation,
     closeNavigation,
-
-    removieMovieInFavoriteList
+    removieMovieInFavoriteList,
+    handleSubmitSearchForm
   }) => {
 
   return (
@@ -29,7 +28,8 @@ const SavedMovies = (
       <section className="movies-pages saved-movies">
         <SearchForm 
           placeholder={'Фильм'}
-          buttonText={'Найти'} />
+          buttonText={'Найти'}
+          handleSubmitSearchForm={handleSubmitSearchForm} />
         <MoviesCardList
           cards={cards}
           favoritesIcon={favoritesIcon}

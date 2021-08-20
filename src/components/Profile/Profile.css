@@ -61,7 +61,7 @@
 .profile__user-data-input-name:focus,
 .profile__user-data-input-email:focus {
   outline: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.137);
+  border-bottom: 1px solid #2BE080;
   transition: all 1s ease;
 }
 

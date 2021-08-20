@@ -15,7 +15,8 @@ const Login = (
     userEmailHandler,
     userPasswordHandler,
     userEmailError,
-    userPasswordError
+    userPasswordError,
+    handleSubmitLogin
 }) => {
 
   return (
@@ -36,7 +37,8 @@ const Login = (
         userEmailHandler={userEmailHandler}
         userPasswordHandler={userPasswordHandler}
         userEmailError={userEmailError}
-        userPasswordError={userPasswordError} />
+        userPasswordError={userPasswordError}
+        handleSubmitLogin={handleSubmitLogin} />
 
       <p className="auth-page__text-question">
         Ещё не зарегистрированы?

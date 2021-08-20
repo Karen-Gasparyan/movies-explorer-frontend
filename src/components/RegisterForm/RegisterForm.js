@@ -17,13 +17,15 @@ const RegisterForm = (
     userPasswordHandler,
     userNameError,
     userEmailError,
-    userPasswordError
+    userPasswordError,
+    handleSubmitRegister
   }) => {
 
   return (
     <form 
       className="auth-form"
-      name="register">
+      name="register"
+      onSubmit={handleSubmitRegister} >
       <div className="auth-form_input-wrapper register-form_input-wrapper">
         <AuthInput
           id={'user-name'}

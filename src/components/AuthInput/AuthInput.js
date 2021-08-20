@@ -23,10 +23,10 @@ const AuthInput = (
         htmlFor={ id } >{ label }
       </label>
       <input
+        className={ (errorText && errorMessage) ? "auth-input auth-input-error" : "auth-input" }
         required
         id={ id }
         name={ name }
-        className={ (errorText && errorMessage) ? "auth-input auth-input-error" : "auth-input" }
         autoComplete="off"
         placeholder={placeholder}
         type={ type }

@@ -18,7 +18,8 @@ const Register = (
     userPasswordHandler,
     userNameError,
     userEmailError,
-    userPasswordError
+    userPasswordError,
+    handleSubmitRegister
   }) => {
 
   return (
@@ -42,7 +43,8 @@ const Register = (
         userPasswordHandler={userPasswordHandler}
         userNameError={userNameError}
         userEmailError={userEmailError}
-        userPasswordError={userPasswordError} />
+        userPasswordError={userPasswordError}
+        handleSubmitRegister={handleSubmitRegister} />
 
       <p className="auth-page__text-question">
         Уже зарегистрированы?

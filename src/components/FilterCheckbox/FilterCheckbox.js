@@ -8,7 +8,8 @@ const FilterCheckbox = () => {
       <input
         className="filter-checkbox"
         id="filter-checkbox"
-        type="checkbox" />
+        type="checkbox"
+        name="filter-checkbox" />
       <label 
         className="filter-checkbox__label"
         htmlFor="filter-checkbox">

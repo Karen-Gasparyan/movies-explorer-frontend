@@ -6,12 +6,12 @@ const PortfolioItem = ({ url, title }) => {
   return (
     <li className="portfolio-item">
       <a className="portfolio-item__link"
-          href={url}
-          rel="noreferrer"
-          target="_blank">
-            {title}
-          <span className="portfolio-item__link-icon"></span>
-        </a>
+        href={url}
+        rel="noreferrer"
+        target="_blank">
+          {title}
+        <span className="portfolio-item__link-icon"></span>
+      </a>
     </li>
   );
 }

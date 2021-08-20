@@ -7,7 +7,7 @@ const favoritesIcon = {
     title: "Добавить в избранное"
   },
   remove: {
-    active: "",
+    active: "favorite-icon-remove",
     disabled: "favorite-icon-remove",
     title: "Удалить из избранного"
   }

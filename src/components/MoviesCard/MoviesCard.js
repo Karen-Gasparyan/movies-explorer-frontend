@@ -36,7 +36,8 @@ const MoviesCard = (
           title={title} >
         </button>
       </header>
-      <img className="movies-card__poster"
+      <img
+        className="movies-card__poster"
         src={image} alt={`Постер к фильму ${image}`} />
     </article>
   );
