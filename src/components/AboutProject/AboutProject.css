@@ -1,0 +1,129 @@
+.about-project {
+  display: flex;
+  flex-direction: column;
+  padding: 70px 18px 70px;
+}
+
+.about-project__contents-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  padding: 60px 0;
+  row-gap: 56px;
+}
+
+.about-project__content-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-project__conditions-title {
+  margin: 0;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  letter-spacing: -0.04em;
+  color: #000;
+  padding-bottom: 16px;
+}
+
+.about-project__conditions-subtitle {
+  margin: 0;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 16px;
+  color: #000;
+}
+
+.about-project__table {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 35.21% 1fr;
+  grid-template-rows: auto;
+}
+
+.about-project__table-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.about-project__table-title {
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  color: #000000;
+  padding: 11px 0;
+  margin-bottom: 10px;
+  text-align: center;
+  background: #F2F2F2;
+}
+
+.about-project__table-title_colored {
+  background: #2BE080;
+}
+
+.about-project__table-subtitle {
+  font-family: 'Suisse Intl', Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  color: #A0A0A0;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .about-project {
+    padding: 90px 50px 90px;
+  }
+  .about-project__contents-container {
+    padding: 70px 0 93px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .about-project__conditions-title {
+    font-size: 20px;
+    line-height: 24px;
+    padding-bottom: 22px;
+  }
+  .about-project__conditions-subtitle {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .about-project__table {
+    grid-template-columns: 21% 1fr;
+  }
+  .about-project__table-title {
+    font-size: 14px;
+    line-height: 17px;
+    padding: 9px 0;
+    margin-bottom: 14px;
+  }
+  .about-project__table-subtitle {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-project {
+    padding: 110px 70px 110px;
+  }
+  .about-project__contents-container {
+    padding: 70px 0 110px;
+    gap: 40px;
+  }
+  .about-project__conditions-title {
+    padding-bottom: 26px;
+  }
+  .about-project__conditions-subtitle {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .about-project__table {
+    grid-template-columns: 20% 1fr;
+  }
+}

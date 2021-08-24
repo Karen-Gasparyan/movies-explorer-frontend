@@ -1,0 +1,27 @@
+.auth-button {
+  margin: 0;
+  border: none;
+  padding: 15px 67px;
+  background: #2BE080;
+  border-radius: 3px;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 1s ease;
+}
+
+@media (min-width: 768px) {
+  .auth-button {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .auth-button:hover {
+    opacity: .7;
+    transition: all 1s ease;
+  }
+}

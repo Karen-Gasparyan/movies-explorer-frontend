@@ -1,0 +1,124 @@
+.about-me {
+  padding: 69px 14px;
+}
+
+.about-me__content {
+  padding: 60px 0 69px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "user-photo"
+    "user-data"
+    "user-summary"
+    "user-networks";
+}
+
+.about-me__header {
+  grid-area: user-data;
+  width: 100%;
+}
+
+.about-me__name {
+  margin: 0;
+  padding: 40px 0 20px 0;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 36px;
+  letter-spacing: -0.04em;
+  color: #000;
+}
+
+.about-me__about {
+  margin: 0;
+  padding: 0 0 20px 0;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  color: #000;
+}
+
+.about-me__summary {
+  grid-area: user-summary;
+  margin: 0;
+  padding: 0 0 40px 0;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 16px;
+  color: #000;
+}
+
+.about-me__photo {
+  grid-area: user-photo;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.about-me__networks-list {
+  grid-area: user-networks;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 26px;
+  row-gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .about-me {
+    padding: 90px 50px 80px;
+  }
+  .about-me__content {
+    padding: 66px 0 90px;
+    grid-template-columns: 1fr 38%;
+    column-gap: 49px;
+    grid-template-areas:
+      "user-data user-photo"
+      "user-summary user-photo"
+      "user-networks user-photo";
+  }
+  .about-me__name {
+    padding: 0 0 16px 0;
+    font-size: 40px;
+    line-height: 40px;
+  }
+  .about-me__about {
+    padding: 0 0 20px 0;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .about-me__summary {
+    padding: 0 0 87px 0;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .about-me__networks-list {
+    column-gap: 20px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-me {
+    padding: 110px 70px 115px;
+  }
+  .about-me__content {
+    padding: 66px 0 100px;
+    grid-template-columns: 1fr 23.685%;
+    column-gap: 270px;
+  }
+  .about-me__name {
+    padding: 0 0 18px 0;
+    font-size: 50px;
+    line-height: 58px;
+  }
+  .about-me__about {
+    padding: 0 0 24px 0;
+    font-size: 18px;
+    line-height: 20px
+  }
+  .about-me__summary {
+    padding: 0 0 101px 0;
+    font-size: 14px;
+    line-height: 22px;
+  }
+}

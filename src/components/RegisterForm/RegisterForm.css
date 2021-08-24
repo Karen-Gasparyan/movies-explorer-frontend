@@ -1,0 +1,9 @@
+.register-form_input-wrapper {
+  padding: 0 0 157px 0;
+}
+
+@media (min-width: 768px) {
+  .register-form_input-wrapper {
+    padding: 0 0 69px 0;
+  }
+}

@@ -1,0 +1,144 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__title {
+  margin: 0;
+  padding: 70px 0 80px 0;
+  align-self: center;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+}
+
+.profile__user-data {
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  line-height: 13px;
+  padding: 0 30px 379px;
+}
+
+.profile__user-name {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #E8E8E8;;
+  padding-bottom: 17px;
+}
+
+.profile__user-email {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 17px;
+}
+
+.profile__font-weight {
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.profile__user-data-input-name,
+.profile__user-data-input-email {
+  padding: 0 15px 0 0;
+  margin: 0 0 0 15px;
+  opacity: 1;
+  width: 100%;
+  border: none;
+  text-align: end;
+  transition: all 1s ease;
+  cursor: pointer;
+}
+
+.profile__user-data-input-name:focus::placeholder,
+.profile__user-data-input-email:focus::placeholder {
+  opacity: 0;
+  transition: all 1s ease;
+}
+
+.profile__user-data-input-name:focus,
+.profile__user-data-input-email:focus {
+  outline: none;
+  border-bottom: 1px solid #2BE080;
+  transition: all 1s ease;
+}
+
+.profile__list-items {
+  padding: 0 0 24px 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.profile__item {
+  padding: 0 0 16px 0;
+}
+
+.profile__edit-button,
+.profile__signout-button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000;
+  transition: all 1s ease;
+}
+
+.profile__signout-button {
+  font-weight: 500;
+  color: #EE3465;
+}
+
+@media (min-width: 768px) {
+  .profile__title {
+    padding: 236px 0 96px 0;
+  }
+
+  .profile__user-data {
+    padding: 0 179px 210px;
+  }
+
+  .profile__list-items {
+    font-size: 13px;
+    line-height: 16px;
+    padding-bottom: 254px;
+  }
+
+  .profile__edit-button,
+  .profile__signout-button {
+    font-size: 13px;
+    line-height: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .profile__title {
+    padding: 74px 0 123px 0;
+  }
+
+  .profile__user-data {
+    padding: 0 435px 220px;
+  }
+
+  .profile__list-items {
+    padding-bottom: 55px;
+  }
+
+  .profile__edit-button:hover,
+  .profile__signout-button:hover {
+    cursor: pointer;
+    opacity: .6;
+    transition: all 1s ease;
+  }
+}

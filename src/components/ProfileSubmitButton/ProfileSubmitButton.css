@@ -1,0 +1,26 @@
+.profile-submit-button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000;
+  transition: all 1s ease;
+}
+
+@media (min-width: 768px) {
+  .profile-submit-button {
+    font-size: 13px;
+    line-height: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .profile-submit-button:hover {
+    cursor: pointer;
+    transition: all 1s ease;
+  }
+}

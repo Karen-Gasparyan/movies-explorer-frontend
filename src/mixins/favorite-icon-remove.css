@@ -1,0 +1,11 @@
+.favorite-icon-remove {
+  background: url(../images/favorite-icon-remove.svg) 0 0 / contain no-repeat;
+}
+
+@media (min-width: 1280px) {
+  .favorite-icon-remove:hover {
+    -webkit-box-shadow: 0px 0px 13px -3px rgba(34, 60, 80, 0.78);
+    -moz-box-shadow: 0px 0px 13px -3px rgba(34, 60, 80, 0.78);
+    box-shadow: 0px 0px 13px -3px rgba(34, 60, 80, 0.78);
+  }
+}

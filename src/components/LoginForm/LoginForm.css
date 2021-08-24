@@ -1,0 +1,9 @@
+.login-form_input-wrapper {
+  padding: 0 0 245px 0;
+}
+
+@media (min-width: 768px) {
+  .login-form_input-wrapper {
+    padding: 0 0 157px 0;
+  }
+}

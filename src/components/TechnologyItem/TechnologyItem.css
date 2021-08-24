@@ -1,0 +1,34 @@
+.technology-item {
+  width: 84px;
+  height: 57px;
+  background: #E8E8E8;
+  border-radius: 10px;
+  transition: all 1s ease;
+}
+
+.technology-item__link {
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: -0.04em;
+  color: #000;
+}
+
+@media (min-width: 1280px) {
+  .technology-item {
+    width: 90px;
+    height: 60px;
+  }
+  .technology-item:hover {
+    background: #bebebe80;
+    cursor: pointer;
+    transition: all 1s ease;
+  }
+}

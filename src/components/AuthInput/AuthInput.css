@@ -1,0 +1,41 @@
+.auth-label {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A0A0A0;
+  padding: 20px 0 10px 0;
+}
+
+.auth-input {
+  padding: 15px;
+  border: 1px solid #fff;
+  outline: none;
+  box-sizing: border-box;
+  background: #F9F9F9;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+  min-height: 15px;
+  transition: all 1s ease;
+}
+
+.auth-input-error {
+  color: #ff0000;
+  border: 1px solid #ff0000;
+}
+
+.auth-input:focus {
+  border-color: #2BE080;
+  -webkit-box-shadow: 0px 0px 15px -5px rgba(34, 60, 80, 0.42);
+  -moz-box-shadow: 0px 0px 15px -5px rgba(34, 60, 80, 0.42);
+  box-shadow: 0px 0px 15px -5px rgba(34, 60, 80, 0.42);
+  transition: all 1s ease;
+}
+
+.auth-input-error:focus {
+  border-color: #ff0000;
+}
