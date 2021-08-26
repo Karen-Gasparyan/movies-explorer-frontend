@@ -7,9 +7,9 @@ import Logo from '../Logo/Logo';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 const Register = (
-  { userName,
-    userEmail,
-    userPassword,
+  { name,
+    email,
+    password,
     errorMessage,
     formValid,
     focusHandler,
@@ -32,9 +32,9 @@ const Register = (
       </div>
 
       <RegisterForm
-        userName={userName}
-        userEmail={userEmail}
-        userPassword={userPassword}
+        name={name}
+        email={email}
+        password={password}
         errorMessage={errorMessage}
         formValid={formValid}
         focusHandler={focusHandler}

@@ -22,7 +22,8 @@ const SearchForm = (
           className="search-from__input"
           id="search-from-input"
           autoComplete="off"
-          placeholder={placeholder} />
+          placeholder={placeholder}
+          required />
         <button className="search-from__submit-button">{buttonText}</button>
       </div>
       <div className="search-from__checkbox">

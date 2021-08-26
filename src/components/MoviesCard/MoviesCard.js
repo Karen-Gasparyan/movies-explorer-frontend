@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import './MoviesCard.css';
 
 const MoviesCard = (
-  { values: { nameRU, duration, image },
+  { movieValues,
     favoritesIcon: { active, disabled, title },
     favoriteButton
   }) => {
+
+    const {nameRU, duration, image: { url }} = movieValues;
 
     const getTimeFormat = (mins) => {
     let hours = Math.trunc(mins/60);
@@ -16,9 +18,9 @@ const MoviesCard = (
 
   const [favoriteMovie, setFavoriteMovie] = useState(false);
 
-  const handleChangeFavoriteMovie = (e) => {
+  const handleChangeFavoriteMovie = () => {
     setFavoriteMovie(!favoriteMovie);
-    favoriteButton(e);
+    favoriteButton(movieValues);
   }
 
   return (
@@ -38,7 +40,8 @@ const MoviesCard = (
       </header>
       <img
         className="movies-card__poster"
-        src={image} alt={`Постер к фильму ${image}`} />
+        src={`https://api.nomoreparties.co${url}`}
+        alt={`https://api.nomoreparties.co${url}`} />
     </article>
   );
 }

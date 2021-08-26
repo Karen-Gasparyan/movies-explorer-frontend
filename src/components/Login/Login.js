@@ -7,8 +7,8 @@ import Logo from '../Logo/Logo';
 import LoginForm from '../LoginForm/LoginForm';
 
 const Login = (
-  { userEmail,
-    userPassword,
+  { email,
+    password,
     errorMessage,
     formValid,
     focusHandler,
@@ -29,8 +29,8 @@ const Login = (
       </div>
 
       <LoginForm
-        userEmail={userEmail}
-        userPassword={userPassword}
+        email={email}
+        password={password}
         errorMessage={errorMessage}
         formValid={formValid}
         focusHandler={focusHandler}

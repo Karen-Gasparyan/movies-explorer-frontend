@@ -6,8 +6,8 @@ import AuthInput from '../AuthInput/AuthInput';
 import AuthButton from '../AuthButton/AuthButton';
 
 const LoginForm = (
-  { userEmail,
-    userPassword,
+  { email,
+    password,
     errorMessage,
     formValid,
     focusHandler,
@@ -31,7 +31,7 @@ const LoginForm = (
           type={'email'}
           placeholder={''}
           onFocus={ focusHandler }
-          value={ userEmail }
+          value={ email }
           onChange={ userEmailHandler }
           errorText={ userEmailError }
           errorMessage={errorMessage} />
@@ -44,7 +44,7 @@ const LoginForm = (
           placeholder={''}
           minLength={ 8 }
           onFocus={ focusHandler }
-          value={ userPassword }
+          value={ password }
           onChange={ userPasswordHandler }
           errorText={ userPasswordError }
           errorMessage={errorMessage} />
