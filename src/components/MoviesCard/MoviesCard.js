@@ -8,9 +8,14 @@ const MoviesCard = (
     favoriteButton
   }) => {
 
-    const {nameRU, duration, image: { url }} = movieValues;
+  const {
+    nameRU,
+    duration,
+    image: { url },
+    thumbnail
+  } = movieValues;
 
-    const getTimeFormat = (mins) => {
+  const getTimeFormat = (mins) => {
     let hours = Math.trunc(mins/60);
     let minutes = mins % 60;
     return (hours + 'ч ') + (minutes + 'м');
@@ -40,8 +45,8 @@ const MoviesCard = (
       </header>
       <img
         className="movies-card__poster"
-        src={`https://api.nomoreparties.co${url}`}
-        alt={`https://api.nomoreparties.co${url}`} />
+        src={url ? `https://api.nomoreparties.co${url}` : thumbnail}
+        alt={url ? `https://api.nomoreparties.co${url}` : thumbnail} />
     </article>
   );
 }

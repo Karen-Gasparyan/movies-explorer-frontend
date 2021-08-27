@@ -165,11 +165,19 @@ function App() {
 
   // +++++++++++++++++++++++++++++++
   const addMovieToFavoriteList = (selectedMovieValues) => {
+    const { id } = selectedMovieValues;
+
     if (localStorage.getItem('jwt')) {
       const token = localStorage.getItem('jwt');
 
       mainApi.setSavedMovies(token, selectedMovieValues)
-      .then(data => setFavoriteMovies(data))
+      .then(({data}) => {
+        if(!favoriteMovies || favoriteMovies.length <= 0) {
+          setFavoriteMovies([data]);
+        } else {
+          setFavoriteMovies([data, ...favoriteMovies])
+        }
+      })
     }
 
     setMessagePopupText('Добавлено в коллекцию')
@@ -177,12 +185,24 @@ function App() {
     setMessagePopupIcon(true);
     setTimeout(resetPopupMessageValue, 1000);
    }
+   // +++++++++++++++++++++++++++++++
+  const removieMovieInFavoriteList = (selectedMovieValues) => {
+    const { _id } = selectedMovieValues;
+    
+    if (localStorage.getItem('jwt')) {
+      const token = localStorage.getItem('jwt');
 
-  const removieMovieInFavoriteList = (e) => {
-    setMessagePopupText('Удалено из коллекции')
-    setMessagePopup(true);
-    setMessagePopupIcon(true);
-    setTimeout(resetPopupMessageValue, 1000);
+      mainApi.deleteFavoriteMovie(token, _id)
+      .then(({data}) => {
+        setFavoriteMovies(allMovies => allMovies.filter(movie => movie._id !== _id));
+        if(data) {
+          setMessagePopupText('Удалено из коллекции')
+          setMessagePopup(true);
+          setMessagePopupIcon(true);
+          setTimeout(resetPopupMessageValue, 1000);
+        }
+      })
+    }
   }
 
   const resetPopupMessageValue = () => {

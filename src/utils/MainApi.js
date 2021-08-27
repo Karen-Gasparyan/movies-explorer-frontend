@@ -78,6 +78,14 @@ class MainApi {
     })
     .then(this._checkResponse)
   };
+
+  deleteFavoriteMovie(token, id) {
+    return fetch(`${this._BASE_URL}movies/${id}`, {
+      method: 'DELETE',
+      headers: this._headerHeandler(token)
+    })
+    .then(this._checkResponse)
+  }
 }
 
 const mainApi = new MainApi('https://api.gks.movies.nomoredomains.monster/');
