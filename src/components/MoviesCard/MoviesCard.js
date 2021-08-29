@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import './MoviesCard.css';
 
 const MoviesCard = (
   { movieValues,
+    favoriteMovies = [],
     favoritesIcon: { active, disabled, title },
-    favoriteButton
+    favoriteButton,
+    getTimeFormat
   }) => {
 
   const {
     nameRU,
     duration,
     image: { url },
-    thumbnail
+    thumbnail,
+    id,
+    trailerLink,
+    trailer
   } = movieValues;
 
-  const getTimeFormat = (mins) => {
-    let hours = Math.trunc(mins/60);
-    let minutes = mins % 60;
-    return (hours + 'ч ') + (minutes + 'м');
-  };
+  const favoriteMoviesIds = favoriteMovies.map(({movieId}) => movieId)
+  const added = favoriteMoviesIds.some(haveId => haveId === id)
 
-  const [favoriteMovie, setFavoriteMovie] = useState(false);
-
-  const handleChangeFavoriteMovie = () => {
-    setFavoriteMovie(!favoriteMovie);
+  const handleChangeFavoriteMovie = (e) => {
     favoriteButton(movieValues);
   }
 
@@ -36,17 +35,20 @@ const MoviesCard = (
           <p className="movies-card__duration">{getTimeFormat(duration)}</p>
         </div>
         <button 
-          className={`movies-card__favorite-icon ${favoriteMovie ? active: disabled}`}
+          className={`movies-card__favorite-icon ${added ? active: disabled}`}
           type="button"
           onClick={handleChangeFavoriteMovie}
           aria-label={title}
           title={title} >
         </button>
       </header>
-      <img
-        className="movies-card__poster"
-        src={url ? `https://api.nomoreparties.co${url}` : thumbnail}
-        alt={url ? `https://api.nomoreparties.co${url}` : thumbnail} />
+      <a href={trailerLink || trailer} target='_blank' rel="noreferrer" >
+        <img
+          className="movies-card__poster"
+          src={url ? `https://api.nomoreparties.co${url}` : thumbnail}
+          alt={url ? `https://api.nomoreparties.co${url}` : thumbnail} />
+      </a>
+      
     </article>
   );
 }

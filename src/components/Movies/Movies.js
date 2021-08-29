@@ -9,7 +9,8 @@ import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
 import Footer from '../Footer/Footer';
 
 const Movies = (
-  { cards,
+  { movies,
+    favoriteMovies,
     moreButtonActive,
     loadMoreCards,
     favoritesIcon,
@@ -18,7 +19,9 @@ const Movies = (
     openNavigation,
     closeNavigation,
     addMovieToFavoriteList,
-    handleSubmitSearchForm
+    removieMovieInFavoriteList,
+    handleSubmitSearchForm,
+    getTimeFormat
   }) => {
 
   return (
@@ -35,11 +38,14 @@ const Movies = (
           handleSubmitSearchForm={handleSubmitSearchForm} />
         <MoviesCardList
           component={LoadMoreButton}
-          cards={cards}
+          movies={movies}
+          favoriteMovies={favoriteMovies}
           favoritesIcon={favoritesIcon}
           favoriteButton={addMovieToFavoriteList}
+          removieMovieInFavoriteList={removieMovieInFavoriteList}
           moreButtonActive={moreButtonActive}
-          loadMoreCards={loadMoreCards} />
+          loadMoreCards={loadMoreCards}
+          getTimeFormat={getTimeFormat}/>
       </section>
       <Footer />
     </>

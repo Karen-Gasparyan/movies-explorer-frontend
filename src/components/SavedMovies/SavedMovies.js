@@ -8,14 +8,15 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 const SavedMovies = (
-  { cards,
+  { movies,
     favoritesIcon,
     loggedIn,
     isOpen,
     openNavigation,
     closeNavigation,
     removieMovieInFavoriteList,
-    handleSubmitSearchForm
+    handleSubmitSearchForm,
+    getTimeFormat
   }) => {
 
   return (
@@ -31,9 +32,10 @@ const SavedMovies = (
           buttonText={'Найти'}
           handleSubmitSearchForm={handleSubmitSearchForm} />
         <MoviesCardList
-          cards={cards}
+          movies={movies}
           favoritesIcon={favoritesIcon}
-          favoriteButton={removieMovieInFavoriteList} />
+          favoriteButton={removieMovieInFavoriteList}
+          getTimeFormat={getTimeFormat} />
       </section>
       <Footer />
     </>

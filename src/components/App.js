@@ -9,8 +9,14 @@ import './App.css';
 // constants
 import {
   emailRegExp,
+  favoritesIcon,
+
+  successful,
   successfulRegistration,
-  favoritesIcon
+  successfulLogin,
+
+  removedFromCollection,
+  addedToCollection
 } from '../utils/constants';
 
 // components
@@ -71,6 +77,22 @@ function App() {
   const [formValid, setFormValid] = useState(true);
 
 
+  // token verification
+  useEffect(()=> {
+    if(localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+
+      auth.getUserData(jwt)
+        .then(({data}) => {
+          setUserName(data.name);
+          setUserEmail(data.email);
+          setLoggedIn(true);
+          history.push('/');
+        })
+        .catch(error => console.log(error));
+    }
+  }, [history]);
+
   // get all movies
   useEffect(() => {
     moviesApi.getAllMovies()
@@ -80,7 +102,7 @@ function App() {
         setLoading(false);
       }
     })
-    .catch(error => console.log(`${error} Что-то пошло не так`));
+    .catch(error => console.log(error));
   }, [loggedIn])
 
   // get saved movies
@@ -90,6 +112,7 @@ function App() {
 
       mainApi.getSavedMovies(token)
         .then(({data}) => setFavoriteMovies(data))
+        .catch(error => console.log(error));
     }
   }, [loggedIn])
 
@@ -109,22 +132,6 @@ function App() {
     }
   }, [loggedIn]);
 
-  // token verification
-  useEffect(()=> {
-    if(localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-
-      auth.getUserData(jwt)
-        .then(({data}) => {
-          setUserName(data.name);
-          setUserEmail(data.email);
-          setLoggedIn(true);
-          history.push('/');
-        })
-        .catch(errorMessage => console.log(errorMessage));
-    }
-  }, [history]);
-
   // auth validation
   useEffect(() => {
     if (userEmailError || userPasswordError) {
@@ -137,16 +144,16 @@ function App() {
 
   // cards
   window.onresize = () => {
-    changeCardValues();
+    setTimeout(changeCardValues, 2000);
   }
 
   const loadMoreCards = () => {
     if (initialMovies.length >= allMovies.length) {
       setMoreButtonActive(true);
     }
-    setMobileCards(mobileCards + 3);
-    setTabletCards(tabletCards + 6);
-    setDesctopCards(desctopCards + 9);
+    setMobileCards(mobileCards + 2);
+    setTabletCards(tabletCards + 2);
+    setDesctopCards(desctopCards + 3);
   }
 
   const changeCardValues = useCallback(() => {
@@ -163,32 +170,41 @@ function App() {
     changeCardValues();
   }, [changeCardValues])
 
-  // +++++++++++++++++++++++++++++++
   const addMovieToFavoriteList = (selectedMovieValues) => {
     const { id } = selectedMovieValues;
+    const token = localStorage.getItem('jwt');
 
-    if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt');
+    if(favoriteMovies) {
+      const favoriteMoviesIds = favoriteMovies.map(movie => movie.movieId)
+      const movieAdded = favoriteMoviesIds.some(movieId => movieId === id);
 
+      if(!movieAdded) {
+        mainApi.setSavedMovies(token, selectedMovieValues)
+          .then(({data}) => {
+            setFavoriteMovies([data, ...favoriteMovies])
+            showPopupMessage(addedToCollection, true);
+        })
+        .catch(error => {
+          showPopupMessage(error, false)
+        });
+      } else {
+        return;
+      }
+    } else {
       mainApi.setSavedMovies(token, selectedMovieValues)
-      .then(({data}) => {
-        if(!favoriteMovies || favoriteMovies.length <= 0) {
-          setFavoriteMovies([data]);
-        } else {
-          setFavoriteMovies([data, ...favoriteMovies])
-        }
-      })
+        .then(({data}) => {
+          setFavoriteMovies([data])
+          showPopupMessage(addedToCollection, true);
+        })
+        .catch(error => {
+          showPopupMessage(error, false)
+        });
     }
+  }
 
-    setMessagePopupText('Добавлено в коллекцию')
-    setMessagePopup(true);
-    setMessagePopupIcon(true);
-    setTimeout(resetPopupMessageValue, 1000);
-   }
-   // +++++++++++++++++++++++++++++++
   const removieMovieInFavoriteList = (selectedMovieValues) => {
     const { _id } = selectedMovieValues;
-    
+
     if (localStorage.getItem('jwt')) {
       const token = localStorage.getItem('jwt');
 
@@ -196,18 +212,20 @@ function App() {
       .then(({data}) => {
         setFavoriteMovies(allMovies => allMovies.filter(movie => movie._id !== _id));
         if(data) {
-          setMessagePopupText('Удалено из коллекции')
-          setMessagePopup(true);
-          setMessagePopupIcon(true);
-          setTimeout(resetPopupMessageValue, 1000);
+          showPopupMessage(removedFromCollection, true)
         }
       })
+      .catch(error => {
+        showPopupMessage(error, false)
+      });
     }
   }
 
-  const resetPopupMessageValue = () => {
-    setMessagePopup(false);
-  }
+  const getTimeFormat = (mins) => {
+    let hours = Math.trunc(mins/60);
+    let minutes = mins % 60;
+    return (hours + 'ч ') + (minutes + 'м');
+  };
   // cards .
 
 
@@ -259,7 +277,11 @@ function App() {
       .then(({data:{name, email}}) => {
         setCurrentUser({name, email});
         setUserProfileInputActive(false);
+        showPopupMessage(successful, true, 500)
       })
+      .catch(error => {
+        showPopupMessage(error, false)
+      });
     }
   };
 
@@ -341,11 +363,7 @@ function App() {
     auth.register(name, email, password)
     .then(data => {
       if (data) {
-        setMessagePopup(true);
-        setMessagePopupText(successfulRegistration);
-        setMessagePopupIcon(true);
-        setTimeout(resetPopupMessageValue, 2000);
-
+        showPopupMessage(successfulRegistration, true)
         setUserName(data.name);
         setUserEmail(data.email);
         resetAuthForms();
@@ -353,10 +371,7 @@ function App() {
       }
     })
     .catch(error => {
-      setMessagePopup(true);
-      setMessagePopupText(error);
-      setMessagePopupIcon(false);
-      setTimeout(resetPopupMessageValue, 2000);
+      showPopupMessage(error, false)
     })
   };
 
@@ -368,10 +383,14 @@ function App() {
       if (token) {
         localStorage.setItem('jwt', token);
         setLoggedIn(true);
-        history.push('/');
+        showPopupMessage(successfulLogin, true)
+        history.push('/movies');
         return token;
       }
     })
+      .catch(error => {
+        showPopupMessage(error, false)
+      })
   };
 
   const signout = () => {
@@ -394,6 +413,19 @@ function App() {
   // handlers .
 
 
+  // helpers
+  const showPopupMessage = (text, icon, time = 1000) => {
+    setMessagePopupText(text)
+    setMessagePopup(true);
+    setMessagePopupIcon(icon);
+    setTimeout(resetPopupMessageValue, time);
+  }
+
+  const resetPopupMessageValue = () => {
+    setMessagePopup(false);
+  }
+
+
   return (
     <SpinnerContext.Provider value={loading} >
       <CurrentUserContext.Provider value={currentUser}>
@@ -408,10 +440,11 @@ function App() {
             </Route>
 
             <ProtectedRoute 
-              exact path='/movies'
+              path='/movies'
               component={Movies}
 
-              cards={initialMovies}
+              movies={initialMovies}
+              favoriteMovies={favoriteMovies}
               moreButtonActive={moreButtonActive}
               loadMoreCards={loadMoreCards}
               favoritesIcon={favoritesIcon.add}
@@ -420,23 +453,25 @@ function App() {
               openNavigation={openNavigation}
               closeNavigation={closeNavigation}
               addMovieToFavoriteList={addMovieToFavoriteList}
-              handleSubmitSearchForm={handleSubmitSearchForm} />
+              handleSubmitSearchForm={handleSubmitSearchForm}
+              getTimeFormat={getTimeFormat} />
 
             <ProtectedRoute
-              exact path='/saved-movies'
+              path='/saved-movies'
               component={SavedMovies}
 
-              cards={favoriteMovies}
+              movies={favoriteMovies}
               favoritesIcon={favoritesIcon.remove}
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
               openNavigation={openNavigation}
               closeNavigation={closeNavigation}
               removieMovieInFavoriteList={removieMovieInFavoriteList}
-              handleSubmitSearchForm={handleSubmitSearchForm} />
+              handleSubmitSearchForm={handleSubmitSearchForm}
+              getTimeFormat={getTimeFormat} />
 
             <ProtectedRoute
-              exact path='/profile'
+              path='/profile'
               component={Profile}
 
               userName={userName}

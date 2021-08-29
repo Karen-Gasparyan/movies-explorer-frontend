@@ -8,30 +8,34 @@ import SpinnerContext from '../../contexts/SpinnerContexts';
 
 const MoviesCardList = (
   { component: Component,
-    cards = [],
+    movies = [],
+    favoriteMovies,
     favoritesIcon,
     favoriteButton,
     moreButtonActive,
     loadMoreCards,
+    getTimeFormat
   }) => {
 
   const spinner = React.useContext(SpinnerContext);
 
-  const movies = cards.map(values => spinner ?
+  const moviesList = movies.map(values => spinner ?
     <Preloader key={values.id || values._id} />
     :
     (<MoviesCard
       key={values.id || values._id}
       movieValues={values}
+      favoriteMovies={favoriteMovies}
       favoritesIcon={favoritesIcon}
-      favoriteButton={favoriteButton} />)
+      favoriteButton={favoriteButton}
+      getTimeFormat={getTimeFormat} />)
   )
 
   return (
     <section className="movies-card-list">
       <div className="movies-card-list__items">
-        {(movies.length <= 0) ?
-         (<span>В вашей коллекции нет сохраненных фильмов</span>) : movies}
+        {(moviesList.length <= 0) ?
+         (<span>В вашей коллекции нет сохраненных фильмов</span>) : moviesList}
       </div>
       <div className="movies-card-list__auxiliary-panel">
         { Component ? (<Component
