@@ -7,7 +7,9 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 const SearchForm = (
   { placeholder,
     buttonText,
-    handleSubmitSearchForm
+    handleSubmitSearchForm,
+    searchFormValue,
+    searchFormHeandler
   }) => {
   return (
     <form
@@ -23,6 +25,8 @@ const SearchForm = (
           id="search-from-input"
           autoComplete="off"
           placeholder={placeholder}
+          value={searchFormValue}
+          onChange={searchFormHeandler}
           required />
         <button className="search-from__submit-button">{buttonText}</button>
       </div>

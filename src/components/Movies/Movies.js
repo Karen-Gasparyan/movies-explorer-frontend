@@ -21,7 +21,9 @@ const Movies = (
     addMovieToFavoriteList,
     removieMovieInFavoriteList,
     handleSubmitSearchForm,
-    getTimeFormat
+    getTimeFormat,
+    searchFormValue,
+    searchFormHeandler
   }) => {
 
   return (
@@ -35,7 +37,9 @@ const Movies = (
         <SearchForm 
           placeholder={'Фильм'}
           buttonText={'Найти'}
-          handleSubmitSearchForm={handleSubmitSearchForm} />
+          handleSubmitSearchForm={handleSubmitSearchForm}
+          searchFormValue={searchFormValue}
+          searchFormHeandler={searchFormHeandler} />
         <MoviesCardList
           component={LoadMoreButton}
           movies={movies}
@@ -45,7 +49,7 @@ const Movies = (
           removieMovieInFavoriteList={removieMovieInFavoriteList}
           moreButtonActive={moreButtonActive}
           loadMoreCards={loadMoreCards}
-          getTimeFormat={getTimeFormat}/>
+          getTimeFormat={getTimeFormat} />
       </section>
       <Footer />
     </>

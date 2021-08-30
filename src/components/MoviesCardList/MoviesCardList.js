@@ -8,7 +8,7 @@ import SpinnerContext from '../../contexts/SpinnerContexts';
 
 const MoviesCardList = (
   { component: Component,
-    movies = [],
+    movies,
     favoriteMovies,
     favoritesIcon,
     favoriteButton,
@@ -16,12 +16,11 @@ const MoviesCardList = (
     loadMoreCards,
     getTimeFormat
   }) => {
-
   const spinner = React.useContext(SpinnerContext);
 
-  const moviesList = movies.map(values => spinner ?
-    <Preloader key={values.id || values._id} />
-    :
+  const moviesList = movies.map(values => {
+    return spinner ?
+    <Preloader key={values.id || values._id} /> :
     (<MoviesCard
       key={values.id || values._id}
       movieValues={values}
@@ -29,13 +28,16 @@ const MoviesCardList = (
       favoritesIcon={favoritesIcon}
       favoriteButton={favoriteButton}
       getTimeFormat={getTimeFormat} />)
-  )
+  })
 
   return (
     <section className="movies-card-list">
+      {(moviesList.length <= 0) ?
+       (<span style={{textAlign: 'center'}}>
+          В вашей коллекции нет сохраненных фильмов
+        </span>) : ''}
       <div className="movies-card-list__items">
-        {(moviesList.length <= 0) ?
-         (<span>В вашей коллекции нет сохраненных фильмов</span>) : moviesList}
+        {moviesList}
       </div>
       <div className="movies-card-list__auxiliary-panel">
         { Component ? (<Component

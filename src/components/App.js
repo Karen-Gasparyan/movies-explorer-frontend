@@ -3,9 +3,6 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 
 import './App.css';
 
-// DB for test !!!
-// import savedCards from '../utils/SAVED_MOVIES_DB';
-
 // constants
 import {
   emailRegExp,
@@ -45,7 +42,7 @@ function App() {
 
   // general
   const [loading, setLoading] = useState(true);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [visibleNavigation, setVisibleNavigation] = useState(false);
   // popup's
   const [messagePopup, setMessagePopup] = useState(false);
@@ -80,18 +77,19 @@ function App() {
   // token verification
   useEffect(()=> {
     if(localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-
-      auth.getUserData(jwt)
+      const token = localStorage.getItem('jwt');
+      
+      auth.getUserData(token)
         .then(({data}) => {
+          setCurrentUser(data);
           setUserName(data.name);
           setUserEmail(data.email);
-          setLoggedIn(true);
-          history.push('/');
         })
         .catch(error => console.log(error));
+    } else {
+      setLoggedIn(false);
     }
-  }, [history]);
+  }, []);
 
   // get all movies
   useEffect(() => {
@@ -99,11 +97,11 @@ function App() {
     .then(data => {
       if(data) {
         setAllMovies(data);
-        setLoading(false);
+        setTimeout(showSpinner, 1000);
       }
     })
     .catch(error => console.log(error));
-  }, [loggedIn])
+  }, [])
 
   // get saved movies
   useEffect(() => {
@@ -111,26 +109,17 @@ function App() {
       const token = localStorage.getItem('jwt');
 
       mainApi.getSavedMovies(token)
-        .then(({data}) => setFavoriteMovies(data))
+        .then(({data}) => {
+          if(data) {
+            setFavoriteMovies(data);
+            setTimeout(showSpinner, 1000);
+          }
+        })
         .catch(error => console.log(error));
+    } else {
+      setLoggedIn(false);
     }
-  }, [loggedIn])
-
-  // get user info
-  useEffect(()=> {
-    if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt');
-
-      mainApi.getUserInfo(token)
-        .then(({data}) => setCurrentUser(data))
-        .catch(error => {
-          setCurrentUser({
-            name: error,
-            email: error
-          })
-        });
-    }
-  }, [loggedIn]);
+  }, [])
 
   // auth validation
   useEffect(() => {
@@ -380,9 +369,10 @@ function App() {
     
     auth.login(email, password)
     .then(({token}) => {
+      console.log(token)
       if (token) {
-        localStorage.setItem('jwt', token);
         setLoggedIn(true);
+        localStorage.setItem('jwt', token);
         showPopupMessage(successfulLogin, true)
         history.push('/movies');
         return token;
@@ -399,11 +389,49 @@ function App() {
     resetAuthForms();
     history.push('/');
   }
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  const [searchFormValue, setSearchFormValue] = useState('');
+
+  const searchFormHeandler = (e) => {
+    setSearchFormValue(e.target.value);
+    if(e.target.value !== '') {
+      
+    } else {
+      console.log('empty')
+    }
+  }
 
   function handleSubmitSearchForm(e) {
     e.preventDefault();
-    console.log('Search form sent');
+
+    function filterItems(query, array) {
+      return array.filter(function(el) {
+          return el.toLowerCase().indexOf(query.toLowerCase()) > -1;
+      })
+    }
+
+    const moviesName = allMovies.map(({nameRU}) => nameRU);
+    const searchingResults = filterItems(searchFormValue, moviesName);
+
+
+    const searchingMovies = allMovies.filter(elem => {
+      for( let i = 0; i <= searchingResults.length; i++ ) {
+        if(elem.nameRU === searchingResults[i]) {
+          if(elem.nameRU) {
+            return elem;
+          }
+        }
+      }
+      return showPopupMessage('Успешно', true, 2000);
+    });
+
+    setInitialMovies(searchingMovies);
   };
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
 
   const resetAuthForms = () => {
     setName('');
@@ -423,6 +451,10 @@ function App() {
 
   const resetPopupMessageValue = () => {
     setMessagePopup(false);
+  }
+
+  const showSpinner = () => {
+    setLoading(false);
   }
 
 
@@ -454,7 +486,9 @@ function App() {
               closeNavigation={closeNavigation}
               addMovieToFavoriteList={addMovieToFavoriteList}
               handleSubmitSearchForm={handleSubmitSearchForm}
-              getTimeFormat={getTimeFormat} />
+              getTimeFormat={getTimeFormat}
+              searchFormValue={searchFormValue}
+              searchFormHeandler={searchFormHeandler} />
 
             <ProtectedRoute
               path='/saved-movies'

@@ -26,14 +26,6 @@ class MainApi {
     .then(this._checkResponse)
   }
 
-  getUserInfo(token) {
-    return fetch(`${this._BASE_URL}users/me`, {
-      method: 'GET',
-      headers: this._headerHeandler(token)
-    })
-    .then(this._checkResponse)
-  };
-
   setSavedMovies(token, movieData) {
     const {
       country,
