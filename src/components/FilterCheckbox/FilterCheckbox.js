@@ -2,7 +2,12 @@ import React from 'react';
 
 import './FilterCheckbox.css';
 
-const FilterCheckbox = ({disabled}) => {
+const FilterCheckbox = (
+  { disabled,
+    filterCheckbox,
+    handleFilterCheckbox
+  }) => {
+
   return (
     <>
       <input
@@ -10,7 +15,9 @@ const FilterCheckbox = ({disabled}) => {
         id="filter-checkbox"
         type="checkbox"
         name="filter-checkbox"
-        disabled={disabled} />
+        disabled={disabled}
+        onChange={handleFilterCheckbox}
+        checked={filterCheckbox} />
       <label 
         className="filter-checkbox__label"
         htmlFor="filter-checkbox">

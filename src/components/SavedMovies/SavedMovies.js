@@ -22,7 +22,9 @@ const SavedMovies = (
     emptyListValue,
     handleSubmitSearchForm,
     searchFormValue,
-    searchFormHeandler
+    searchFormHeandler,
+    filterCheckbox,
+    handleFilterCheckbox
   }) => {
 
   return (
@@ -39,7 +41,9 @@ const SavedMovies = (
           handleSubmitSearchForm={handleSubmitSearchForm}
           searchFormValue={searchFormValue}
           searchFormHeandler={searchFormHeandler}
-          emptyListValue={emptyListValue} />
+          emptyListValue={emptyListValue}
+          filterCheckbox={filterCheckbox}
+          handleFilterCheckbox={handleFilterCheckbox} />
         <MoviesCardList
           movies={movies}
           noSearchSavedMovieResult={noSearchSavedMovieResult}

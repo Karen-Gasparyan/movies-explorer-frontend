@@ -41,17 +41,17 @@ class MainApi {
     } = movieData;
 
     const movie = {
-      country,
-      director,
-      duration,
-      year,
-      description,
+      country: country || 'Крокожия',
+      director: director || 'Иванов Иван Иваныч',
+      duration: duration || 123,
+      year: year || 2021,
+      description: description || 'бла бла бла',
       image: `https://api.nomoreparties.co${url}`,
-      trailer: trailerLink,
+      trailer: trailerLink || 'https://youtu.be/0MnNfcDX0Yw',
       thumbnail: `https://api.nomoreparties.co${thumbnail.url}`,
       movieId: id,
-      nameRU,
-      nameEN
+      nameRU: nameRU || 'Глазовыколуповательница',
+      nameEN: nameEN || 'Glazovikolupovatelnica'
     };
 
     return fetch(`${this._BASE_URL}movies`, {

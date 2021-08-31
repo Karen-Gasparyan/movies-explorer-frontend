@@ -26,7 +26,9 @@ const Movies = (
     handleSubmitSearchForm,
     getTimeFormat,
     searchFormValue,
-    searchFormHeandler
+    searchFormHeandler,
+    filterCheckbox,
+    handleFilterCheckbox
   }) => {
 
   return (
@@ -42,7 +44,9 @@ const Movies = (
           buttonText={'Найти'}
           handleSubmitSearchForm={handleSubmitSearchForm}
           searchFormValue={searchFormValue}
-          searchFormHeandler={searchFormHeandler} />
+          searchFormHeandler={searchFormHeandler}
+          filterCheckbox={filterCheckbox}
+          handleFilterCheckbox={handleFilterCheckbox} />
         <MoviesCardList
           component={LoadMoreButton}
           movies={movies}

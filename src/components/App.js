@@ -62,6 +62,8 @@ function App() {
   // user profile
   const [currentUser, setCurrentUser ] = useState({});
   const [userProfileInputActive, setUserProfileInputActive] = useState(false);
+  // search form
+  const [filterCheckbox, setFilterCheckbox] = useState(false)
   // auth forms
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -103,6 +105,15 @@ function App() {
     })
     .catch(error => console.log(error));
   }, [])
+
+  // const handleBrokenLinks = (item) => {
+  //   return item.map(el => {
+  //     if(!(el.trailerLink)) {
+  //       return el.trailerLink = 'https://youtu.be/0MnNfcDX0Yw';;
+  //     }
+  //     return el;
+  //   });
+  // };
 
   // get favorite movies
   const getFavoriteMovies = useCallback(() => {
@@ -221,6 +232,7 @@ function App() {
           showPopupMessage(removedFromCollection, true)
           if(favoriteMovies.length < 2) {
             setEmptyListValue(true);
+            setFilterCheckbox(false);
           }
         }
       })
@@ -456,6 +468,42 @@ function App() {
       setMoreButtonActive(true);
     }
   };
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  const handleFilterCheckboxMovies = () => {
+    setFilterCheckbox(!filterCheckbox);
+    
+    if(!filterCheckbox) {
+      setInitialMovies(getMovieDuration(allMovies));
+      setMoreButtonActive(true);
+    } else {
+      setInitialMovies(allMovies);
+      changeCardValues();
+    }
+  }
+
+  const handleFilterCheckboxSavedMovies = () => {
+    setFilterCheckbox(!filterCheckbox);
+    
+    if(!filterCheckbox) {
+      setFavoriteMovies(getMovieDuration(favoriteMovies));
+      setMoreButtonActive(true);
+    } else {
+      getFavoriteMovies();
+      changeCardValues();
+    }
+  }
+
+  const getMovieDuration = (movies) => {
+    let result = [];
+
+    movies.forEach(movie => {
+      if(movie.duration <= 40) {
+        result.push(movie);
+      }
+    })
+    return result;
+  }
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   /* /handlers */
 
   /* helpers */
@@ -538,7 +586,9 @@ function App() {
               getTimeFormat={getTimeFormat}
               handleSubmitSearchForm={handleSubmitSearchFormForMovies}
               searchFormValue={movieSearchFormValue}
-              searchFormHeandler={movieSearchFormHeandler} />
+              searchFormHeandler={movieSearchFormHeandler}
+              filterCheckbox={filterCheckbox}
+              handleFilterCheckbox={handleFilterCheckboxMovies} />
 
             <ProtectedRoute
               path='/saved-movies'
@@ -556,7 +606,9 @@ function App() {
               getTimeFormat={getTimeFormat}
               handleSubmitSearchForm={handleSubmitSearchFormForSavedMovies}
               searchFormValue={savedMovieSearchFormValue}
-              searchFormHeandler={savedMovieSearchFormHeandler} />
+              searchFormHeandler={savedMovieSearchFormHeandler}
+              filterCheckbox={filterCheckbox}
+              handleFilterCheckbox={handleFilterCheckboxSavedMovies} />
 
             <ProtectedRoute
               path='/profile'
