@@ -44,7 +44,7 @@ function App() {
   const [visibleNavigation, setVisibleNavigation] = useState(false);
   // popup's
   const [messagePopup, setMessagePopup] = useState(false);
-  const [messagePopupIcon, setMessagePopupIcon] = useState(false);
+  const [messagePopupIcon, setMessagePopupIcon] = useState(true);
   const [messagePopupText, setMessagePopupText] = useState('');
   // movies
   const [allMovies, setAllMovies] = useState([]);
@@ -54,7 +54,7 @@ function App() {
   const [noSearchSavedMovieResult, setNoSearchSavedMovieResult] = useState(false);
   const [movieSearchFormValue, setMovieSearchFormValue] = useState('');
   const [savedMovieSearchFormValue, setSavedMovieSearchFormValue] = useState('');
-  const [emptyListValue, setEmptyListValue] = useState(false);
+  const [emptyListValue, setEmptyListValue] = useState(null);
   const [moreButtonActive, setMoreButtonActive] = useState(false);
   const [mobileCards, setMobileCards] = useState(5);
   const [tabletCards, setTabletCards] = useState(8);
@@ -82,7 +82,6 @@ function App() {
       
       auth.getUserData(token)
         .then(({data}) => {
-          console.log(data)
           setCurrentUser(data);
           setUserName(data.name);
           setUserEmail(data.email);
@@ -127,7 +126,7 @@ function App() {
 
   useEffect(() => {
     getFavoriteMovies();
-  }, [getFavoriteMovies])
+  }, [loggedIn, getFavoriteMovies])
 
   // auth validation
   useEffect(() => {
@@ -173,7 +172,7 @@ function App() {
     const token = localStorage.getItem('jwt');
 
     if(favoriteMovies) {
-      const favoriteMoviesIds = favoriteMovies.map(movie => movie.movieId)
+      const favoriteMoviesIds = favoriteMovies.map(movie => movie.movieId);
       const movieAdded = favoriteMoviesIds.some(movieId => movieId === id);
 
       if(!movieAdded) {
@@ -187,7 +186,15 @@ function App() {
           showPopupMessage(error, false)
         });
       } else {
-        return;
+        const _id = favoriteMovies.filter(movie => {
+          if(movie.movieId === id) {
+            return movie._id;
+          } else {
+            return null;
+          }
+        });
+
+        removieMovieInFavoriteList(_id[0]);
       }
     } else {
       mainApi.setSavedMovies(token, selectedMovieValues)
@@ -201,7 +208,7 @@ function App() {
     }
   }
 
-  const removieMovieInFavoriteList = (selectedMovieValues) => { //
+  const removieMovieInFavoriteList = (selectedMovieValues) => {
     const { _id } = selectedMovieValues;
 
     if (localStorage.getItem('jwt')) {
