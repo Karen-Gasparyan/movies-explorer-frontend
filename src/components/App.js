@@ -27,7 +27,6 @@ import Login from './Login/Login';
 
 import ErrorPage from './ErrorPage/ErrorPage';
 import MessagePopup from './MessagePopup/MessagePopup';
-// import Preloader from './Preloader/Preloader';
 
 // contexts
 import SpinnerContext from '../contexts/SpinnerContexts';
@@ -39,7 +38,6 @@ import mainApi from '../utils/MainApi';
 
 function App() {
   const history = useHistory();
-
   // general
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(true);
@@ -50,9 +48,13 @@ function App() {
   const [messagePopupText, setMessagePopupText] = useState('');
   // movies
   const [allMovies, setAllMovies] = useState([]);
-  const [initialMovies, setInitialMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
-  // const [moviesLoadingError, setMoviesLoadingError] = useState('');
+  const [initialMovies, setInitialMovies] = useState([]);
+  const [noSearchMovieResult, setNoSearchMovieResult] = useState(false);
+  const [noSearchSavedMovieResult, setNoSearchSavedMovieResult] = useState(false);
+  const [movieSearchFormValue, setMovieSearchFormValue] = useState('');
+  const [savedMovieSearchFormValue, setSavedMovieSearchFormValue] = useState('');
+  const [emptyListValue, setEmptyListValue] = useState(false);
   const [moreButtonActive, setMoreButtonActive] = useState(false);
   const [mobileCards, setMobileCards] = useState(5);
   const [tabletCards, setTabletCards] = useState(8);
@@ -73,7 +75,6 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formValid, setFormValid] = useState(true);
 
-
   // token verification
   useEffect(()=> {
     if(localStorage.getItem('jwt')) {
@@ -81,6 +82,7 @@ function App() {
       
       auth.getUserData(token)
         .then(({data}) => {
+          console.log(data)
           setCurrentUser(data);
           setUserName(data.name);
           setUserEmail(data.email);
@@ -89,7 +91,7 @@ function App() {
     } else {
       setLoggedIn(false);
     }
-  }, []);
+  }, [loggedIn]);
 
   // get all movies
   useEffect(() => {
@@ -103,8 +105,8 @@ function App() {
     .catch(error => console.log(error));
   }, [])
 
-  // get saved movies
-  useEffect(() => {
+  // get favorite movies
+  const getFavoriteMovies = useCallback(() => {
     if (localStorage.getItem('jwt')) {
       const token = localStorage.getItem('jwt');
 
@@ -113,13 +115,19 @@ function App() {
           if(data) {
             setFavoriteMovies(data);
             setTimeout(showSpinner, 1000);
+          } else {
+            setEmptyListValue(true);
           }
         })
         .catch(error => console.log(error));
     } else {
       setLoggedIn(false);
-    }
-  }, [])
+    };
+  }, []);
+
+  useEffect(() => {
+    getFavoriteMovies();
+  }, [getFavoriteMovies])
 
   // auth validation
   useEffect(() => {
@@ -130,8 +138,7 @@ function App() {
     }
   }, [userEmailError, userPasswordError])
 
-
-  // cards
+  /* movies */
   window.onresize = () => {
     setTimeout(changeCardValues, 2000);
   }
@@ -153,6 +160,8 @@ function App() {
     } else if (window.innerWidth >= 1280) {
       setInitialMovies(allMovies.slice(0, desctopCards));
     }
+
+    setMoreButtonActive(false);
   }, [allMovies, mobileCards, tabletCards, desctopCards]);
 
   useEffect(() => {
@@ -170,6 +179,7 @@ function App() {
       if(!movieAdded) {
         mainApi.setSavedMovies(token, selectedMovieValues)
           .then(({data}) => {
+            setEmptyListValue(false);
             setFavoriteMovies([data, ...favoriteMovies])
             showPopupMessage(addedToCollection, true);
         })
@@ -191,7 +201,7 @@ function App() {
     }
   }
 
-  const removieMovieInFavoriteList = (selectedMovieValues) => {
+  const removieMovieInFavoriteList = (selectedMovieValues) => { //
     const { _id } = selectedMovieValues;
 
     if (localStorage.getItem('jwt')) {
@@ -199,9 +209,12 @@ function App() {
 
       mainApi.deleteFavoriteMovie(token, _id)
       .then(({data}) => {
-        setFavoriteMovies(allMovies => allMovies.filter(movie => movie._id !== _id));
         if(data) {
+          setFavoriteMovies(allMovies => allMovies.filter(movie => movie._id !== _id));
           showPopupMessage(removedFromCollection, true)
+          if(favoriteMovies.length < 2) {
+            setEmptyListValue(true);
+          }
         }
       })
       .catch(error => {
@@ -215,10 +228,9 @@ function App() {
     let minutes = mins % 60;
     return (hours + 'ч ') + (minutes + 'м');
   };
-  // cards .
+  /* /movies */
 
-
-  // navigation
+  /* navigation */
   const openNavigation = () => {
     setVisibleNavigation(true);
   }
@@ -226,10 +238,9 @@ function App() {
   const closeNavigation = () => {
     setVisibleNavigation(false);
   }
-  // navigation .
+  /* /navigation */
 
-
-  // user profile
+  /* user profile */
   const currentUserNameHandler = (e) => {
     setUserName(e.target.value);
 
@@ -281,10 +292,54 @@ function App() {
   const cancelUpdatingUserData = () => {
     setUserProfileInputActive(false);
   }
-  // user profile .
+  /* /user profile */
 
+  /* auth */
+  function handleSubmitRegister(e) {
+    e.preventDefault();
 
-  // auth validation
+    auth.register(name, email, password)
+    .then(data => {
+      if (data) {
+        showPopupMessage(successfulRegistration, true)
+        setUserName(data.name);
+        setUserEmail(data.email);
+        resetAuthForms();
+        history.push('/signin');
+      }
+    })
+    .catch(error => {
+      showPopupMessage(error, false)
+    })
+  };
+
+  function handleSubmitLogin(e) {
+    e.preventDefault();
+    
+    auth.login(email, password)
+    .then(({token}) => {
+      if (token) {
+        setLoggedIn(true);
+        localStorage.setItem('jwt', token);
+        showPopupMessage(successfulLogin, true)
+        history.push('/movies');
+        return token;
+      }
+    })
+      .catch(error => {
+        showPopupMessage(error, false)
+      })
+  };
+
+  const signout = () => {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    resetAuthForms();
+    history.push('/');
+  }
+  /* /auth */
+
+  /* auth validation */
   const focusHandler = (e) => {
     if (e.target.name === 'name') {
       userNameHandler(e);
@@ -342,106 +397,61 @@ function App() {
       setUserPasswordError(false);
     }
   }
-  // auth validation .
+  /* /auth validation */
 
-
-  // handlers
-  function handleSubmitRegister(e) {
-    e.preventDefault();
-
-    auth.register(name, email, password)
-    .then(data => {
-      if (data) {
-        showPopupMessage(successfulRegistration, true)
-        setUserName(data.name);
-        setUserEmail(data.email);
-        resetAuthForms();
-        history.push('/signin');
-      }
-    })
-    .catch(error => {
-      showPopupMessage(error, false)
-    })
+  /* handlers */
+  const movieSearchFormHeandler = (e) => {
+    setMovieSearchFormValue(e.target.value);
+    if(e.target.value === '') {
+      setNoSearchMovieResult(false);
+      changeCardValues();
+    }
   };
 
-  function handleSubmitLogin(e) {
-    e.preventDefault();
-    
-    auth.login(email, password)
-    .then(({token}) => {
-      console.log(token)
-      if (token) {
-        setLoggedIn(true);
-        localStorage.setItem('jwt', token);
-        showPopupMessage(successfulLogin, true)
-        history.push('/movies');
-        return token;
-      }
-    })
-      .catch(error => {
-        showPopupMessage(error, false)
-      })
+  const savedMovieSearchFormHeandler = (e) => {
+    setSavedMovieSearchFormValue(e.target.value);
+    if(e.target.value === '') {
+      setNoSearchSavedMovieResult(false);
+      getFavoriteMovies();
+      setNoSearchMovieResult(false);
+    }
   };
 
-  const signout = () => {
-    localStorage.removeItem('jwt');
-    setLoggedIn(false);
-    resetAuthForms();
-    history.push('/');
-  }
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  const [searchFormValue, setSearchFormValue] = useState('');
+  function handleSubmitSearchFormForSavedMovies(e) {
+    e.preventDefault();
 
-  const searchFormHeandler = (e) => {
-    setSearchFormValue(e.target.value);
-    if(e.target.value !== '') {
-      
+    const favoriteMoviesName = favoriteMovies.map(({nameRU}) => nameRU);
+    const savedMoviesSearchingResults = filterItems(savedMovieSearchFormValue, favoriteMoviesName);
+    const savedMoviesResult = searchingMovies(favoriteMovies, savedMoviesSearchingResults);
+
+    if(savedMoviesResult.length > 0) {
+      setFavoriteMovies(savedMoviesResult);
+      setNoSearchSavedMovieResult(false);
     } else {
-      console.log('empty')
+      setFavoriteMovies(savedMoviesResult);
+      setNoSearchSavedMovieResult(true);
     }
-  }
+  };
 
-  function handleSubmitSearchForm(e) {
+  function handleSubmitSearchFormForMovies(e) {
     e.preventDefault();
 
-    function filterItems(query, array) {
-      return array.filter(function(el) {
-          return el.toLowerCase().indexOf(query.toLowerCase()) > -1;
-      })
+    const allMoviesName = allMovies.map(({nameRU}) => nameRU);
+    const moviesSearchingResults = filterItems(movieSearchFormValue, allMoviesName);
+    const moviesResult = searchingMovies(allMovies, moviesSearchingResults);
+
+    if(moviesResult.length > 0) {
+      setInitialMovies(moviesResult);
+      setNoSearchMovieResult(false);
+    } else {
+      setInitialMovies(moviesResult);
+      setNoSearchMovieResult(true);
+      setMoreButtonActive(true);
     }
-
-    const moviesName = allMovies.map(({nameRU}) => nameRU);
-    const searchingResults = filterItems(searchFormValue, moviesName);
-
-
-    const searchingMovies = allMovies.filter(elem => {
-      for( let i = 0; i <= searchingResults.length; i++ ) {
-        if(elem.nameRU === searchingResults[i]) {
-          if(elem.nameRU) {
-            return elem;
-          }
-        }
-      }
-      return showPopupMessage('Успешно', true, 2000);
-    });
-
-    setInitialMovies(searchingMovies);
   };
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  /* /handlers */
 
-
-
-
-
-  const resetAuthForms = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
-  }
-  // handlers .
-
-
-  // helpers
+  /* helpers */
   const showPopupMessage = (text, icon, time = 1000) => {
     setMessagePopupText(text)
     setMessagePopup(true);
@@ -457,6 +467,38 @@ function App() {
     setLoading(false);
   }
 
+  function filterItems(query, array) {
+    return array.filter(function(el) {
+        return el.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    });
+  };
+
+  const searchingMovies = (array, searchingResults) => {
+    let result = [];
+    
+    array.forEach(elem => {
+      for( let i = 0; i <= searchingResults.length; i++ ) {
+        if(elem.nameRU === searchingResults[i]) {
+          result.push(elem);
+        }
+      }
+      return;
+    });
+
+    if(result.length > 0) {
+      setMoreButtonActive(true);
+      return result;
+    } else {
+      return [];
+    };
+  };
+
+  const resetAuthForms = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+  }
+  /* /helpers */
 
   return (
     <SpinnerContext.Provider value={loading} >
@@ -474,6 +516,7 @@ function App() {
             <ProtectedRoute 
               path='/movies'
               component={Movies}
+              noSearchMovieResult={noSearchMovieResult}
 
               movies={initialMovies}
               favoriteMovies={favoriteMovies}
@@ -485,14 +528,16 @@ function App() {
               openNavigation={openNavigation}
               closeNavigation={closeNavigation}
               addMovieToFavoriteList={addMovieToFavoriteList}
-              handleSubmitSearchForm={handleSubmitSearchForm}
               getTimeFormat={getTimeFormat}
-              searchFormValue={searchFormValue}
-              searchFormHeandler={searchFormHeandler} />
+              handleSubmitSearchForm={handleSubmitSearchFormForMovies}
+              searchFormValue={movieSearchFormValue}
+              searchFormHeandler={movieSearchFormHeandler} />
 
             <ProtectedRoute
               path='/saved-movies'
               component={SavedMovies}
+              noSearchSavedMovieResult={noSearchSavedMovieResult}
+              emptyListValue={emptyListValue}
 
               movies={favoriteMovies}
               favoritesIcon={favoritesIcon.remove}
@@ -501,8 +546,10 @@ function App() {
               openNavigation={openNavigation}
               closeNavigation={closeNavigation}
               removieMovieInFavoriteList={removieMovieInFavoriteList}
-              handleSubmitSearchForm={handleSubmitSearchForm}
-              getTimeFormat={getTimeFormat} />
+              getTimeFormat={getTimeFormat}
+              handleSubmitSearchForm={handleSubmitSearchFormForSavedMovies}
+              searchFormValue={savedMovieSearchFormValue}
+              searchFormHeandler={savedMovieSearchFormHeandler} />
 
             <ProtectedRoute
               path='/profile'

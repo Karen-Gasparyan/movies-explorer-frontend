@@ -2,6 +2,8 @@ import React from 'react';
 
 import './SavedMovies.css';
 
+import {requestNotFound} from '../../utils/constants';
+
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -9,14 +11,18 @@ import Footer from '../Footer/Footer';
 
 const SavedMovies = (
   { movies,
+    noSearchSavedMovieResult,
     favoritesIcon,
     loggedIn,
     isOpen,
     openNavigation,
     closeNavigation,
     removieMovieInFavoriteList,
+    getTimeFormat,
+    emptyListValue,
     handleSubmitSearchForm,
-    getTimeFormat
+    searchFormValue,
+    searchFormHeandler
   }) => {
 
   return (
@@ -30,12 +36,18 @@ const SavedMovies = (
         <SearchForm 
           placeholder={'Фильм'}
           buttonText={'Найти'}
-          handleSubmitSearchForm={handleSubmitSearchForm} />
+          handleSubmitSearchForm={handleSubmitSearchForm}
+          searchFormValue={searchFormValue}
+          searchFormHeandler={searchFormHeandler}
+          emptyListValue={emptyListValue} />
         <MoviesCardList
           movies={movies}
+          noSearchSavedMovieResult={noSearchSavedMovieResult}
           favoritesIcon={favoritesIcon}
           favoriteButton={removieMovieInFavoriteList}
-          getTimeFormat={getTimeFormat} />
+          getTimeFormat={getTimeFormat}
+          emptyListValue={emptyListValue}
+          cardListMessage={requestNotFound} />
       </section>
       <Footer />
     </>

@@ -2,19 +2,26 @@ import React from 'react';
 
 import './MoviesCardList.css';
 
+import {noSavedMovies} from '../../utils/constants';
+
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+import MoviesCardListMessage from '../MoviesCardListMessage/MoviesCardListMessage';
 import SpinnerContext from '../../contexts/SpinnerContexts';
 
 const MoviesCardList = (
   { component: Component,
-    movies,
+    movies = [],
     favoriteMovies,
     favoritesIcon,
     favoriteButton,
     moreButtonActive,
     loadMoreCards,
-    getTimeFormat
+    getTimeFormat,
+    emptyListValue,
+    noSearchMovieResult,
+    noSearchSavedMovieResult,
+    cardListMessage
   }) => {
   const spinner = React.useContext(SpinnerContext);
 
@@ -32,12 +39,10 @@ const MoviesCardList = (
 
   return (
     <section className="movies-card-list">
-      {(moviesList.length <= 0) ?
-       (<span style={{textAlign: 'center'}}>
-          В вашей коллекции нет сохраненных фильмов
-        </span>) : ''}
+      {noSearchMovieResult ? <MoviesCardListMessage message={cardListMessage} /> : null}
+      {noSearchSavedMovieResult ? <MoviesCardListMessage message={cardListMessage} /> : null}
       <div className="movies-card-list__items">
-        {moviesList}
+        {emptyListValue ? <MoviesCardListMessage message={noSavedMovies} /> : moviesList}
       </div>
       <div className="movies-card-list__auxiliary-panel">
         { Component ? (<Component

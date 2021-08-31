@@ -9,7 +9,8 @@ const SearchForm = (
     buttonText,
     handleSubmitSearchForm,
     searchFormValue,
-    searchFormHeandler
+    searchFormHeandler,
+    emptyListValue
   }) => {
   return (
     <form
@@ -21,17 +22,22 @@ const SearchForm = (
           htmlFor="search-from-input">
         </label>
         <input
-          className="search-from__input"
+          className={`search-from__input ${emptyListValue ? 'search-from__input-disabled' : ''}`}
           id="search-from-input"
           autoComplete="off"
           placeholder={placeholder}
           value={searchFormValue}
           onChange={searchFormHeandler}
+          disabled={emptyListValue}
           required />
-        <button className="search-from__submit-button">{buttonText}</button>
+        <button
+          className={`search-from__submit-button ${emptyListValue ? 'search-from__submit-button-disabled' : ''}`}
+          disabled={emptyListValue} >
+          {buttonText}
+        </button>
       </div>
       <div className="search-from__checkbox">
-      <FilterCheckbox />
+      <FilterCheckbox disabled={emptyListValue} />
       </div>
     </form>
   );

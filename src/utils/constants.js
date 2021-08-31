@@ -7,6 +7,9 @@ const successfulLogin = 'Вы успешно вошли';
 const removedFromCollection = 'Удалено из коллекции';
 const addedToCollection = 'Добавлено в коллекцию';
 
+const noSavedMovies = 'В вашей коллекции нет сохраненных фильмов';
+const requestNotFound = 'Ничего не найдено';
+
 const favoritesIcon = {
   add: {
     active: "favorite-icon-active",
@@ -29,5 +32,8 @@ export {
   successfulLogin,
 
   removedFromCollection,
-  addedToCollection
+  addedToCollection,
+
+  noSavedMovies,
+  requestNotFound
 }

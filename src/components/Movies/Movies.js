@@ -2,6 +2,8 @@ import React from 'react';
 
 import './Movies.css';
 
+import {requestNotFound} from '../../utils/constants';
+
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -10,6 +12,7 @@ import Footer from '../Footer/Footer';
 
 const Movies = (
   { movies,
+    noSearchMovieResult,
     favoriteMovies,
     moreButtonActive,
     loadMoreCards,
@@ -49,7 +52,9 @@ const Movies = (
           removieMovieInFavoriteList={removieMovieInFavoriteList}
           moreButtonActive={moreButtonActive}
           loadMoreCards={loadMoreCards}
-          getTimeFormat={getTimeFormat} />
+          getTimeFormat={getTimeFormat}
+          noSearchMovieResult={noSearchMovieResult}
+          cardListMessage={requestNotFound} />
       </section>
       <Footer />
     </>
