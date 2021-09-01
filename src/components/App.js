@@ -55,6 +55,7 @@ function App() {
   const [movieSearchFormValue, setMovieSearchFormValue] = useState('');
   const [savedMovieSearchFormValue, setSavedMovieSearchFormValue] = useState('');
   const [emptyListValue, setEmptyListValue] = useState(null);
+  const [shortMovies, setShortMovies] = useState(false);
   const [moreButtonActive, setMoreButtonActive] = useState(false);
   const [mobileCards, setMobileCards] = useState(5);
   const [tabletCards, setTabletCards] = useState(8);
@@ -63,7 +64,8 @@ function App() {
   const [currentUser, setCurrentUser ] = useState({});
   const [userProfileInputActive, setUserProfileInputActive] = useState(false);
   // search form
-  const [filterCheckbox, setFilterCheckbox] = useState(false)
+  const [moviesFilterCheckbox, setMoviesFilterCheckbox] = useState(false)
+  const [savedMoviesFilterCheckbox, setSavedMoviesFilterCheckbox] = useState(false)
   // auth forms
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -106,15 +108,6 @@ function App() {
     .catch(error => console.log(error));
   }, [])
 
-  // const handleBrokenLinks = (item) => {
-  //   return item.map(el => {
-  //     if(!(el.trailerLink)) {
-  //       return el.trailerLink = 'https://youtu.be/0MnNfcDX0Yw';;
-  //     }
-  //     return el;
-  //   });
-  // };
-
   // get favorite movies
   const getFavoriteMovies = useCallback(() => {
     if (localStorage.getItem('jwt')) {
@@ -127,6 +120,7 @@ function App() {
             setTimeout(showSpinner, 1000);
           } else {
             setEmptyListValue(true);
+            setShortMovies(true);
           }
         })
         .catch(error => console.log(error));
@@ -232,7 +226,8 @@ function App() {
           showPopupMessage(removedFromCollection, true)
           if(favoriteMovies.length < 2) {
             setEmptyListValue(true);
-            setFilterCheckbox(false);
+            setShortMovies(true);
+            setMoviesFilterCheckbox(false);
           }
         }
       })
@@ -340,7 +335,7 @@ function App() {
       if (token) {
         setLoggedIn(true);
         localStorage.setItem('jwt', token);
-        showPopupMessage(successfulLogin, true)
+        showPopupMessage(successfulLogin, true);
         history.push('/movies');
         return token;
       }
@@ -468,11 +463,11 @@ function App() {
       setMoreButtonActive(true);
     }
   };
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
   const handleFilterCheckboxMovies = () => {
-    setFilterCheckbox(!filterCheckbox);
+    setMoviesFilterCheckbox(!moviesFilterCheckbox);
     
-    if(!filterCheckbox) {
+    if(!moviesFilterCheckbox) {
       setInitialMovies(getMovieDuration(allMovies));
       setMoreButtonActive(true);
     } else {
@@ -482,14 +477,21 @@ function App() {
   }
 
   const handleFilterCheckboxSavedMovies = () => {
-    setFilterCheckbox(!filterCheckbox);
+    setSavedMoviesFilterCheckbox(!savedMoviesFilterCheckbox);
     
-    if(!filterCheckbox) {
+    if(!savedMoviesFilterCheckbox) {
       setFavoriteMovies(getMovieDuration(favoriteMovies));
+      if(getMovieDuration(favoriteMovies).length <= 0) {
+        setEmptyListValue(true);
+        setShortMovies(false);
+      } else {
+        setEmptyListValue(false);
+      }
       setMoreButtonActive(true);
     } else {
       getFavoriteMovies();
       changeCardValues();
+      setEmptyListValue(false);
     }
   }
 
@@ -503,7 +505,6 @@ function App() {
     })
     return result;
   }
-  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   /* /handlers */
 
   /* helpers */
@@ -587,7 +588,7 @@ function App() {
               handleSubmitSearchForm={handleSubmitSearchFormForMovies}
               searchFormValue={movieSearchFormValue}
               searchFormHeandler={movieSearchFormHeandler}
-              filterCheckbox={filterCheckbox}
+              filterCheckbox={moviesFilterCheckbox}
               handleFilterCheckbox={handleFilterCheckboxMovies} />
 
             <ProtectedRoute
@@ -595,6 +596,7 @@ function App() {
               component={SavedMovies}
               noSearchSavedMovieResult={noSearchSavedMovieResult}
               emptyListValue={emptyListValue}
+              shortMovies={shortMovies}
 
               movies={favoriteMovies}
               favoritesIcon={favoritesIcon.remove}
@@ -607,7 +609,7 @@ function App() {
               handleSubmitSearchForm={handleSubmitSearchFormForSavedMovies}
               searchFormValue={savedMovieSearchFormValue}
               searchFormHeandler={savedMovieSearchFormHeandler}
-              filterCheckbox={filterCheckbox}
+              filterCheckbox={savedMoviesFilterCheckbox}
               handleFilterCheckbox={handleFilterCheckboxSavedMovies} />
 
             <ProtectedRoute
@@ -643,7 +645,8 @@ function App() {
                 userNameError={userNameError}
                 userEmailError={userEmailError}
                 userPasswordError={userPasswordError}
-                handleSubmitRegister={handleSubmitRegister} />
+                handleSubmitRegister={handleSubmitRegister}
+                resetAuthForms={resetAuthForms} />
             </Route>
 
             <Route path='/signin'>
@@ -657,7 +660,8 @@ function App() {
                 userPasswordHandler={userPasswordHandler}
                 userEmailError={userEmailError}
                 userPasswordError={userPasswordError}
-                handleSubmitLogin={handleSubmitLogin} />
+                handleSubmitLogin={handleSubmitLogin}
+                resetAuthForms={resetAuthForms} />
             </Route>
 
             <Route path="" component={ErrorPage} />

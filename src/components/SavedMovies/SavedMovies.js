@@ -20,6 +20,7 @@ const SavedMovies = (
     removieMovieInFavoriteList,
     getTimeFormat,
     emptyListValue,
+    shortMovies,
     handleSubmitSearchForm,
     searchFormValue,
     searchFormHeandler,
@@ -51,6 +52,7 @@ const SavedMovies = (
           favoriteButton={removieMovieInFavoriteList}
           getTimeFormat={getTimeFormat}
           emptyListValue={emptyListValue}
+          shortMovies={shortMovies}
           cardListMessage={requestNotFound} />
       </section>
       <Footer />

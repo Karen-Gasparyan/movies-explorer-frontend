@@ -40,7 +40,6 @@ const SearchForm = (
       </div>
       <div className="search-from__checkbox">
       <FilterCheckbox
-        disabled={emptyListValue}
         filterCheckbox={filterCheckbox}
         handleFilterCheckbox={handleFilterCheckbox} />
       </div>

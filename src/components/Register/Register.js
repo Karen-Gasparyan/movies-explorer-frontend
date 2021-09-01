@@ -19,7 +19,8 @@ const Register = (
     userNameError,
     userEmailError,
     userPasswordError,
-    handleSubmitRegister
+    handleSubmitRegister,
+    resetAuthForms
   }) => {
 
   return (
@@ -48,9 +49,9 @@ const Register = (
 
       <p className="auth-page__text-question">
         Уже зарегистрированы?
-        <Link
-          to="/signin"
-          className="auth-page__signin-link">
+        <Link to="/signin"
+          className="auth-page__signin-link"
+          onClick={resetAuthForms} >
           Войти
         </Link>
       </p>

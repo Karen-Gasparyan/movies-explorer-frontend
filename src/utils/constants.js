@@ -4,10 +4,15 @@ const successful = 'Успешно';
 const successfulRegistration = 'Вы успешно зарегистрировались';
 const successfulLogin = 'Вы успешно вошли';
 
+const welcomeMessage = (name) => {
+  return `Добро пожаловать ${name}`;
+}
+
 const removedFromCollection = 'Удалено из коллекции';
 const addedToCollection = 'Добавлено в коллекцию';
 
 const noSavedMovies = 'В вашей коллекции нет сохраненных фильмов';
+const noSavedShorMovies = 'В вашей коллекции нет сохраненных короткометражных фильмов';
 const requestNotFound = 'Ничего не найдено';
 
 const favoritesIcon = {
@@ -31,9 +36,12 @@ export {
   successfulRegistration,
   successfulLogin,
 
+  welcomeMessage,
+
   removedFromCollection,
   addedToCollection,
 
   noSavedMovies,
+  noSavedShorMovies,
   requestNotFound
 }

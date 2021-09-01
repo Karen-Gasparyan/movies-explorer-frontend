@@ -16,7 +16,8 @@ const Login = (
     userPasswordHandler,
     userEmailError,
     userPasswordError,
-    handleSubmitLogin
+    handleSubmitLogin,
+    resetAuthForms
 }) => {
 
   return (
@@ -42,9 +43,9 @@ const Login = (
 
       <p className="auth-page__text-question">
         Ещё не зарегистрированы?
-        <Link
-          to="/signup"
-          className="auth-page__signin-link">
+        <Link to="/signup"
+          className="auth-page__signin-link"
+          onClick={resetAuthForms} >
           Регистрация
         </Link>
       </p>
