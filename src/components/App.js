@@ -164,8 +164,6 @@ function App() {
     } else if (window.innerWidth >= 1280) {
       setInitialMovies(allMovies.slice(0, desctopCards));
     }
-
-    setMoreButtonActive(false);
   }, [allMovies, mobileCards, tabletCards, desctopCards]);
 
   useEffect(() => {
@@ -472,6 +470,7 @@ function App() {
       setMoreButtonActive(true);
     } else {
       setInitialMovies(allMovies);
+      setMoreButtonActive(false);
       changeCardValues();
     }
   }
