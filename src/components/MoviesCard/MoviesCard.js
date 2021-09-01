@@ -19,10 +19,6 @@ const MoviesCard = (
     trailerLink,
     trailer
   } = movieValues;
-  
-  if(!trailerLink) {
-    trailerLink = 'https://youtu.be/0MnNfcDX0Yw';
-  }
 
   const favoriteMoviesIds = favoriteMovies.map(({movieId}) => movieId)
   const added = favoriteMoviesIds.some(haveId => haveId === id)
