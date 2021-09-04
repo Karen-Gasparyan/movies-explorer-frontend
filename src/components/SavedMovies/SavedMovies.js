@@ -8,11 +8,13 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
+import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
 
 const SavedMovies = (
   { movies,
     noSearchSavedMovieResult,
     favoritesIcon,
+    moreButtonActive,
     loggedIn,
     isOpen,
     openNavigation,
@@ -25,7 +27,8 @@ const SavedMovies = (
     searchFormValue,
     searchFormHeandler,
     filterCheckbox,
-    handleFilterCheckbox
+    handleFilterCheckbox,
+    loadMoreCards
   }) => {
 
   return (
@@ -46,6 +49,7 @@ const SavedMovies = (
           filterCheckbox={filterCheckbox}
           handleFilterCheckbox={handleFilterCheckbox} />
         <MoviesCardList
+          component={LoadMoreButton}
           movies={movies}
           noSearchSavedMovieResult={noSearchSavedMovieResult}
           favoritesIcon={favoritesIcon}
@@ -53,7 +57,10 @@ const SavedMovies = (
           getTimeFormat={getTimeFormat}
           emptyListValue={emptyListValue}
           shortMovies={shortMovies}
-          cardListMessage={requestNotFound} />
+          cardListMessage={requestNotFound}
+          moreButtonActive={moreButtonActive}
+          loadMoreCards={loadMoreCards}
+          buttonName={'favorite-movies-button'} />
       </section>
       <Footer />
     </>

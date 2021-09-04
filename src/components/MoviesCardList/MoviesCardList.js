@@ -22,7 +22,8 @@ const MoviesCardList = (
     shortMovies,
     noSearchMovieResult,
     noSearchSavedMovieResult,
-    cardListMessage
+    cardListMessage,
+    buttonName
   }) => {
   const spinner = React.useContext(SpinnerContext);
 
@@ -35,7 +36,8 @@ const MoviesCardList = (
       favoriteMovies={favoriteMovies}
       favoritesIcon={favoritesIcon}
       favoriteButton={favoriteButton}
-      getTimeFormat={getTimeFormat} />)
+      getTimeFormat={getTimeFormat}
+      movies={movies} />)
   })
 
   return (
@@ -49,6 +51,7 @@ const MoviesCardList = (
         { Component ? (<Component
                          disabled={moreButtonActive}
                          title={'Ещё'}
+                         buttonName={buttonName}
                          loadMoreCards={loadMoreCards}
                          spinner={spinner} />) : null }
       </div>

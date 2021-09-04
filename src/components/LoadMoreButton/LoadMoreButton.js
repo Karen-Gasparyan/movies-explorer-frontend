@@ -6,13 +6,15 @@ const LoadMoreButton = (
   { disabled,
     title,
     loadMoreCards,
-    spinner
+    spinner,
+    buttonName
   }) => {
 
   return (
     <button
       className={(disabled || spinner) ? "display-none" : "load-more-button"}
       type="button"
+      name={buttonName}
       disabled={disabled}
       onClick={loadMoreCards}>
         {title}

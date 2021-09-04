@@ -58,7 +58,8 @@ const Movies = (
           loadMoreCards={loadMoreCards}
           getTimeFormat={getTimeFormat}
           noSearchMovieResult={noSearchMovieResult}
-          cardListMessage={requestNotFound} />
+          cardListMessage={requestNotFound}
+          buttonName={'movies-button'} />
       </section>
       <Footer />
     </>

@@ -4,13 +4,13 @@ import './MoviesCard.css';
 
 const MoviesCard = (
   { movieValues,
-    favoriteMovies = [],
     favoritesIcon: { active, disabled, title },
     favoriteButton,
-    getTimeFormat
+    getTimeFormat,
+    favoriteMovies = []
   }) => {
 
-  let {
+  const {
     nameRU,
     duration,
     image: { url },

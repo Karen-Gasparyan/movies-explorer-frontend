@@ -9,7 +9,6 @@ import {
   favoritesIcon,
 
   successful,
-  successfulRegistration,
   successfulLogin,
 
   removedFromCollection,
@@ -47,19 +46,27 @@ function App() {
   const [messagePopupIcon, setMessagePopupIcon] = useState(true);
   const [messagePopupText, setMessagePopupText] = useState('');
   // movies
-  const [allMovies, setAllMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [initialMovies, setInitialMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]); //
+  const [initialMovies, setInitialMovies] = useState([]); // 
+  const [initiaFavoritelMovies, setInitialFavoriteMovies] = useState([]); // 
+  const [favoriteMovies, setFavoriteMovies] = useState([]); // 
+  const [shortMovies, setShortMovies] = useState([]) //
+  // const [initialFavoriteMovies, setInitialFavoriteMovies] = useState([]); // 
+
   const [noSearchMovieResult, setNoSearchMovieResult] = useState(false);
   const [noSearchSavedMovieResult, setNoSearchSavedMovieResult] = useState(false);
   const [movieSearchFormValue, setMovieSearchFormValue] = useState('');
   const [savedMovieSearchFormValue, setSavedMovieSearchFormValue] = useState('');
   const [emptyListValue, setEmptyListValue] = useState(null);
-  const [shortMovies, setShortMovies] = useState(false);
+  // const [shortMovies, setShortMovies] = useState(false);
   const [moreButtonActive, setMoreButtonActive] = useState(false);
+  const [moreFavoriteButtonActive, setMoreFavoriteButtonActive] = useState(false);
   const [mobileCards, setMobileCards] = useState(5);
   const [tabletCards, setTabletCards] = useState(8);
   const [desctopCards, setDesctopCards] = useState(12);
+  const [favoriteMobileCards, setFavoriteMobileCards] = useState(5);
+  const [favoriteTabletCards, setFavoriteTabletCards] = useState(8);
+  const [favoriteDesctopCards, setFavoriteDesctopCards] = useState(12);
   // user profile
   const [currentUser, setCurrentUser ] = useState({});
   const [userProfileInputActive, setUserProfileInputActive] = useState(false);
@@ -79,12 +86,89 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formValid, setFormValid] = useState(true);
 
+  // const changeMoviesValue = useCallback(() => {
+  //   if (window.innerWidth >= 320 && window.innerWidth < 768) {
+  //     console.log('mobile') //
+  //     setInitialMovies(allMovies.slice(0, mobileCards)); // 5
+  //     setFavoriteMovies(favoriteMovies => favoriteMovies.slice(0, favoriteMobileCards));
+  //     setShortMovies()
+  //   } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+  //     console.log('tablet') //
+  //     setInitialMovies(allMovies.slice(0, tabletCards)); // 8
+  //     setFavoriteMovies(favoriteMovies => favoriteMovies.slice(0, favoriteTabletCards));
+  //     setShortMovies()
+  //   } else if (window.innerWidth >= 1280) {
+  //     console.log('desctop') //
+  //     setInitialMovies(allMovies.slice(0, desctopCards)); // 12
+  //     setFavoriteMovies(favoriteMovies => favoriteMovies.slice(0, favoriteDesctopCards));
+  //     setShortMovies()
+  //   };
+  // }, [allMovies, mobileCards, tabletCards, desctopCards, favoriteMobileCards, favoriteTabletCards, favoriteDesctopCards])
+
+  // const changeMoviesCardSize = (initial, movies) => {
+  //   if (window.innerWidth >= 320 && window.innerWidth < 768) {
+  //     return initial(movies.slice(0, mobileCards)); // 5
+  //   } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+  //     return initial(movies.slice(0, tabletCards)); // 8
+  //   } else if (window.innerWidth >= 1280) {
+  //     return initial(movies.slice(0, desctopCards)); // 12
+  //   };
+  // };
+
+  const changeMoviesValue = useCallback((initial = setInitialMovies, movies = allMovies) => {
+    if (window.innerWidth >= 320 && window.innerWidth < 768) {
+      return initial(movies.slice(0, mobileCards)); // 5
+    } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+      return initial(movies.slice(0, tabletCards)); // 8
+    } else if (window.innerWidth >= 1280) {
+      return initial(movies.slice(0, desctopCards)); // 12
+    };
+  }, [allMovies, mobileCards, tabletCards, desctopCards]);
+
+  const changeFavoriteMoviesValue= useCallback((initial = setInitialFavoriteMovies, movies = favoriteMovies) => {
+    if (window.innerWidth >= 320 && window.innerWidth < 768) {
+      return initial(movies.slice(0, favoriteMobileCards)); // 5
+    } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
+      return initial(movies.slice(0, favoriteTabletCards)); // 8
+    } else if (window.innerWidth >= 1280) {
+      return initial(movies.slice(0, favoriteDesctopCards)); // 12
+    };
+  }, [favoriteMovies, favoriteMobileCards, favoriteTabletCards, favoriteDesctopCards]);
+
+  const changeMoreButtonActiveFavoriteMovies = useCallback(() => {
+    (initiaFavoritelMovies.length >= favoriteMovies.length
+      || favoriteMovies.length < 1) ?
+    setMoreFavoriteButtonActive(true) :
+    setMoreFavoriteButtonActive(false);
+  }, [initiaFavoritelMovies.length, favoriteMovies.length]);
+  
+  const changeMoreButtonActiveMovies = useCallback(() => {
+    (initialMovies.length >= allMovies.length) ?
+    setMoreButtonActive(true) :
+    setMoreButtonActive(false);
+  }, [initialMovies.length, allMovies.length])
+
+  useEffect(() => {
+    console.log('useEffect allMovies')
+    changeMoviesValue();
+    changeMoreButtonActiveMovies();
+  }, [changeMoviesValue, changeMoreButtonActiveMovies]);
+
+  useEffect(() => {
+    console.log('useEffect favoriteMovies')
+    changeFavoriteMoviesValue();
+    changeMoreButtonActiveFavoriteMovies();
+  }, [changeFavoriteMoviesValue, changeMoreButtonActiveFavoriteMovies]);
+
+  window.onresize = () => {
+    setTimeout(changeMoviesValue, 2000);
+    setTimeout(changeFavoriteMoviesValue, 2000);
+  };
+
   // token verification
   useEffect(()=> {
     if(localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt');
-      
-      auth.getUserData(token)
+      auth.getUserData(localStorage.getItem('jwt'))
         .then(({data}) => {
           setCurrentUser(data);
           setUserName(data.name);
@@ -92,46 +176,64 @@ function App() {
         })
         .catch(error => console.log(error));
     } else {
+      console.log('Необходима авторизация'); //
       setLoggedIn(false);
     }
   }, [loggedIn]);
 
   // get all movies
   useEffect(() => {
-    moviesApi.getAllMovies()
-    .then(data => {
-      if(data) {
-        setAllMovies(data);
-        setTimeout(showSpinner, 1000);
-      }
-    })
-    .catch(error => console.log(error));
-  }, [])
+    if(localStorage.getItem('all-movies')) {
+      console.log('all-movies STATE loading') //
+      setAllMovies(loadState('all-movies'));
+      setInitialMovies(loadState('all-movies'));
+      setLoading(false);
+    } else if(localStorage.getItem('jwt') && !localStorage.getItem('all-movies')) {
+      console.log('all-movies GET loading') //
+      moviesApi.getAllMovies()
+      .then(data => {
+        if(data) {
+          saveState(data, 'all-movies');
+          saveState(getMovieDuration(loadState('all-movies')), 'short-list');
+          setAllMovies(data);
+          setInitialMovies(data);
+          setTimeout(showSpinner, 1000);
+        };
+      })
+      .catch(error => console.log(error));
+    };
+  }, [loggedIn]);
 
   // get favorite movies
-  const getFavoriteMovies = useCallback(() => {
-    if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt');
+  useEffect(() => {
+    const favoriteMoviesStateValues = loadState('favorite-movies');
 
-      mainApi.getSavedMovies(token)
+    if(localStorage.getItem('favorite-movies')) {
+      console.log('favorite-movie STATE loading') //
+      setFavoriteMovies(loadState('favorite-movies'))
+      setLoading(false);
+    } else if(!localStorage.getItem('favorite-movies') && localStorage.getItem('jwt')) {
+      console.log('favorite-movies GET loading') //
+      mainApi.getSavedMovies(localStorage.getItem('jwt'))
         .then(({data}) => {
           if(data) {
+            saveState(data, 'favorite-movies');
             setFavoriteMovies(data);
             setTimeout(showSpinner, 1000);
           } else {
             setEmptyListValue(true);
-            setShortMovies(true);
+            setMoreFavoriteButtonActive(true);
+            // setShortMovies(true);
           }
         })
         .catch(error => console.log(error));
-    } else {
-      setLoggedIn(false);
+    }
+    if(favoriteMoviesStateValues && favoriteMoviesStateValues.length === 0) {
+      setEmptyListValue(true);
+      // setShortMovies(true);
+      setMoviesFilterCheckbox(false);
     };
-  }, []);
-
-  useEffect(() => {
-    getFavoriteMovies();
-  }, [loggedIn, getFavoriteMovies])
+  }, [loggedIn]);
 
   // auth validation
   useEffect(() => {
@@ -142,33 +244,18 @@ function App() {
     }
   }, [userEmailError, userPasswordError])
 
-  /* movies */
-  window.onresize = () => {
-    setTimeout(changeCardValues, 2000);
-  }
-
-  const loadMoreCards = () => {
-    if (initialMovies.length >= allMovies.length) {
-      setMoreButtonActive(true);
-    }
-    setMobileCards(mobileCards + 2);
-    setTabletCards(tabletCards + 2);
-    setDesctopCards(desctopCards + 3);
-  }
-
-  const changeCardValues = useCallback(() => {
-    if (window.innerWidth >= 320 && window.innerWidth < 768) {
-      setInitialMovies(allMovies.slice(0, mobileCards));
-    } else if (window.innerWidth >= 768 && window.innerWidth < 1280) {
-      setInitialMovies(allMovies.slice(0, tabletCards));
-    } else if (window.innerWidth >= 1280) {
-      setInitialMovies(allMovies.slice(0, desctopCards));
-    }
-  }, [allMovies, mobileCards, tabletCards, desctopCards]);
-
-  useEffect(() => {
-    changeCardValues();
-  }, [changeCardValues])
+  /* movies */ // +++++++++++++++++++++++++++++++++++++++++++++++++
+  const loadMoreMoviesCard = (e) => {
+    if(e.target.name === 'movies-button') {
+      setMobileCards(mobileCards + 2);
+      setTabletCards(tabletCards + 2);
+      setDesctopCards(desctopCards + 3);
+    } else if(e.target.name === 'favorite-movies-button') {
+      setFavoriteMobileCards(favoriteMobileCards + 2);
+      setFavoriteTabletCards(favoriteTabletCards + 2);
+      setFavoriteDesctopCards(favoriteDesctopCards + 3);
+    };
+  };
 
   const addMovieToFavoriteList = (selectedMovieValues) => {
     const { id } = selectedMovieValues;
@@ -181,24 +268,25 @@ function App() {
       if(!movieAdded) {
         mainApi.setSavedMovies(token, selectedMovieValues)
           .then(({data}) => {
-            setEmptyListValue(false);
-            setFavoriteMovies([data, ...favoriteMovies])
-            showPopupMessage(addedToCollection, true);
-        })
-        .catch(error => {
-          showPopupMessage(error, false)
-        });
+            if(data) {
+              setEmptyListValue(false);
+              setFavoriteMovies([data, ...favoriteMovies]);
+              saveState([data, ...favoriteMovies], 'favorite-movies');
+              showPopupMessage(addedToCollection, true);
+            };
+          }).catch(error => {
+            showPopupMessage(error, false)
+          });
       } else {
         const _id = favoriteMovies.filter(movie => {
           if(movie.movieId === id) {
             return movie._id;
           } else {
             return null;
-          }
+          };
         });
-
         removieMovieInFavoriteList(_id[0]);
-      }
+      };
     } else {
       mainApi.setSavedMovies(token, selectedMovieValues)
         .then(({data}) => {
@@ -208,37 +296,38 @@ function App() {
         .catch(error => {
           showPopupMessage(error, false)
         });
-    }
-  }
+    };
+  };
 
   const removieMovieInFavoriteList = (selectedMovieValues) => {
     const { _id } = selectedMovieValues;
+    const token = localStorage.getItem('jwt');
 
     if (localStorage.getItem('jwt')) {
-      const token = localStorage.getItem('jwt');
-
       mainApi.deleteFavoriteMovie(token, _id)
       .then(({data}) => {
         if(data) {
-          setFavoriteMovies(allMovies => allMovies.filter(movie => movie._id !== _id));
-          showPopupMessage(removedFromCollection, true)
+          const updatingStateValue = favoriteMovies.filter(movie => {
+            if(movie._id !== data._id) {
+              return movie;
+            };
+            return null;
+          });
+          setFavoriteMovies(updatingStateValue);
+          saveState(updatingStateValue, 'favorite-movies');
+          // setInitiaFavoritelMovies(allMovies => allMovies.filter(movie => movie._id !== _id));
+          showPopupMessage(removedFromCollection, true);
           if(favoriteMovies.length < 2) {
             setEmptyListValue(true);
-            setShortMovies(true);
+            // setShortMovies(true);
             setMoviesFilterCheckbox(false);
-          }
-        }
+          };
+        };
       })
       .catch(error => {
         showPopupMessage(error, false)
       });
-    }
-  }
-
-  const getTimeFormat = (mins) => {
-    let hours = Math.trunc(mins/60);
-    let minutes = mins % 60;
-    return (hours + 'ч ') + (minutes + 'м');
+    };
   };
   /* /movies */
 
@@ -309,42 +398,46 @@ function App() {
   /* auth */
   function handleSubmitRegister(e) {
     e.preventDefault();
-
-    auth.register(name, email, password)
-    .then(data => {
-      if (data) {
-        showPopupMessage(successfulRegistration, true)
-        setUserName(data.name);
-        setUserEmail(data.email);
-        resetAuthForms();
-        history.push('/signin');
-      }
-    })
-    .catch(error => {
-      showPopupMessage(error, false)
-    })
+    signup(name, email, password);
   };
 
   function handleSubmitLogin(e) {
     e.preventDefault();
-    
-    auth.login(email, password)
-    .then(({token}) => {
-      if (token) {
-        setLoggedIn(true);
-        localStorage.setItem('jwt', token);
-        showPopupMessage(successfulLogin, true);
-        history.push('/movies');
-        return token;
-      }
-    })
+    signin(email, password);
+  };
+
+  const signup = (name, email, password) => {
+    auth.register(name, email, password)
+      .then(({data}) => {
+        if(data) {
+          setUserName(data.name);
+          setUserEmail(data.email);
+          signin(data.email, password);
+        }
+      })
       .catch(error => {
         showPopupMessage(error, false)
       })
-  };
+  }
+
+  const signin = (email, password) => {
+    auth.login(email, password)
+      .then(({token}) => {
+        if(token) {
+          localStorage.setItem('jwt', token);
+          showPopupMessage(successfulLogin, true);
+          setLoggedIn(true);
+          history.push('/movies');
+          return token;
+        };
+      })
+      .catch(error => {
+        showPopupMessage(error, false)
+      })
+  }
 
   const signout = () => {
-    localStorage.removeItem('jwt');
+    localStorage.clear();
     setLoggedIn(false);
     resetAuthForms();
     history.push('/');
@@ -414,9 +507,27 @@ function App() {
   /* handlers */
   const movieSearchFormHeandler = (e) => {
     setMovieSearchFormValue(e.target.value);
+
     if(e.target.value === '') {
       setNoSearchMovieResult(false);
-      changeCardValues();
+      saveState(allMovies, 'found-movies');
+      // changeCardValues(allMovies);
+    }
+  };
+
+  function handleSubmitSearchFormForMovies(e) {
+    e.preventDefault();
+
+    const allMoviesName = allMovies.map(({nameRU}) => nameRU);
+    const moviesSearchingResults = filterItems(movieSearchFormValue, allMoviesName);
+    const moviesResult = searchingMovies(allMovies, moviesSearchingResults);
+
+    saveState(moviesResult, 'found-movies');
+
+    // changeCardValues(moviesResult);
+
+    if(moviesResult.length <= 0) {
+      setNoSearchMovieResult(true);
     }
   };
 
@@ -424,7 +535,6 @@ function App() {
     setSavedMovieSearchFormValue(e.target.value);
     if(e.target.value === '') {
       setNoSearchSavedMovieResult(false);
-      getFavoriteMovies();
       setNoSearchMovieResult(false);
     }
   };
@@ -442,68 +552,40 @@ function App() {
     } else {
       setFavoriteMovies(savedMoviesResult);
       setNoSearchSavedMovieResult(true);
-    }
-  };
-
-  function handleSubmitSearchFormForMovies(e) {
-    e.preventDefault();
-
-    const allMoviesName = allMovies.map(({nameRU}) => nameRU);
-    const moviesSearchingResults = filterItems(movieSearchFormValue, allMoviesName);
-    const moviesResult = searchingMovies(allMovies, moviesSearchingResults);
-
-    if(moviesResult.length > 0) {
-      setInitialMovies(moviesResult);
-      setNoSearchMovieResult(false);
-    } else {
-      setInitialMovies(moviesResult);
-      setNoSearchMovieResult(true);
-      setMoreButtonActive(true);
-    }
+    };
   };
 
   const handleFilterCheckboxMovies = () => {
     setMoviesFilterCheckbox(!moviesFilterCheckbox);
-    
     if(!moviesFilterCheckbox) {
-      setInitialMovies(getMovieDuration(allMovies));
-      setMoreButtonActive(true);
+      const shortMoviesList = getMovieDuration(allMovies);
+      saveState(shortMoviesList, 'short-list');
+      setShortMovies(shortMoviesList);
+      changeMoviesValue(setInitialMovies, shortMoviesList);
+      setAllMovies(shortMoviesList);
+      defaultMoviesNumberValue();
     } else {
-      setInitialMovies(allMovies);
-      setMoreButtonActive(false);
-      changeCardValues();
-    }
-  }
+      changeMoviesValue(setInitialMovies, allMovies);
+      setAllMovies(loadState('all-movies'));
+      defaultMoviesNumberValue();
+    };
+  };
 
-  const handleFilterCheckboxSavedMovies = () => {
+  const handleFilterCheckboxSavedMovies = () => { // ++++++++++
     setSavedMoviesFilterCheckbox(!savedMoviesFilterCheckbox);
-    
     if(!savedMoviesFilterCheckbox) {
-      setFavoriteMovies(getMovieDuration(favoriteMovies));
-      if(getMovieDuration(favoriteMovies).length <= 0) {
-        setEmptyListValue(true);
-        setShortMovies(false);
-      } else {
-        setEmptyListValue(false);
-      }
-      setMoreButtonActive(true);
+      const shortFavoriteMoviesList = getMovieDuration(favoriteMovies);
+      saveState(shortFavoriteMoviesList, 'short-list');
+      setShortMovies(shortFavoriteMoviesList);
+      changeFavoriteMoviesValue(setInitialFavoriteMovies, shortFavoriteMoviesList);
+      setFavoriteMovies(shortFavoriteMoviesList)
+      defaultMoviesNumberValue();
     } else {
-      getFavoriteMovies();
-      changeCardValues();
-      setEmptyListValue(false);
-    }
-  }
-
-  const getMovieDuration = (movies) => {
-    let result = [];
-
-    movies.forEach(movie => {
-      if(movie.duration <= 40) {
-        result.push(movie);
-      }
-    })
-    return result;
-  }
+      changeFavoriteMoviesValue(setInitialFavoriteMovies, favoriteMovies);
+      setFavoriteMovies(loadState('favorite-movies'));
+      defaultMoviesNumberValue();
+    };
+  };
   /* /handlers */
 
   /* helpers */
@@ -528,6 +610,17 @@ function App() {
     });
   };
 
+  const getMovieDuration = (movies) => {
+    let result = [];
+
+    movies.forEach(movie => {
+      if(movie.duration <= 40) {
+        result.push(movie);
+      }
+    })
+    return result;
+  }
+
   const searchingMovies = (array, searchingResults) => {
     let result = [];
     
@@ -541,7 +634,7 @@ function App() {
     });
 
     if(result.length > 0) {
-      setMoreButtonActive(true);
+      // setMoreButtonActive(true);
       return result;
     } else {
       return [];
@@ -553,6 +646,42 @@ function App() {
     setEmail('');
     setPassword('');
   }
+
+  const getTimeFormat = (mins) => {
+    let hours = Math.trunc(mins/60);
+    let minutes = mins % 60;
+    return (hours + 'ч ') + (minutes + 'м');
+  };
+
+  const saveState = (state, name) => {
+    try {
+      const initialMoviesState = JSON.stringify(state);
+      localStorage.setItem(name, initialMoviesState);
+    } catch (err) {
+        return undefined;
+    };
+  };
+
+  const loadState = (state) => {
+    try {
+      const initialMoviesState = localStorage.getItem(state);
+        if(initialMoviesState === null){
+          return undefined;
+        }
+        return JSON.parse(initialMoviesState);
+    } catch (err) {
+        return undefined;
+    };
+  };
+
+  const defaultMoviesNumberValue = () => {
+    setMobileCards(5);
+    setTabletCards(8);
+    setDesctopCards(12);
+    setFavoriteMobileCards(5);
+    setFavoriteTabletCards(8);
+    setFavoriteDesctopCards(12);
+  };
   /* /helpers */
 
   return (
@@ -576,7 +705,7 @@ function App() {
               movies={initialMovies}
               favoriteMovies={favoriteMovies}
               moreButtonActive={moreButtonActive}
-              loadMoreCards={loadMoreCards}
+              loadMoreCards={loadMoreMoviesCard}
               favoritesIcon={favoritesIcon.add}
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
@@ -597,7 +726,9 @@ function App() {
               emptyListValue={emptyListValue}
               shortMovies={shortMovies}
 
-              movies={favoriteMovies}
+              movies={initiaFavoritelMovies}
+              moreButtonActive={moreFavoriteButtonActive}
+              loadMoreCards={loadMoreMoviesCard}
               favoritesIcon={favoritesIcon.remove}
               loggedIn={loggedIn}
               isOpen={visibleNavigation}
