@@ -120,11 +120,11 @@ function App() {
   },[favoriteMovies, favoriteMobileCards, favoriteTabletCards, favoriteDesctopCards]);
 
   const changeMoreButtonActiveFavoriteMovies = useCallback(() => {
-      (initiaFavoritelMovies.length >= favoriteMovies.length
-        || favoriteMovies.length < 1) ?
-      setMoreFavoriteButtonActive(true) :
-      setMoreFavoriteButtonActive(false);
-  }, [initiaFavoritelMovies.length, favoriteMovies.length]);
+    (initiaFavoritelMovies.length >= favoriteMovies.length
+      || favoriteMovies.length < 1) ?
+    setMoreFavoriteButtonActive(true) :
+    setMoreFavoriteButtonActive(false);
+}, [initiaFavoritelMovies.length, favoriteMovies.length]);
   
   const changeMoreButtonActiveMovies = useCallback(() => {
     (initialMovies.length >= allMovies.length) ?
@@ -202,7 +202,6 @@ function App() {
       mainApi.getSavedMovies(localStorage.getItem('jwt'))
         .then(({data}) => {
           if(data) {
-            console.log(data)
             saveState(data, 'favorite-movies');
             saveState(getMovieDuration(loadState('favorite-movies')), 'favorite-short-list');
             setFavoriteMovies(data);
@@ -300,7 +299,6 @@ function App() {
           setInitialFavoriteMovies(updatingStateValue)
           saveState(updatingStateValue, 'favorite-movies');
           showPopupMessage(REMOVED_FROM_COLLECTION, true);
-          console.log(favoriteMovies)
           if(favoriteMovies.length < 2) {
             setEmptyListValue(true);
           };
@@ -405,7 +403,7 @@ function App() {
       .then(({token}) => {
         if(token) {
           localStorage.setItem('jwt', token);
-          showPopupMessage(SUCCESSFUL_LOGIN, true);
+          showPopupMessage(SUCCESSFUL_LOGIN, true, 1500);
           setLoggedIn(true);
           const loadingHistory = () => {
             return history.push('/movies');
@@ -521,10 +519,15 @@ function App() {
   const savedMovieSearchFormHeandler = (e) => {
     setSavedMovieSearchFormValue(e.target.value);
     if(e.target.value === '') {
-      setFavoriteMovies(loadState('favorite-movies'));
-      getMoviesNumberValue(setInitialFavoriteMovies, favoriteMovies);
-      setNoSearchSavedMovieResult(false);
-      setNoSearchMovieResult(false);
+      if(savedMoviesFilterCheckbox === true) {
+        setFavoriteMovies(loadState('short-list'));
+        getMoviesNumberValue(setInitialFavoriteMovies, favoriteMovies);
+      } else {
+        setFavoriteMovies(loadState('favorite-movies'));
+        getMoviesNumberValue(setInitialFavoriteMovies, favoriteMovies);
+      };
+        setNoSearchSavedMovieResult(false);
+        setNoSearchMovieResult(false);
     };
   };
 
@@ -549,7 +552,7 @@ function App() {
     setMoviesFilterCheckbox(!moviesFilterCheckbox);
     if(!moviesFilterCheckbox) {
       const shortMoviesList = getMovieDuration(allMovies);
-      saveState(shortMoviesList, 'short-list');
+      saveState(shortMoviesList, 'all-short-list');
       changeMoviesValue(setInitialMovies, shortMoviesList);
       setAllMovies(shortMoviesList);
       defaultMoviesNumberValue();
@@ -578,9 +581,9 @@ function App() {
       if(shortFavoriteMoviesList.length < 1) {
         setShortMovies(true);
       };
-      setInitialFavoriteMovies(loadState('favorite-movies'));
+      // setInitialFavoriteMovies(loadState('favorite-movies'));
       setFavoriteMovies(loadState('favorite-movies'))
-      defaultMoviesNumberValue();
+      // defaultMoviesNumberValue();
       if(!savedMoviesFilterCheckbox && favoriteMovies.length < 2) {
         setEmptyListValue(false);
         setShortMovies(false);
@@ -701,7 +704,6 @@ function App() {
     setMobileCards(mobileCards + SET_MOBILE_CARDS_VALUE);
     setTabletCards(tabletCards + SET_TABLET_CARDS_VALUE);
     setDesctopCards(desctopCards + SET_DESCTOP_CARDS_VALUE);
-    console.log('this')
   };
 
   const updateFavoriteMovieCardNumber = () => {
