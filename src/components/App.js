@@ -198,7 +198,7 @@ function App() {
       setFavoriteMovies(loadState('favorite-movies'));
       setInitialFavoriteMovies(loadState('favorite-movies'));
     } else if(!localStorage.getItem('favorite-movies') && localStorage.getItem('jwt')) {
-      console.log('favorite-movies GET loading')
+      console.log('favorite-movies GET loading');
       mainApi.getSavedMovies(localStorage.getItem('jwt'))
         .then(({data}) => {
           if(data) {
@@ -208,6 +208,7 @@ function App() {
             setInitialFavoriteMovies(data);
             setTimeout(showSpinner, 1000);
           } else {
+            saveState([...[]], 'favorite-movies');
             setEmptyListValue(true);
           };
         })
