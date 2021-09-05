@@ -188,7 +188,6 @@ function App() {
 
   // get favorite movies
   useEffect(() => {
-    // const favoriteMoviesStateValues = loadState('favorite-movies');
     if(localStorage.getItem('favorite-movies')) {
       console.log('favorite-movie STATE loading');
       if(loadState('favorite-movies').length < 1) {
@@ -213,11 +212,7 @@ function App() {
           };
         })
         .catch(error => console.log(error));
-    }
-    // if(favoriteMoviesStateValues && favoriteMoviesStateValues.length === 0) {
-    //   setEmptyListValue(true);
-    //   setMoviesFilterCheckbox(false);
-    // };
+    };
   }, [loggedIn]);
 
   // auth validation
@@ -491,12 +486,12 @@ function App() {
     setMoviesSearchFormValue(e.target.value);
     if(e.target.value === '' && moviesFilterCheckbox === false) {
       setAllMovies(loadState('all-movies'));
-      getMoviesNumberValue(setInitialMovies, allMovies);
+      changeMoviesValue(setInitialMovies, allMovies);
       setNoSearchMovieResult(false);
       return;
     } else if(e.target.value === '' || moviesFilterCheckbox === true) {
       setAllMovies(loadState('all-short-list'));
-      getMoviesNumberValue(setInitialMovies, loadState('all-short-list'));
+      changeMoviesValue(setInitialMovies, loadState('all-short-list'));
       setNoSearchMovieResult(false);
       return;
     };
@@ -511,6 +506,7 @@ function App() {
     saveState(dataResult, 'all-found-movies');
     getMoviesNumberValue(setInitialMovies, dataResult);
     setAllMovies(dataResult);
+    defaultMoviesNumberValue();
     
     if(dataResult.length < 1) {
       setNoSearchMovieResult(true);
@@ -522,13 +518,16 @@ function App() {
     if(e.target.value === '') {
       if(savedMoviesFilterCheckbox === true) {
         setFavoriteMovies(loadState('short-list'));
-        getMoviesNumberValue(setInitialFavoriteMovies, favoriteMovies);
+        changeFavoriteMoviesValue(setInitialFavoriteMovies, favoriteMovies);
+        defaultMoviesNumberValue();
       } else {
         setFavoriteMovies(loadState('favorite-movies'));
-        getMoviesNumberValue(setInitialFavoriteMovies, favoriteMovies);
+        changeFavoriteMoviesValue(setInitialFavoriteMovies, favoriteMovies);
+        defaultMoviesNumberValue();
       };
         setNoSearchSavedMovieResult(false);
         setNoSearchMovieResult(false);
+        defaultMoviesNumberValue();
     };
   };
 
@@ -582,9 +581,8 @@ function App() {
       if(shortFavoriteMoviesList.length < 1) {
         setShortMovies(true);
       };
-      // setInitialFavoriteMovies(loadState('favorite-movies'));
       setFavoriteMovies(loadState('favorite-movies'))
-      // defaultMoviesNumberValue();
+      defaultMoviesNumberValue();
       if(!savedMoviesFilterCheckbox && favoriteMovies.length < 2) {
         setEmptyListValue(false);
         setShortMovies(false);
