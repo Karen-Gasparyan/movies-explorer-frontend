@@ -7,7 +7,7 @@ const MoviesCard = (
     favoritesIcon: { active, disabled, title },
     favoriteButton,
     getTimeFormat,
-    favoriteMovies = []
+    favoriteMovies,
   }) => {
 
   const {
@@ -20,12 +20,33 @@ const MoviesCard = (
     trailer
   } = movieValues;
 
-  const favoriteMoviesIds = favoriteMovies.map(({movieId}) => movieId)
+  const loadState = (state) => {
+    try {
+      const initialMoviesState = localStorage.getItem(state);
+        if(initialMoviesState === null){
+          return undefined;
+        }
+        return JSON.parse(initialMoviesState);
+    } catch (err) {
+        return undefined;
+    };
+  };
+
+  const favoritMoviesState = loadState('favorite-movies');
+
+  const getFavoriteResult = () => {
+    if(favoriteMovies !== undefined) {
+      return favoriteMovies;
+    }
+    return favoritMoviesState;
+  };
+
+  const favoriteMoviesIds = getFavoriteResult().map(({movieId}) => movieId)
   const added = favoriteMoviesIds.some(haveId => haveId === id)
 
-  const handleChangeFavoriteMovie = (e) => {
+  const handleChangeFavoriteMovie = () => {
     favoriteButton(movieValues);
-  }
+  };
 
   return (
     <article className="movies-card">

@@ -12,7 +12,9 @@ const SearchForm = (
     searchFormHeandler,
     emptyListValue,
     filterCheckbox,
-    handleFilterCheckbox
+    handleFilterCheckbox,
+    checkboxActive,
+    searchCheckboxActive
   }) => {
   return (
     <form
@@ -41,7 +43,10 @@ const SearchForm = (
       <div className="search-from__checkbox">
       <FilterCheckbox
         filterCheckbox={filterCheckbox}
-        handleFilterCheckbox={handleFilterCheckbox} />
+        handleFilterCheckbox={handleFilterCheckbox}
+        emptyListValue={emptyListValue}
+        checkboxActive={checkboxActive}
+        searchCheckboxActive={searchCheckboxActive} />
       </div>
     </form>
   );

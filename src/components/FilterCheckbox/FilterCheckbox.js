@@ -6,7 +6,7 @@ const FilterCheckbox = (
   { filterCheckbox,
     handleFilterCheckbox
   }) => {
-
+    
   return (
     <>
       <input
@@ -15,7 +15,7 @@ const FilterCheckbox = (
         type="checkbox"
         name="filter-checkbox"
         onChange={handleFilterCheckbox}
-        checked={filterCheckbox} />
+        checked={filterCheckbox}/>
       <label 
         className="filter-checkbox__label"
         htmlFor="filter-checkbox">

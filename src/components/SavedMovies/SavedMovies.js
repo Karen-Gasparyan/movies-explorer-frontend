@@ -2,7 +2,7 @@ import React from 'react';
 
 import './SavedMovies.css';
 
-import {requestNotFound} from '../../utils/constants';
+import {REQUEST_NOT_FOUND} from '../../utils/constants';
 
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
@@ -28,7 +28,10 @@ const SavedMovies = (
     searchFormHeandler,
     filterCheckbox,
     handleFilterCheckbox,
-    loadMoreCards
+    loadMoreCards,
+    favoriteMovies,
+    checkboxActive,
+    searchCheckboxActive,
   }) => {
 
   return (
@@ -47,7 +50,8 @@ const SavedMovies = (
           searchFormHeandler={searchFormHeandler}
           emptyListValue={emptyListValue}
           filterCheckbox={filterCheckbox}
-          handleFilterCheckbox={handleFilterCheckbox} />
+          handleFilterCheckbox={handleFilterCheckbox}
+          checkboxActive={checkboxActive} />
         <MoviesCardList
           component={LoadMoreButton}
           movies={movies}
@@ -57,9 +61,11 @@ const SavedMovies = (
           getTimeFormat={getTimeFormat}
           emptyListValue={emptyListValue}
           shortMovies={shortMovies}
-          cardListMessage={requestNotFound}
+          cardListMessage={REQUEST_NOT_FOUND}
           moreButtonActive={moreButtonActive}
           loadMoreCards={loadMoreCards}
+          favoriteMovies={favoriteMovies}
+          searchCheckboxActive={searchCheckboxActive}
           buttonName={'favorite-movies-button'} />
       </section>
       <Footer />

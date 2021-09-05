@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Movies.css';
 
-import {requestNotFound} from '../../utils/constants';
+import {REQUEST_NOT_FOUND} from '../../utils/constants';
 
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
@@ -58,7 +58,7 @@ const Movies = (
           loadMoreCards={loadMoreCards}
           getTimeFormat={getTimeFormat}
           noSearchMovieResult={noSearchMovieResult}
-          cardListMessage={requestNotFound}
+          cardListMessage={REQUEST_NOT_FOUND}
           buttonName={'movies-button'} />
       </section>
       <Footer />

@@ -2,7 +2,7 @@ import React from 'react';
 
 import './MoviesCardList.css';
 
-import {noSavedMovies, noSavedShorMovies} from '../../utils/constants';
+import {NO_SAVED_MOVIES, NO_SAVED_SHORT_MOVIES} from '../../utils/constants';
 
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
@@ -45,7 +45,7 @@ const MoviesCardList = (
       {noSearchMovieResult ? <MoviesCardListMessage message={cardListMessage} /> : null}
       {noSearchSavedMovieResult ? <MoviesCardListMessage message={cardListMessage} /> : null}
       <div className="movies-card-list__items">
-        {emptyListValue ? <MoviesCardListMessage message={shortMovies ? noSavedMovies : noSavedShorMovies} /> : moviesList}
+        {emptyListValue ? <MoviesCardListMessage message={shortMovies ? NO_SAVED_MOVIES : NO_SAVED_SHORT_MOVIES} /> : moviesList}
       </div>
       <div className="movies-card-list__auxiliary-panel">
         { Component ? (<Component
