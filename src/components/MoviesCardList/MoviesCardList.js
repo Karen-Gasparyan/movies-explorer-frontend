@@ -44,8 +44,9 @@ const MoviesCardList = (
     <section className="movies-card-list">
       {noSearchMovieResult ? <MoviesCardListMessage message={cardListMessage} /> : null}
       {noSearchSavedMovieResult ? <MoviesCardListMessage message={cardListMessage} /> : null}
+      {emptyListValue ? <MoviesCardListMessage message={shortMovies ? NO_SAVED_MOVIES : NO_SAVED_SHORT_MOVIES} /> : ''}
       <div className="movies-card-list__items">
-        {emptyListValue ? <MoviesCardListMessage message={shortMovies ? NO_SAVED_MOVIES : NO_SAVED_SHORT_MOVIES} /> : moviesList}
+        {emptyListValue ? '' : moviesList}
       </div>
       <div className="movies-card-list__auxiliary-panel">
         { Component ? (<Component

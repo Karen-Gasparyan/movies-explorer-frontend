@@ -99,7 +99,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [formValid, setFormValid] = useState(true);
 
-  const changeMoviesValue = useCallback((initial = setInitialMovies, movies = allMovies) => {
+  const changeMoviesValue = useCallback((initial, movies) => {
     if (window.innerWidth >= MOBILE_CARDS_SIZE && window.innerWidth < TABLET_CARDS_SIZE) {
       return initial(movies.slice(INITIAL_CARDS_SIZE, mobileCards));
     } else if (window.innerWidth >= TABLET_CARDS_SIZE && window.innerWidth < DESCTOP_CARDS_SIZE) {
@@ -107,9 +107,9 @@ function App() {
     } else if (window.innerWidth >= DESCTOP_CARDS_SIZE) {
       return initial(movies.slice(INITIAL_CARDS_SIZE, desctopCards));
     };
-  }, [allMovies, mobileCards, tabletCards, desctopCards]);
+  }, [mobileCards, tabletCards, desctopCards]);
 
-  const changeFavoriteMoviesValue= useCallback((initial = setInitialFavoriteMovies, movies = favoriteMovies) => {
+  const changeFavoriteMoviesValue= useCallback((initial, movies) => {
     if (window.innerWidth >= MOBILE_CARDS_SIZE && window.innerWidth < TABLET_CARDS_SIZE) {
       return initial(movies.slice(INITIAL_CARDS_SIZE, favoriteMobileCards)); 
     } else if (window.innerWidth >= TABLET_CARDS_SIZE && window.innerWidth < DESCTOP_CARDS_SIZE) {
@@ -117,7 +117,7 @@ function App() {
     } else if (window.innerWidth >= DESCTOP_CARDS_SIZE) {
       return initial(movies.slice(INITIAL_CARDS_SIZE, favoriteDesctopCards));
     };
-  },[favoriteMovies, favoriteMobileCards, favoriteTabletCards, favoriteDesctopCards]);
+  },[favoriteMobileCards, favoriteTabletCards, favoriteDesctopCards]);
 
   const changeMoreButtonActiveFavoriteMovies = useCallback(() => {
     (initiaFavoritelMovies.length >= favoriteMovies.length
@@ -133,18 +133,21 @@ function App() {
   }, [initialMovies.length, allMovies.length])
 
   useEffect(() => {
-    changeMoviesValue();
+    changeMoviesValue(setInitialMovies, allMovies);
     changeMoreButtonActiveMovies();
-  }, [changeMoviesValue, changeMoreButtonActiveMovies]);
+  }, [allMovies, changeMoviesValue, changeMoreButtonActiveMovies]);
 
   useEffect(() => {
-    changeFavoriteMoviesValue();
+    changeFavoriteMoviesValue(setInitialFavoriteMovies, favoriteMovies);
     changeMoreButtonActiveFavoriteMovies();
-  }, [changeFavoriteMoviesValue, changeMoreButtonActiveFavoriteMovies]);
+  }, [favoriteMovies, changeFavoriteMoviesValue, changeMoreButtonActiveFavoriteMovies]);
 
   window.onresize = () => {
-    setTimeout(changeMoviesValue, 2000);
-    setTimeout(changeFavoriteMoviesValue, 2000);
+    const changeValue = () => {
+      changeMoviesValue(setInitialMovies, allMovies);
+      changeFavoriteMoviesValue(setInitialFavoriteMovies, favoriteMovies)
+    };
+    setTimeout(changeValue, 2000);
   };
 
   // token verification
@@ -161,7 +164,7 @@ function App() {
       console.log(AUTHORIZATION_REQUIRED);
       setLoggedIn(false);
     };
-  }, [loggedIn]);
+  }, []);
 
   // get all movies
   useEffect(() => {
@@ -176,7 +179,7 @@ function App() {
       .then(data => {
         if(data) {
           saveState(data, 'all-movies');
-          saveState(getMovieDuration(loadState('all-movies')), 'all-short-list');
+          saveState(getMovieDuration(loadState('all-movies')), 'all-short-movies');
           setAllMovies(data);
           setInitialMovies(data);
           setTimeout(showSpinner, 1000);
@@ -202,12 +205,12 @@ function App() {
         .then(({data}) => {
           if(data) {
             saveState(data, 'favorite-movies');
-            saveState(getMovieDuration(loadState('favorite-movies')), 'favorite-short-list');
+            saveState(getMovieDuration(loadState('favorite-movies')), 'favorite-short-movies');
             setFavoriteMovies(data);
             setInitialFavoriteMovies(data);
             setTimeout(showSpinner, 1000);
           } else {
-            saveState([...[]], 'favorite-movies');
+            saveState([], 'favorite-movies');
             setEmptyListValue(true);
           };
         })
@@ -490,8 +493,8 @@ function App() {
       setNoSearchMovieResult(false);
       return;
     } else if(e.target.value === '' || moviesFilterCheckbox === true) {
-      setAllMovies(loadState('all-short-list'));
-      changeMoviesValue(setInitialMovies, loadState('all-short-list'));
+      setAllMovies(loadState('all-short-movies'));
+      changeMoviesValue(setInitialMovies, loadState('all-short-movies'));
       setNoSearchMovieResult(false);
       return;
     };
@@ -504,7 +507,7 @@ function App() {
     const dataResult = searchingMovies(allMovies, searchResults);
     
     saveState(dataResult, 'all-found-movies');
-    getMoviesNumberValue(setInitialMovies, dataResult);
+    changeMoviesValue(setInitialMovies, dataResult);
     setAllMovies(dataResult);
     defaultMoviesNumberValue();
     
@@ -517,7 +520,7 @@ function App() {
     setSavedMovieSearchFormValue(e.target.value);
     if(e.target.value === '') {
       if(savedMoviesFilterCheckbox === true) {
-        setFavoriteMovies(loadState('short-list'));
+        setFavoriteMovies(loadState('all-short-movies'));
         changeFavoriteMoviesValue(setInitialFavoriteMovies, favoriteMovies);
         defaultMoviesNumberValue();
       } else {
@@ -538,7 +541,7 @@ function App() {
     const dataFavoriteResult = searchingMovies(favoriteMovies, searchFavoriteResults);
     
     saveState(dataFavoriteResult, 'favorite-found-movies');
-    getMoviesNumberValue(setInitialFavoriteMovies, dataFavoriteResult);
+    changeFavoriteMoviesValue(setInitialFavoriteMovies, dataFavoriteResult);
     setFavoriteMovies(dataFavoriteResult)
 
     if(dataFavoriteResult.length > 0) {
@@ -552,7 +555,7 @@ function App() {
     setMoviesFilterCheckbox(!moviesFilterCheckbox);
     if(!moviesFilterCheckbox) {
       const shortMoviesList = getMovieDuration(allMovies);
-      saveState(shortMoviesList, 'all-short-list');
+      saveState(shortMoviesList, 'all-short-movies');
       changeMoviesValue(setInitialMovies, shortMoviesList);
       setAllMovies(shortMoviesList);
       defaultMoviesNumberValue();
@@ -570,7 +573,7 @@ function App() {
         setEmptyListValue(true);
         setShortMovies(false);
       } else {
-        saveState(shortFavoriteMoviesList, 'short-list');
+        saveState(shortFavoriteMoviesList, 'favorite-short-movies');
         setInitialFavoriteMovies(shortFavoriteMoviesList);
         changeFavoriteMoviesValue(setInitialFavoriteMovies, shortFavoriteMoviesList);
         setFavoriteMovies(shortFavoriteMoviesList)
@@ -676,16 +679,6 @@ function App() {
         return JSON.parse(initialMoviesState);
     } catch (err) {
         return undefined;
-    };
-  };
-
-  const getMoviesNumberValue = (initial, movies) => {
-    if (window.innerWidth >= MOBILE_CARDS_SIZE && window.innerWidth < TABLET_CARDS_SIZE) {
-      return initial(movies.slice(INITIAL_CARDS_SIZE, mobileCards));
-    } else if (window.innerWidth >= TABLET_CARDS_SIZE && window.innerWidth < DESCTOP_CARDS_SIZE) {
-      return initial(movies.slice(INITIAL_CARDS_SIZE, tabletCards));
-    } else if (window.innerWidth >= DESCTOP_CARDS_SIZE) {
-      return initial(movies.slice(INITIAL_CARDS_SIZE, desctopCards));
     };
   };
 
