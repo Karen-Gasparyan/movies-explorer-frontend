@@ -164,7 +164,7 @@ function App() {
       console.log(AUTHORIZATION_REQUIRED);
       setLoggedIn(false);
     };
-  }, []);
+  }, [loggedIn]);
 
   // get all movies
   useEffect(() => {
