@@ -2,6 +2,8 @@ import React from 'react';
 
 import './Movies.css';
 
+import {REQUEST_NOT_FOUND} from '../../utils/constants';
+
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -9,7 +11,9 @@ import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
 import Footer from '../Footer/Footer';
 
 const Movies = (
-  { cards,
+  { movies,
+    noSearchMovieResult,
+    favoriteMovies,
     moreButtonActive,
     loadMoreCards,
     favoritesIcon,
@@ -18,7 +22,13 @@ const Movies = (
     openNavigation,
     closeNavigation,
     addMovieToFavoriteList,
-    handleSubmitSearchForm
+    removieMovieInFavoriteList,
+    handleSubmitSearchForm,
+    getTimeFormat,
+    searchFormValue,
+    searchFormHeandler,
+    filterCheckbox,
+    handleFilterCheckbox
   }) => {
 
   return (
@@ -32,14 +42,24 @@ const Movies = (
         <SearchForm 
           placeholder={'Фильм'}
           buttonText={'Найти'}
-          handleSubmitSearchForm={handleSubmitSearchForm} />
+          handleSubmitSearchForm={handleSubmitSearchForm}
+          searchFormValue={searchFormValue}
+          searchFormHeandler={searchFormHeandler}
+          filterCheckbox={filterCheckbox}
+          handleFilterCheckbox={handleFilterCheckbox} />
         <MoviesCardList
           component={LoadMoreButton}
-          cards={cards}
+          movies={movies}
+          favoriteMovies={favoriteMovies}
           favoritesIcon={favoritesIcon}
           favoriteButton={addMovieToFavoriteList}
+          removieMovieInFavoriteList={removieMovieInFavoriteList}
           moreButtonActive={moreButtonActive}
-          loadMoreCards={loadMoreCards} />
+          loadMoreCards={loadMoreCards}
+          getTimeFormat={getTimeFormat}
+          noSearchMovieResult={noSearchMovieResult}
+          cardListMessage={REQUEST_NOT_FOUND}
+          buttonName={'movies-button'} />
       </section>
       <Footer />
     </>

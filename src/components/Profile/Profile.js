@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import './Profile.css';
+
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 import Header from '../Header/Header';
 import ProfileSubmitButton from '../ProfileSubmitButton/ProfileSubmitButton';
 
 const Profile = (
-  { currentUserName,
-    currentUserEmail,
+  { userName,
+    userEmail,
     currentUserNameHandler,
     currentUserEmailHandler,
     formValid,
@@ -16,23 +18,13 @@ const Profile = (
     isOpen,
     openNavigation,
     closeNavigation,
-    handleSubmitUserData
+    handleUpdateUserProfile,
+    userProfileInputActive,
+    allowUpdatingUserData,
+    cancelUpdatingUserData
   }) => {
 
-  const [inputActive, setInputActive] = useState(false);
-
-  const allowUpdatingUserData = () => {
-    setInputActive(true);
-  }
-
-  const handleUpdateUserData = () => {
-    console.log('User data saved')
-    setInputActive(false);
-  }
-
-  const cancelUpdatingUserData = () => {
-    setInputActive(false);
-  }
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <>
@@ -44,8 +36,8 @@ const Profile = (
       <form
         className="profile"
         name="user-profile-form"
-        onSubmit={handleSubmitUserData} >
-        <h2 className="profile__title">Привет, Виталий!</h2>
+        onSubmit={handleUpdateUserProfile} >
+        <h2 className="profile__title">Привет, {currentUser.name}!</h2>
         <div className="profile__user-data">
           <div className="profile__user-name">
             <label
@@ -53,7 +45,7 @@ const Profile = (
               htmlFor="current-user-name" >
                 Имя
             </label>
-            {inputActive ? 
+            {userProfileInputActive ? 
             <input className="profile__user-data-input-name"
               id="current-user-name"
               autoComplete="off"
@@ -62,11 +54,11 @@ const Profile = (
               minLength={2}
               name="current-user-name"
               placeholder="Введите имя"
-              value={currentUserName}
+              value={userName}
               onChange={currentUserNameHandler}
               autoFocus />
             :
-            (<span>{currentUserName}</span>)}
+            (<span>{currentUser.name}</span>)}
           </div>
           <div className="profile__user-email">
             <label
@@ -74,7 +66,7 @@ const Profile = (
               htmlFor="current-user-email" >
                 Почта
             </label>
-            {inputActive ?
+            {userProfileInputActive ?
             <input className="profile__user-data-input-email"
               id="current-user-email"
               type="email"
@@ -82,19 +74,17 @@ const Profile = (
               autoComplete="off"
               name="current-user-email"
               placeholder="Введите email"
-              value={currentUserEmail}
+              value={userEmail}
               onChange={currentUserEmailHandler} />
             :
-            (<span>{currentUserEmail}</span>)}
+            (<span>{currentUser.email}</span>)}
           </div>
         </div>
 
-        {inputActive ? 
+        {userProfileInputActive ? 
         <ul className="profile__list-items">
           <li className="profile__item">
-            <ProfileSubmitButton
-              handleUpdateUserData={handleUpdateUserData}
-              formValid={formValid} />
+            <ProfileSubmitButton formValid={formValid} />
           </li>
           <li className="profile__item">
             <button

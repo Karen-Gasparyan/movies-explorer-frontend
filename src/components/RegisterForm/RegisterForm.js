@@ -6,9 +6,9 @@ import AuthInput from '../AuthInput/AuthInput';
 import AuthButton from '../AuthButton/AuthButton';
 
 const RegisterForm = (
-  { userName,
-    userEmail,
-    userPassword,
+  { name,
+    email,
+    password,
     errorMessage,
     formValid,
     focusHandler,
@@ -36,7 +36,7 @@ const RegisterForm = (
           minLength={ 2 }
           maxLength={ 30 }
           onFocus={ focusHandler }
-          value={ userName }
+          value={ name }
           onChange={ userNameHandler }
           errorText={ userNameError }
           errorMessage={errorMessage} />
@@ -48,7 +48,7 @@ const RegisterForm = (
           type={'email'}
           placeholder={''}
           onFocus={ focusHandler }
-          value={ userEmail }
+          value={ email }
           onChange={ userEmailHandler }
           errorText={ userEmailError }
           errorMessage={errorMessage} />
@@ -61,7 +61,7 @@ const RegisterForm = (
           minLength={ 8 }
           placeholder={''}
           onFocus={ focusHandler }
-          value={ userPassword }
+          value={ password }
           onChange={ userPasswordHandler }
           errorText={ userPasswordError }
           errorMessage={errorMessage} />

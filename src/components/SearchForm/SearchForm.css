@@ -22,6 +22,10 @@
   color: #000;
 }
 
+.search-from__input-disabled {
+  background: transparent;
+}
+
 .search-from__input::placeholder {
   transition: all 1s ease;
   color: #A0A0A0;
@@ -49,6 +53,13 @@
   line-height: 18px;
   text-align: center;
   color: #FFF;
+}
+
+.search-from__submit-button-disabled {
+  background: none;
+  color: #000;
+  border: 1px solid #000;
+  cursor: default;
 }
 
 .search-from__checkbox {

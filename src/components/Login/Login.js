@@ -7,8 +7,8 @@ import Logo from '../Logo/Logo';
 import LoginForm from '../LoginForm/LoginForm';
 
 const Login = (
-  { userEmail,
-    userPassword,
+  { email,
+    password,
     errorMessage,
     formValid,
     focusHandler,
@@ -16,7 +16,8 @@ const Login = (
     userPasswordHandler,
     userEmailError,
     userPasswordError,
-    handleSubmitLogin
+    handleSubmitLogin,
+    resetAuthForms
 }) => {
 
   return (
@@ -29,8 +30,8 @@ const Login = (
       </div>
 
       <LoginForm
-        userEmail={userEmail}
-        userPassword={userPassword}
+        email={email}
+        password={password}
         errorMessage={errorMessage}
         formValid={formValid}
         focusHandler={focusHandler}
@@ -42,9 +43,9 @@ const Login = (
 
       <p className="auth-page__text-question">
         Ещё не зарегистрированы?
-        <Link
-          to="/signup"
-          className="auth-page__signin-link">
+        <Link to="/signup"
+          className="auth-page__signin-link"
+          onClick={resetAuthForms} >
           Регистрация
         </Link>
       </p>

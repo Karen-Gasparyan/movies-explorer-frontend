@@ -7,9 +7,9 @@ import Logo from '../Logo/Logo';
 import RegisterForm from '../RegisterForm/RegisterForm';
 
 const Register = (
-  { userName,
-    userEmail,
-    userPassword,
+  { name,
+    email,
+    password,
     errorMessage,
     formValid,
     focusHandler,
@@ -19,7 +19,8 @@ const Register = (
     userNameError,
     userEmailError,
     userPasswordError,
-    handleSubmitRegister
+    handleSubmitRegister,
+    resetAuthForms
   }) => {
 
   return (
@@ -32,9 +33,9 @@ const Register = (
       </div>
 
       <RegisterForm
-        userName={userName}
-        userEmail={userEmail}
-        userPassword={userPassword}
+        name={name}
+        email={email}
+        password={password}
         errorMessage={errorMessage}
         formValid={formValid}
         focusHandler={focusHandler}
@@ -48,9 +49,9 @@ const Register = (
 
       <p className="auth-page__text-question">
         Уже зарегистрированы?
-        <Link
-          to="/signin"
-          className="auth-page__signin-link">
+        <Link to="/signin"
+          className="auth-page__signin-link"
+          onClick={resetAuthForms} >
           Войти
         </Link>
       </p>
